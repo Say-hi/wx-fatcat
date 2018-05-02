@@ -1,0 +1,89 @@
+@import "../../common/variable";
+
+page {
+  background: @tabBgColor;
+}
+
+.q-time {
+  margin: 0 20rpx;
+  display: flex;
+  align-items: center;
+  .c999 {
+    flex: 1;
+  }
+}
+
+.q-bottom {
+  display: flex;
+  align-items: center;
+  line-height: 70rpx;
+  justify-content: space-around;
+  .q-s {
+    display: flex;
+    align-items: center;
+  }
+  .iconfont {
+    padding: 0 20rpx;
+    &:before {
+      font-size: 40rpx;
+    }
+  }
+}
+.get-url {
+  background-color: @mainBackgroundColor;
+}
+.icon-shachu-xue {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding-left: 40rpx;
+  background-color: @mainBackgroundColor;
+  &:before {
+    margin-right: 20rpx;
+    display: block;
+    text-align: center;
+    height: 80rpx;
+    width: 80rpx;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-180%, -50%) rotateZ(45deg);
+  }
+}
+
+.copy {
+  margin: 20rpx 200rpx;
+  font-size: 30rpx;
+  padding: 10rpx 0;
+}
+.url-wrap {
+  word-break: break-all;
+  margin: 30rpx;
+  padding: 10rpx;
+  font-size: 24rpx;
+  background-color: @tabBgColor;
+}
+.icon-guanbi {
+  position: absolute;
+  top: -10rpx;
+  right: -10rpx;
+  background-color: #fff;
+  border-radius: 50%;
+  width: 40rpx;
+  height: 40rpx;
+  text-align: center;
+  line-height: 40rpx;
+  &:before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 50rpx;
+    vertical-align: middle;
+    transform: translate(-50%, -45%);
+  }
+}
+
+.zw {
+  height: 80rpx;
+}

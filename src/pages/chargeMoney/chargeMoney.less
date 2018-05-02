@@ -1,0 +1,73 @@
+@import "../../common/variable";
+page {
+  background-color: @tabBgColor;
+}
+
+.user-money {
+  margin: 20rpx 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+}
+
+.money-charge-choose-wrap {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #fff;
+  .money-charge-choose {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .tr7 {
+      border: 1rpx solid #999;
+      padding: 10rpx 20rpx;
+      margin-bottom: 10rpx;
+    }
+    .active {
+      border: 1rpx solid @mainTextColor;
+      background-color: @mainBackgroundColor;
+      color: #fff;
+    }
+  }
+}
+
+.charge-input {
+  margin-top: 20rpx;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  input {
+    flex: 1;
+    margin-left: 20rpx;
+  }
+}
+
+.confirm-btn {
+  margin-top: 40rpx;
+  background-color: @mainBackgroundColor;
+  width: 95%;
+  display: inline-block;
+}
+
+.mask {
+  background-color: @tabBgColor;
+  text-align: center;
+  .icon-xuanze {
+    margin-top: 100rpx;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    &:before {
+      font-size: 100rpx;
+      color: #33BB00;
+    }
+  }
+  .main-text-color {
+    margin-top: 50rpx;
+    border: 1rpx solid @mainBackgroundColor;
+    border-radius: 50rpx;
+    display: inline-block;
+    padding: 0 20rpx;
+  }
+}

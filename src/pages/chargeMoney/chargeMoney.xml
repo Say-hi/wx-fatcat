@@ -1,0 +1,28 @@
+<view class="user-money p20 lh40">
+  <text class="f28 c333">当前剩余猫豆:　<text class="f30">256.65</text></text>
+  <text class="main-text-color f22">1猫豆=1元</text>
+</view>
+
+<view class="money-charge-choose-wrap">
+  <view wx:for="{{ chargeArr }}"
+        catchtap="chooseFastMoney"
+        data-index="{{ index }}"
+        wx:key="*164"
+        class="p20 money-charge-choose">
+    <text class="f26 br5 c333 tr7 {{ chooseIndex == index ? 'active' : '' }}">￥50</text>
+    <text class="f24 c333">54猫豆</text>
+  </view>
+</view>
+
+<view class="charge-input bd1 bt1 p20">
+  <text class="f30 c333 fw7">购买数额</text>
+  <input class="f30" type="digit" placeholder="0.00"/>
+</view>
+<text class="p020 f24 c999">购买后可使用猫豆进行交易支付</text>
+<view class="tac" style="width: 100%;">
+  <view class="f30 br10 tac cfff lh80 confirm-btn">立即购买</view>
+</view>
+<view class="mask" wx:if="{{ buySuccess }}">
+  <view class="iconfont icon-xuanze">支付成功</view>
+  <navigator open-type="navigateBack" class="f30 main-text-color lh50">查看猫豆余额</navigator>
+</view>

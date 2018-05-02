@@ -1,0 +1,57 @@
+@import "../../common/variable";
+.tab {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #fff;
+  view {
+    flex: 1;
+    height: 100%;
+    text-align: center;
+  }
+  .show {
+    border-bottom: 1rpx solid @mainBackgroundColor;
+  }
+}
+.zw {
+  height: 80rpx;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  &:after {
+    width: 5rpx;
+    height: 5rpx;
+    top: 80%;
+  }
+  .icon-xianxiamendian {
+    margin-right: 20rpx;
+    &:before {
+      font-size: 40rpx;
+    }
+  }
+  .f28 {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
+  .f17 {
+    position: absolute;
+    top: 30%;
+    right: 10rpx;
+    padding: 5rpx 11rpx;
+  }
+  .arrive {
+    color: @mainTextColor;
+    background-color: #feeae9;
+  }
+  .onroad {
+    color: #0bc113;
+    background-color: #e7feed;
+  }
+}

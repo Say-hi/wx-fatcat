@@ -1,0 +1,31 @@
+<view class="p20 f26 c666 bgfff top bd1 bt1">
+  <text class="f30 c333">新增题型:</text>
+  <view catchtap="addTiMU" data-type="1">+单选题</view>
+  <view catchtap="addTiMU" data-type="2">+多选题</view>
+  <view catchtap="addTiMU" data-type="3">+填空题</view>
+</view>
+<view class="zw"></view>
+<view wx:for="{{ timuArr }}" wx:key="*34234" wx:for-index="timuIndex" wx:for-item="timuItem" class="question-wrap p20 bd20">
+  <view class="f30 c333 lh50 qw-t"><text>第{{ timuIndex * 1 + 1 }}题</text><text class="f24 main-text-color">{{ timuItem.type == 1 ? '单选题' : timuItem.type == 2 ? '多选题' : '填空题' }}</text></view>
+  <view class="choose-wrap">
+    <input bindinput="inputValue" data-outindex="{{ timuIndex }}" value="{{ timuItem.timu }}" data-type="timu" placeholder="输入题目"/>
+    <!--选择题 -s-->
+    <view class="timu" wx:for="{{ timuItem.chooseArr  }}" wx:for-index="chooseIndex" wx:for-item="chooseItem" wx:key="*092345">
+      <input bindinput="inputValue" data-type="choose" value="{{ chooseItem.content }}" data-outindex="{{ timuIndex }}" data-index="{{ chooseIndex }}" placeholder="输入选项"/>
+      <view catchtap="delChoose" data-outindex="{{ timuIndex }}" data-index="{{ chooseIndex }}" class="iconfont icon-shachu-xue"></view>
+    </view>
+    <view catchtap="addChoose" wx:if="{{ timuItem.type != 3 }}" data-index="{{ timuIndex }}" class="add f24 c333">+添加选项</view>
+    <!--选择题 -e-->
+    <view class="tiankong" wx:else>
+      <textarea bindinput="inputValue" data-type="content" value="{{ timuItem.content }}" data-outindex="{{ timuIndex }}" placeholder="请输入内容"></textarea>
+    </view>
+  </view>
+  <view class="bt1 p200 qw-bottom">
+    <view catchtap="timuop" data-type="confirm" data-outindex="{{ timuIndex }}">确定</view>
+    <view catchtap="timuop" wx:if="{{ timuIndex != 0 }}" data-type="up" data-outindex="{{ timuIndex }}">上移</view>
+    <view catchtap="timuop" wx:if="{{ timuIndex != timuArr.length - 1 }}" data-type="down" data-outindex="{{ timuIndex }}">下移</view>
+    <view catchtap="timuop" data-type="del" data-outindex="{{ timuIndex }}">删除</view>
+  </view>
+</view>
+<view class="zw"></view>
+<view class="tac asdfasdf lh80 cfff">确定生成问卷调查</view>

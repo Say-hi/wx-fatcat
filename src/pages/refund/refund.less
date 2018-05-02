@@ -1,0 +1,88 @@
+@import "../../common/variable";
+
+page {
+  background-color: @tabBgColor;
+}
+
+.choose-type {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  .iconfont {
+    flex: 1;
+    margin-left: 20rpx;
+    &:before {
+      font-size: 40rpx;
+      vertical-align: bottom;
+      margin-right: 10rpx;
+    }
+  }
+  .active {
+    color: #666;
+    &:before {
+      color: @mainTextColor;
+    }
+  }
+}
+
+.refund-money {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  .f26 {
+    display: flex;
+    flex: 1;
+    margin-left: 20rpx;
+    align-items: center;
+  }
+}
+
+.input-area, .image-area {
+  margin-top: 20rpx;
+  background-color: #fff;
+  display: flex;
+  text {
+    word-break: keep-all;
+  }
+  textarea {
+    border: 1rpx solid #bfbfbf;
+    margin-left: 20rpx;
+  }
+}
+
+.image-area {
+  flex-wrap: nowrap;
+  text {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .icon-camera2 {
+    color: #a8a8a8;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border: 1rpx solid #999;
+    margin-left: 20rpx;
+    word-break: keep-all;
+    height: 130rpx;
+    &:before {
+      color: #999;
+      font-size: 50rpx;
+    }
+  }
+  .-a-img {
+    width: 200rpx;
+  }
+}
+
+.confirm-btn {
+  line-height: 88rpx;
+  padding: 30rpx;
+  text {
+    width: 100%;
+    display: inline-block;
+    border-radius: 10rpx;
+    background-color: @mainBackgroundColor;
+  }
+}

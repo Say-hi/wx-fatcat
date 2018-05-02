@@ -1,0 +1,13 @@
+<view wx:for="1234" wx:key="*230945" class="out-wrap bd20">
+  <view class="top">
+    <image class="br" src="{{ src }}"></image>
+    <view>
+      <view class="f24 c333">iashdf </view>
+      <view class="f22 c999">提交时间:　asdfasdfasdfasdf</view>
+    </view>
+  </view>
+  <view class="answer" wx:for="321321" wx:key="*234565">
+    <view class="f24 c333">{{ index * 1 + 1 }}、alsdfjalasdf</view>
+    <view class="f22 main-text-color">asdfasdfasdfasdf</view>
+  </view>
+</view>

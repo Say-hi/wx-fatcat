@@ -1,0 +1,77 @@
+<view class="tab f30 lh80">
+  <view catchtap="chooseTab" data-index="0" class="{{ currentIndex == 0 ? 'show main-text-color' : 'noshow' }}">全部</view>
+  <view catchtap="chooseTab" data-index="1" class="{{ currentIndex == 1 ? 'show main-text-color' : 'noshow' }}">待付款</view>
+  <view catchtap="chooseTab" data-index="2" class="{{ currentIndex == 2 ? 'show main-text-color' : 'noshow' }}">已付款</view>
+  <view catchtap="chooseTab" data-index="3" class="{{ currentIndex == 3 ? 'show main-text-color' : 'noshow' }}">待核销</view>
+  <view catchtap="chooseTab" data-index="4" class="{{ currentIndex == 4 ? 'show main-text-color' : 'noshow' }}">已核销</view>
+</view>
+<view class="zw"></view>
+<form bindsubmit="search">
+  <view class="search p20">
+    <view class="s-t br10 lh50 f24">
+      <view class="iconfont icon-sousuo"></view>
+      <input name="searchtext" placeholder="输入商品名称电话号码订单编号"/>
+    </view>
+    <button formType="submit" class="f28 c666">搜索</button>
+  </view>
+</form>
+
+<view class="order"
+      wx:key="*409"
+      wx:for="123412">
+  <view class="o-t f24 c333 lh50"><text>订单编号: 201234864651</text><text class="f28">等待买家付款</text></view>
+  <view class="goods">
+    <image src="{{ img }}"></image>
+    <view class="g-i">
+      <view class="f30 c333">超级好吃的榴莲披萨</view>
+      <view class="f24 c999">规格： 10寸</view>
+      <view class="g-b">
+        <view class="f30 c333">
+          <text class="f24">￥</text>88.00
+        </view>
+        <view class="f24 c999">×2</view>
+      </view>
+    </view>
+  </view>
+  <view class="tac o-m bd1">
+    <text class="f24 main-text-color">此订单含2件商品</text>
+    <view class="f24 c333 o-price">
+      <text>合计: <text class="f30 main-text-color">88.00</text></text>
+      <text>送货费: <text class="f30 c999">￥88.00</text></text>
+    </view>
+  </view>
+  <view class="o-btn f28 c999">
+    <view data-id="{{ item.id }}">查看订单</view>
+    <view data-id="{{ item.id }}">关闭订单</view>
+    <view data-id="{{ item.id }}">发送通知</view>
+    <view catchtap="maskChange" class="cfff" data-id="{{ item.id || 123 }}">核销订单</view>
+    <view class="cfff" data-id="{{ item.id }}">发货</view>
+    <view catchtap="call" class="blue cfff" data-phone="{{ item.phone }}">拨打电话</view>
+  </view>
+</view>
+
+<view class="mask" wx:if="{{ mask }}">
+  <view class="write-off br15 tac">
+    <view catchtap="maskChange" class="close iconfont icon-guanbi"></view>
+    <view class="f36 cfff">核销订单</view>
+    <view catchtap="scanCode" class="iconfont f30 c333 tal bottom icon-QR">扫码核销</view>
+    <view catchtap="MaskTwoChange" class="iconfont f30 c333 tal bottom icon-yanzhengma">取货码核销</view>
+    <view catchtap="confirm" class="iconfont f30 c333 tal bottom icon-xuanze">直接确认核销</view>
+  </view>
+</view>
+
+<view class="mask" wx:if="{{ mask_two }}">
+  <view class="mask-in tac">
+    <view class="lh70 f30 c333">输入取货码</view>
+    <form bindsubmit="confirmInput">
+      <input class="bd1" name="code" placeholder="请输入要核销的取货码"/>
+      <button formType="submit" class="cfff f32">核销</button>
+      <button catchtap="MaskTwoChange" data-type="close" class="c999 f32 b2">关闭</button>
+    </form>
+  </view>
+</view>
+
+<view wx:if="{{ orderArr.length }}" class="tac no-goods">
+<image src="../../images/order_bg.png"></image>
+<view class="tac f24 c999">亲，您还没有相关的订单哟~</view>
+</view>

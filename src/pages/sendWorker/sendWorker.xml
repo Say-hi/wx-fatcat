@@ -1,0 +1,16 @@
+<view class="tab f30 lh80">
+  <view catchtap="chooseTab" data-index="0" class="{{ currentIndex == 0 ? 'show main-text-color' : 'noshow' }}">今天出货(100)</view>
+  <view catchtap="chooseTab" data-index="1" class="{{ currentIndex == 1 ? 'show main-text-color' : 'noshow' }}">已到站点(100)</view>
+  <view catchtap="chooseTab" data-index="2" class="{{ currentIndex == 2 ? 'show main-text-color' : 'noshow' }}">未到站点(100)</view>
+</view>
+<view class="zw"></view>
+<navigator url="../sendWorkerDetail/sendWorkerDetail?id={{ item.id }}" wx:for="12341234"
+      class="arrow bd1 p20"
+      wx:key="*689">
+  <view class="iconfont icon-xianxiamendian main-text-color"></view>
+  <view class="f28">
+    <text class="c333">释放扫赌房价阿隆索的风景</text>
+    <text class="c666">订单数量: 4</text>
+  </view>
+  <view class="f17 {{ status != 1 ? 'arrive' : 'onroad' }}">未到站点</view>
+</navigator>

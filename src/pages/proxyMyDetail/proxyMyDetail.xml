@@ -1,0 +1,46 @@
+<view wx:for="1234"
+      class="detail-wrap"
+      wx:if="{{ !show }}"
+      wx:key="*222">
+  <view class="f32 c999">2018年4月</view>
+  <view wx:for="12341234" wx:key="*111" class="d-content bd1 p020">
+    <view class="p20">
+      <text class="f28 c333">推广佣金</text>
+      <text class="f22 c999">2018-08-24 15:33:21</text>
+    </view>
+    <view class="f28 main-text-color">+5.00元</view>
+  </view>
+  <view class="tac f24 c666">暂无您的业绩信息</view>
+</view>
+
+<view class="money-detail" wx:if="{{ show }}">
+  <view class="user-info pr">
+    <image src="../../images/user_bg.png"></image>
+    <view class="user-info-in">
+      <view class="user-info-in-bottom">
+        <!--<view>-->
+        <text class="f30 fw7 cfff">1234</text>
+        <text class="f22" style="color: #EBCDC5;">已提现历史佣金</text>
+        <!--</view>-->
+      </view>
+    </view>
+  </view>
+  <view class="tac f24 c666 new-title lh80">提现记录</view>
+  <view class="score-detail-wrap">
+    <view class="score-detail bd1" wx:for="123" wx:key="*4">
+      <view>
+        <view class="f28 c333">消费</view>
+        <view class="f22 c999">2018-03-24 12:22:23</view>
+      </view>
+      <view class="f28 tar c333">
+        <view>100.00</view>
+        <view class="main-text-color f24">申请处理中</view>
+      </view>
+    </view>
+    <view class="tac f24 c666">暂无提现记录</view>
+  </view>
+</view>
+
+        <!--错误弹窗-->
+<import src="../template/template"></import>
+<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>

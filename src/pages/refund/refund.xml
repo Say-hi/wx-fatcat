@@ -1,0 +1,28 @@
+<view class="choose-type lh80 p020 bd1">
+  <text class="f28 c54">申请类型</text>
+  <text catchtap="chooseType" data-index="1" class="f24 c999 iconfont icon-xuanze-danxuan {{ typeChoose == 1 ? 'active' : '' }} ">仅退款</text>
+  <text catchtap="chooseType" data-index="2" class="f24 c999 iconfont icon-xuanze-danxuan {{ typeChoose == 2 ? 'active' : '' }} ">退款/退货</text>
+</view>
+<view class="lh80 refund-money p020">
+  <text class="f28 c54">退款金额</text>
+  <view class="main-text-color f26"><text>￥</text><input/></view>
+  <text class="f24 c999">最多￥88.00</text>
+</view>
+<view class="p20 bd1 input-area">
+  <text class="c54 f28">申请说明</text>
+  <textarea class="p20 br10 f24"
+            placeholder="请详细描述您的退款的具体原因"></textarea>
+</view>
+<view class="p20 bd1 image-area">
+  <text class="c54 f28">上传凭证<text class="f20 c999">(最多三张)</text></text>
+  <view class="iconfont br10 p20 icon-camera2 f20">上传图片</view>
+  <image wx:for="{{ imageArr }}"
+         wx:key="*986"
+         src="{{ item }}"
+         mode="widthFix"
+         class="i-a-img"></image>
+</view>
+
+<view class="tac f30 confirm-btn cfff">
+  <text>提交申请</text>
+</view>

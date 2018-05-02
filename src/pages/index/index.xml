@@ -1,0 +1,202 @@
+<swiper autoplay
+        indicator-dots
+        circular
+        indicator-color="{{ indicatorColor }}"
+        indicator-active-color="{{ indicatorActiveColor }}"
+        class="banner">
+  <swiper-item  wx:for="{{ bannerArr }}"
+                wx:key="*1">
+    <image mode="widthFix" src="{{ item.img }}"></image>
+  </swiper-item>
+</swiper>
+
+<view class="tab-wrap">
+  <navigator url="{{ item.url }}"
+             wx:for="{{ tabArr }}"
+             wx:key="*2"
+             hover-class="none"
+             class="iconfont {{ item.i }} tab-item f24 c333">{{ item.t }}</navigator>
+</view>
+
+<view class="announcement f24 c666 bt1">
+  <text class="iconfont icon-gonggao main-text-color">公告</text>
+  <text>{{ announcement }}</text>
+</view>
+
+<swiper autoplay
+        circular
+        class="banner banner2">
+  <swiper-item  wx:for="{{ bannerArr }}"
+                wx:key="*1">
+    <navigator url="{{ item.url }}">
+      <image mode="widthFix" src="{{ item.img }}"></image>
+    </navigator>
+  </swiper-item>
+</swiper>
+<!--秒杀-->
+<view class="time-kill p20">
+    <navigator url='../killGoods/killGoods'
+               hover-class="none"
+               class="content-title"><view class="f30 c333">整点秒杀</view><view class="arrow f24 c666">查看更多</view></navigator>
+    <scroll-view scroll-x
+                 class="content-scroll bb">
+      <view class="content-scroll-in">
+        <navigator
+              wx:for="{{ killArr }}"
+              wx:key="*32"
+              url="../goodsDetail/goodsDetail?type=kill&id={{ item.id }}"
+              class="content-item br6">
+          <image class="br6" mode="widthFix"
+                 src="{{ item.img }}"></image>
+          <view class="p20">
+            <view class="ell1 f24 c000">{{ item.title }}</view>
+            <view>
+              <text class="main-text-color f22">￥ {{ item.salePrice }}</text>　<text class="f20 tat c999">￥ {{ item.oldPrice }}</text>
+            </view>
+            <view class="content-sale lh50">
+              <view class="f24 c999">已售:{{ item.salePercent * 100 }}%</view>
+              <view class="content-length br14">
+                <view class="content-length-in"
+                      style="width: {{ 130 * item.salePercent }}rpx"></view>
+              </view>
+            </view>
+            <view class="cfff pr content-time p10">
+              <!--<view class="f24 tac">秒杀进行中</view>-->
+              <view class="pa">
+                <view class="f24">{{ item.status == 1 ? '倒计时' : item.status == 2 ? '距结束' : '' }}</view>
+                <view class="f20 content-times">
+                  <view class="h br5">{{ item.h }}</view>
+                  <view>:</view>
+                  <view class="m br5">{{ item.m }}</view>
+                  <view>:</view>
+                  <view class="s br5">{{ item.s }}</view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </navigator>
+      </view>
+    </scroll-view>
+</view>
+<!--上新-->
+<view class="time-kill p20">
+    <navigator url='../goods/goods?type=new'
+               hover-class="none"
+               class="content-title"><view class="f30 c333">今日上新</view><view class="arrow f24 c666">查看更多</view></navigator>
+    <scroll-view scroll-x
+                 class="content-scroll bb">
+        <view class="content-scroll-in">
+            <navigator
+                  wx:for="{{ killArr }}"
+                  wx:key="*32"
+                  url="../goodsDetail/goodsDetail?type=new&id={{ item.id }}"
+                  class="content-item br6">
+                <image class="br6" mode="widthFix"
+                       src="{{ item.img }}"></image>
+                <view class="p20">
+                    <view class="ell1 f24 c000">{{ item.title }}</view>
+                    <view>
+                        <text class="main-text-color f22">￥ {{ item.salePrice }}</text>
+                    </view>
+                    <view class="content-sale lh50">
+                        <view class="f24 c999">已售:{{ item.saleCount }}</view>
+                    </view>
+                </view>
+            </navigator>
+        </view>
+    </scroll-view>
+</view>
+<!--特价-->
+<view class="time-kill p20">
+    <navigator url='../goods/goods?type=special'
+               hover-class="none"
+               class="content-title"><view class="f30 c333">今日特价</view><view class="arrow f24 c666">查看更多</view></navigator>
+    <scroll-view scroll-x
+                 class="content-scroll bb">
+        <view class="content-scroll-in">
+            <navigator url="../goodsDetail/goodsDetail?type=special&id={{ item.id }}"
+                  wx:for="{{ killArr }}"
+                  wx:key="*32"
+                  class="content-item br6">
+                <image class="br6" mode="widthFix"
+                       src="{{ item.img }}"></image>
+                <view class="p20">
+                    <view class="ell1 f24 c000">{{ item.title }}</view>
+                    <view>
+                        <text class="main-text-color f22">￥ {{ item.salePrice }}</text>
+                    </view>
+                    <view class="content-sale lh50">
+                        <view class="f24 c999">已售:{{ item.saleCount }}</view>
+                    </view>
+                </view>
+            </navigator>
+        </view>
+    </scroll-view>
+</view>
+<!--新用户优惠卷-->
+<view wx:if="{{ show }}"
+      class="new-user-coupon {{ small ? 'small' : '' }}">
+  <view class="new-user-coupon-in">
+    <image src="../../images/coupon.png"></image>
+    <view class="new-user-coupon-text">
+      <view class="f24 new-title tac lh80">新用户专享</view>
+      <view class="coupon br15">
+        <!--左侧-->
+        <view class="c-left tac">
+          <view class='c-l-t'>
+            <text class="f18">￥</text><text class="f32">10</text>
+          </view>
+          <!--<view class="f20">满20元使用</view>-->
+        </view>
+        <!--右侧-->
+        <view class="c-right c999">
+          <view class="f16 c666">小程序10元优惠卷</view>
+          <view class="f12">满100元使用</view>
+          <view class="f12">2018.03.04 12:00 至 2018.03.04 12:00</view>
+        </view>
+      </view>
+      <view class="coupon br15">
+        <!--左侧-->
+        <view class="c-left tac">
+          <view class='c-l-t'>
+            <!--<image src="../../images/red_bag.png"></image>-->
+            <text class="f18">￥</text><text class="f32">10</text>
+          </view>
+          <!--<view class="f20">满20元使用</view>-->
+        </view>
+        <!--右侧-->
+        <view class="c-right c999">
+          <view class="f16 c666">小程序10元优惠卷</view>
+          <view class="f12">满100元使用</view>
+          <view class="f12">2018.03.04 12:00 至 2018.03.04 12:00</view>
+        </view>
+      </view>
+      <view class="coupon br15">
+        <!--左侧-->
+        <view class="c-left tac">
+          <view class='c-l-t'>
+            <text class="f18">￥</text><text class="f32">10</text>
+          </view>
+          <!--<view class="f20">满20元使用</view>-->
+        </view>
+        <!--右侧-->
+        <view class="c-right c999">
+          <view class="f16 c666">小程序10元优惠卷</view>
+          <view class="f12">满100元使用</view>
+          <view class="f12">2018.03.04 12:00 至 2018.03.04 12:00</view>
+        </view>
+      </view>
+      <view class="tac f24 new-get">已放到您的个人中心红包</view>
+      <view class="tac">
+        <navigator url='../coupon/coupon'
+              class="tac f30 fw7 new-know">去查看</navigator>
+      </view>
+      <view catchtap="close"
+            class="close iconfont icon-Close cfff"></view>
+    </view>
+  </view>
+</view>
+
+<!--错误弹窗-->
+<import src="../template/template"></import>
+<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>

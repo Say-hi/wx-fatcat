@@ -1,0 +1,44 @@
+<view class="fd-top p20 lh60 bt1">
+  <image src="{{ src }}"></image>
+  <view class="f28 c999">asdlkfja</view>
+  <view class="f26 c999">共完成<text class="main-text-color">10</text>笔交易</view>
+</view>
+
+<view class="p20 lh40 bd20">
+  <view class="iconfont icon-xianxiamendian f28 c999">常用门店地址</view>
+  <view class="f26 c333">阿斯顿发思考的发生了肯定会发卡死的金凤凰</view>
+</view>
+<view class="p20 lh40 bd20">
+  <view class="iconfont icon-dizhi f28 c999">常用收货地址</view>
+  <view class="f26 c666">收货人: asdfasdf　　6544465446548</view>
+  <view class="f26 c666">收货地址: 阿隆索的房间拉萨的减肥镂空撒旦奥斯卡的减肥</view>
+</view>
+
+<view class="p20 buy-title f28 c999">购买记录</view>
+
+<view class="order"
+      wx:key="*41"
+      wx:for="12">
+  <view class="o-t f24 c999 lh50">1234864651</view>
+  <view class="goods">
+    <image src="{{ src }}"></image>
+    <view class="g-i">
+      <view class="f30 c333">超级好吃的榴莲披萨</view>
+      <view class="f24 c999">规格： 10寸</view>
+      <view class="g-b">
+        <view class="f30 c333">
+          <text class="f24">￥</text>88.00　<text class="f22 c999 through-line">￥88.00</text>
+        </view>
+        <view class="f24 c999">×2</view>
+      </view>
+    </view>
+  </view>
+  <view class="o-m bd1">
+    <!--<text class="f24 main-text-color">此订单含2件商品</text>-->
+    <view class="f24 c333 o-price">
+      <text>合计: <text class="f30 main-text-color">88.00</text></text>
+      <text class="c999">不含送货费</text>
+      <!--<text>不含送货费: <text class="f30 c999">￥88.00</text></text>-->
+    </view>
+  </view>
+</view>

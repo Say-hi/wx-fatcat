@@ -1,0 +1,67 @@
+@import "../../common/variable";
+
+.d-top {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  .icon-xianxiamendian {
+    line-height: 40rpx;
+    &:before {
+      color: @mainTextColor;
+      font-size: 50rpx;
+      vertical-align: middle;
+      margin-right: 10rpx;
+    }
+  }
+  .f22 {
+    padding: 5rpx 11rpx;
+    margin-left: 10rpx;
+  }
+}
+
+.arrive {
+  color: @mainTextColor;
+  background-color: #feeae9;
+}
+.onroad {
+  color: #0bc113;
+  background-color: #e7feed;
+}
+
+.out-g {
+  padding-bottom: 0;
+}
+
+.goods {
+  display: flex;
+  align-items: center;
+  background-color: @tabBgColor;
+  padding-right: 20rpx;
+  margin-bottom: 20rpx;
+  image {
+    width: 140rpx;
+    height: 140rpx;
+    margin-right: 30rpx;
+  }
+  .g-i {
+    flex: 1;
+  }
+  .g-b {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+.g-d {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .arrow {
+    padding-right: 20rpx;
+    &:after {
+      width: 10rpx;
+      height: 10rpx;
+      right: 0;
+    }
+  }
+}

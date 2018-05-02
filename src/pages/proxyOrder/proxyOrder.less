@@ -1,0 +1,192 @@
+@import "../../common/variable";
+page {
+  background-color: @tabBgColor;
+}
+.tab {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #fff;
+  z-index: 999;
+  view {
+    flex: 1;
+    height: 100%;
+    text-align: center;
+  }
+  .show {
+    border-bottom: 1rpx solid @mainBackgroundColor;
+  }
+}
+.zw {
+  height: 80rpx;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  .s-t {
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    flex: 1;
+  }
+  .icon-sousuo {
+    margin: 10rpx;
+    transform: translateY(6rpx);
+    &:before {
+      color: #999;
+    }
+  }
+  input {
+    flex: 1;
+    height: 50rpx;
+  }
+  button {;
+    padding: 0;
+    margin: 0;
+    margin-left: 10rpx;
+    line-height: inherit;
+    &:after {
+      border: none;
+    }
+  }
+}
+
+.order {
+  padding: 20rpx;
+  background-color: #fff;
+  .o-t {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .o-m {
+    height: 100rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    > text {
+      border: 1rpx solid @mainBackgroundColor;
+      padding: 10rpx 30rpx;
+    }
+  }
+  .o-price {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+  }
+  .o-btn {
+    display: flex;
+    padding: 20rpx;
+    justify-content: flex-end;
+    view {
+      border: 1rpx solid @tabBgColor;
+      padding: 10rpx 20rpx;
+      border-radius: 8rpx;
+      margin-left: 20rpx;
+    }
+    view.cfff {
+      background-color: @mainBackgroundColor;
+      border-color: @mainBackgroundColor;
+    }
+    view.blue {
+      color: #fff !important;
+      background-color: #43C3FF;
+      border-color: #43C3FF !important;
+    }
+  }
+}
+
+.goods {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  padding-right: 20rpx;
+  margin-bottom: 20rpx;
+  image {
+    width: 140rpx;
+    height: 140rpx;
+    margin-right: 30rpx;
+  }
+  .g-i {
+    flex: 1;
+  }
+  .g-b {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.no-goods {
+  image {
+    width: 400rpx;
+    height: 350rpx;
+    margin: 100rpx 0;
+  }
+}
+
+.write-off {
+  position: absolute;
+  width: 560rpx;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  .icon-guanbi {
+    position: absolute;
+    top: -10rpx;
+    right: -10rpx;
+    background-color: #fff;
+    border-radius: 50%;
+    width: 40rpx;
+    height: 40rpx;
+    text-align: center;
+    line-height: 40rpx;
+    &:before {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      font-size: 50rpx;
+      vertical-align: middle;
+      transform: translate(-50%, -45%);
+    }
+  }
+  .cfff {
+    line-height: 90rpx;
+    background-color: @mainBackgroundColor;
+    border-top-left-radius: 15rpx;
+    border-top-right-radius: 15rpx;
+  }
+  .bottom {
+    padding-left: 170rpx;
+    line-height: 120rpx;
+    &:before {
+      margin-right: 10rpx;
+      font-size: 50rpx;
+      vertical-align: bottom;
+      color: @mainTextColor;
+    }
+  }
+}
+
+.mask-in {
+  input {
+    margin-bottom: 20rpx;
+  }
+  button {
+    background-color: @mainBackgroundColor;
+    border-radius: 0;
+    border: none;
+    &:after {
+      border: none;
+    }
+  }
+  .b2 {
+    background-color: @tabBgColor;
+  }
+}

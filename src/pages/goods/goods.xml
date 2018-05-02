@@ -1,0 +1,24 @@
+<view class='p20'>
+    <navigator
+        url='../goodsDetail/goodsDetail?type={{ type }}&id={{ item.id }}'
+        wx:for='{{ goodsArr }}'
+        wx:key="*321"
+        class="goods bd1 p200">
+        <image
+                mode="widthFix"
+                src='{{ item.img }}'></image>
+        <view class='other'>
+            <view class='f32 c000'>{{ item.title }}</view>
+            <view class='f36 main-text-color'>￥{{ item.sale_price }}</view>
+            <view class='f24 c999'>
+                <text>￥{{ item.old }}</text>
+                <text>已售:{{ item.sale_count }}</text>
+            </view>
+        </view>
+    </navigator>
+</view>
+
+
+        <!--错误弹窗-->
+<import src="../template/template"></import>
+<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>

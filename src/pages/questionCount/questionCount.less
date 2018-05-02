@@ -1,0 +1,44 @@
+@import "../../common/variable";
+
+.title-wrap {
+  .main-text-color {
+    margin-bottom: 20rpx;
+  }
+}
+
+.detail {
+  padding: 20rpx;
+  background-color: @tabBgColor;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  navigator {
+    display: inline-block;
+    width: 50%;
+    background-color: @mainBackgroundColor;
+    margin-bottom: 20rpx;
+  }
+}
+
+.qc-center {
+  display: flex;
+  align-items: center;
+  margin: 10rpx 0;
+  .left {
+    flex: 1;
+  }
+  .process {
+    width: 336rpx;
+    background-color: @tabBgColor;
+    height: 30rpx;
+    border-radius: 30rpx;
+    view  {
+      height: 30rpx;
+      background: @mainBackgroundColor;
+      border-radius: 30rpx;
+    }
+  }
+  .right {
+    margin-left: 20rpx;
+  }
+}

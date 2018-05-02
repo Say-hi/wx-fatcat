@@ -1,0 +1,106 @@
+{
+//  群信息小程序页面分布
+  "pages": [
+    "pages/index/index", // 首页
+    "pages/question/question", // 问卷调查
+    "pages/questionCreate/questionCreate", // 问卷创建
+    "pages/questionCountDetail/questionCountDetail", // 问卷统计详情
+    "pages/questionCount/questionCount", // 问卷统计
+    "pages/questionName/questionName", // 问卷调查设置标题
+    "pages/otherReceive/otherReceive", // 他人支付付款
+    "pages/otherPay/otherPay", // 他人代付
+    "pages/proxy/proxy", // 代理端中心
+    "pages/proxyMission/proxyMission", // 代理 任务
+    "pages/proxyFansDetail/proxyFansDetail", // 代理 粉丝详情
+    "pages/proxyFans/proxyFans", // 代理 粉丝
+    "pages/proxyRanking/proxyRanking", // 代理业绩排行榜
+    "pages/proxyOrder/proxyOrder", // 代理 订单管理
+    "pages/proxyMyMoney/proxyMyMoney", // 代理我的业绩
+    "pages/proxyMyDetail/proxyMyDetail", // 代理业绩、提现明细
+    "pages/proxyWithdraw/proxyWithdraw", // 代理端提现
+    "pages/goodsDetail/goodsDetail", // 商品详情
+    "pages/sendWorkerDetail/sendWorkerDetail", // 送货详情
+    "pages/sendWorker/sendWorker", // 送货员
+    "pages/qrCode/qrCode", // 取货码
+    "pages/evaluation/evaluation", // 评价
+    "pages/refund/refund", // 退款/退货
+    "pages/finish/finish", // 查看完结类订单
+    "pages/submitOrder/submitOrder", // 提交订单
+    "pages/bulkPOrder/bulkPOrder", // 拼团订单
+    "pages/user/user", // 我的
+    "pages/order/order", // 订单
+    "pages/coupon/coupon", // 我的红包
+    "pages/chargeMoney/chargeMoney", // 充值猫豆
+    "pages/score/score", // 积分
+    "pages/money/money", // 猫豆余额
+    "pages/car/car", // 购物车
+    "pages/rulers/rulers", // 规则
+    "pages/bulkPurchase/bulkPurchase", // 拼团商品列表
+    "pages/killGoods/killGoods", // 秒杀商品列表
+    "pages/goods/goods" // 商品,,
+
+    // Dont remove this comment
+  ],
+  // Window configuration
+  // https://mp.weixin.qq.com/debug/wxadoc/dev/framework/config.html#window
+  "window": {
+    // 类型：HexColor；默认值：#000000
+    // 导航栏背景颜色，如"#000000"
+    "navigationBarBackgroundColor": "#ffffff",
+    // 类型：String；默认值：white
+    // 导航栏标题颜色，仅支持 black/white
+    "navigationBarTextStyle": "black",
+    // 类型：String；默认值：无
+    // 导航栏标题文字内容
+    "navigationBarTitleText": "肥猫团购商城",
+    // 类型：HexColor；默认值：#ffffff
+    // 窗口的背景色
+    "backgroundColor": "#ffffff",
+    // 类型：String；默认值：dark
+    // 下拉背景字体、loading 图的样式，仅支持 dark/light
+    "backgroundTextStyle": "light",
+    // 类型：Boolean；默认值：false
+    // 是否开启下拉刷新，详见页面相关事件处理函数。
+    // https://mp.weixin.qq.com/debug/wxadoc/dev/framework/app-service/page.html?t=1476197491005#页面相关事件处理函数
+    "enablePullDownRefresh": false
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#ff6501",
+    "borderStyle": "white",
+    "backgroundColor": "#fff",
+    "list": [
+      {
+        "text": "首页",
+        "pagePath": "pages/index/index",
+        "iconPath": "images/index.png",
+        "selectedIconPath": "images/index_hl.png"
+      },
+//      {
+//        "text": "点餐",
+//        "pagePath": "pages/menu/menu",
+//        "iconPath": "images/menu.png",
+//        "selectedIconPath": "images/menu_hl.png"
+//      },
+      {
+        "text": "购物车",
+        "pagePath": "pages/car/car",
+        "iconPath": "images/car.png",
+        "selectedIconPath": "images/car_hl.png"
+      },
+      {
+        "text": "我的",
+        "pagePath": "pages/user/user",
+        "iconPath": "images/user.png",
+        "selectedIconPath": "images/user_hl.png"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  },
+  // Debug log to console
+  // https://mp.weixin.qq.com/debug/wxadoc/dev/framework/config.html#debug
+  "debug": true
+}

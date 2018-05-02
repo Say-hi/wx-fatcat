@@ -1,0 +1,51 @@
+<image class="top-img" mode="widthFix" src="{{ top_img }}"></image>
+<view class="p20 p-t">
+    <navigator hover-class="none"
+               url="../proxyMyMoney/proxyMyMoney"
+               class="arrow bd1 lh60">
+        <view class="f30 c333">我的业绩</view>
+        <view class="f26 c666">业绩明细</view>
+    </navigator>
+    <view class="achievement-wrap">
+        <view class="achievement bd1 p200">
+            <text class="f40 main-text-color">654465</text>
+            <text class="f22 c999">预估总收益</text>
+        </view>
+        <view class="achievement bd1 p200">
+            <text class="f40 main-text-color">1000</text>
+            <text class="f22 c999">可提现金额</text>
+        </view>
+    </view>
+    <view class="achievement-wrap">
+        <view class="achievement bd1 p200">
+            <text class="f40 main-text-color">654465</text>
+            <text class="f22 c999">已提现历史收益</text>
+        </view>
+        <view class="achievement bd1 p200">
+            <text class="f40 main-text-color">1000</text>
+            <text class="f22 c999">退款收益</text>
+        </view>
+    </view>
+</view>
+
+<view class='p20 bd1 order-out'>
+    <navigator url='../proxyOrder/proxyOrder?type=0'
+               hover-class="none"
+               class="content-title bd1"><view class="f30 c333 fw7">订单管理</view><view class="arrow f24 c666">全部订单</view></navigator>
+    <view class='my-order'>
+        <navigator url="../proxyOrder/proxyOrder?type={{ index * 1 + 1 }}"
+                   wx:for='{{ orderArr }}'
+                   wx:key="*67"
+                   class='iconfont pr f28 {{ item.ico }}'>{{ item.t }}<text wx:if="{{ item.num > 0 }}">{{ item.num }}</text></navigator>
+    </view>
+</view>
+<view class="p020 bd1 asdf">
+    <block wx:for="{{ operation }}" wx:key="*76">
+        <navigator url="{{ item.url }}"
+                   class="arrow {{ index == 0 ? 'one' : index == 1 ? 'two': index == 2 ? 'three' : index == 3 ? 'four' : '' }} {{ index != 3 ? 'bd1' : '' }} f30 iconfont {{ item.i }}">{{ item.t }}</navigator>
+    </block>
+</view>
+
+        <!--错误弹窗-->
+<import src="../template/template"></import>
+<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>

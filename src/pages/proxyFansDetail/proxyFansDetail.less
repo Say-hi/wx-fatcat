@@ -1,0 +1,108 @@
+@import "../../common/variable";
+
+.fd-top {
+  display: flex;
+  align-items: center;
+  border-bottom: 20rpx solid @tabBgColor;
+  image {
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 50%;
+    margin-right: 20rpx;
+  }
+  .f28 {
+    flex: 1;
+  }
+}
+
+.icon-xianxiamendian {
+  &:before {
+    color: @mainTextColor;
+    margin-right: 10rpx;
+  }
+}
+
+.icon-dizhi {
+  &:before {
+    color: #3c93ec;
+    margin-right: 10rpx;
+  }
+}  
+
+.buy-title {
+  background-color: @tabBgColor;
+  padding-bottom: 0;
+}
+
+
+.order {
+  padding: 20rpx;
+  padding-bottom: 0;
+  background-color: #fff;
+  border-top: 20rpx solid @tabBgColor;
+  .o-t {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .o-m {
+    height: 100rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    > text {
+      border: 1rpx solid @mainBackgroundColor;
+      padding: 10rpx 30rpx;
+    }
+  }
+  .o-price {
+    text-align: right;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
+  .o-btn {
+    display: flex;
+    padding: 20rpx;
+    justify-content: flex-end;
+    view {
+      border: 1rpx solid @tabBgColor;
+      padding: 14rpx 20rpx;
+      border-radius: 8rpx;
+      margin-left: 20rpx;
+    }
+    view.cfff {
+      background-color: @mainBackgroundColor;
+      border-color: @mainBackgroundColor;
+    }
+  }
+}
+
+.goods {
+  display: flex;
+  align-items: center;
+  background-color: @tabBgColor;
+  padding-right: 20rpx;
+  margin-bottom: 20rpx;
+  image {
+    width: 140rpx;
+    height: 140rpx;
+    margin-right: 30rpx;
+  }
+  .g-i {
+    flex: 1;
+  }
+  .g-b {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.no-goods {
+  image {
+    width: 400rpx;
+    height: 350rpx;
+    margin: 100rpx 0;
+  }
+}

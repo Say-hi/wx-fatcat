@@ -1,0 +1,44 @@
+@import "../../common/variable";
+page {
+  background-color: @tabBgColor;
+}
+
+.other-top {
+  padding: 20rpx;
+  background-color: @mainBackgroundColor;
+  image {
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 50%;
+    margin-bottom: 20rpx;
+  }
+  .o-money {
+    font-size: 60rpx;
+  }
+}
+
+.goods {
+  background-color: @tabBgColor;
+  display: flex;
+  align-items: center;
+  image {
+    width: 100rpx;
+    height: 100rpx;
+    margin-right: 10rpx;
+  }
+  view {
+    word-break: break-all;
+    flex: 1;
+  }
+}
+
+.goodsshow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+button {
+  background-color: @mainBackgroundColor;
+  margin-top: 20rpx;
+}

@@ -1,0 +1,19 @@
+<view class="title-wrap p20">
+    <view class="tac f40 main-text-color">阿斯顿发纳斯里快递费</view>
+    <view class="f24 c999">的风景；拉萨的将发生的减肥；安静撒地方</view>
+</view>
+<view class="tac detail">
+    <navigator url="../questionCountDetail/questionCountDetail?id={{ id }}" class="tac lh80 f30 cfff">查看详细数据</navigator>
+    <text class="f30 main-text-color">共100人投票</text>
+</view>
+
+<view class="p20 bd20" wx:for="1234" wx:key="*12345">
+    <view class="f30 c333">{{ index * 1 + 1 }}、您使用飞毛阿婆圣诞节发牢骚</view>
+    <view class="qc-center" wx:for="1234" wx:key="*96489324">
+        <view class="f26 left">阿斯顿发阿斯顿发阿斯顿发阿斯顿发</view>
+        <view class="process">
+            <view style="width: {{ 12 / 30 * 336 }}rpx"></view>
+        </view>
+        <view class="30 main-text-color right ">50人</view>
+    </view>
+</view>

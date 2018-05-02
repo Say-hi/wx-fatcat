@@ -1,0 +1,86 @@
+<view class="time iconfont icon-iconfontzhizuobiaozhun0261">
+  <view class="f32 c666 lh70">交易成功</view>
+</view>
+
+<view class="send-type p20">
+  <view class="iconfont f26 c333 lh50 icon-navicon-chps">配送方式:　送货上门</view>
+  <view class="iconfont f26 c333 lh50 icon-xianxiamendian">门店地址:　送货阿斯顿发撒旦法上门</view>
+</view>
+
+<view class="address">
+<view class="address-s">
+  <view class="a-s-t">
+    <text class="f26 c666">收货人: {{ addressInfo.userName }}</text>
+    <text class="f26 c666">{{ addressInfo.telNumber }}</text>
+  </view>
+  <view class="f26 lh60 c666">
+    收货地址: {{ addressInfo.provinceName }}{{ addressInfo.cityName }}{{ addressInfo.countyName }}{{ addressInfo.detailInfo }}
+  </view>
+  <view class="bt1 f26 p200">
+    <text class="c666">配送时间</text>
+    <text class="c333">121-212</text>
+  </view>
+</view>
+</view>
+<view>
+  <view class="p020 f24 fuck-bp-t c000">拼单成功</view>
+  <view class="bulk-p p20">
+    <view
+            class="pr {{ index == 0 ? 'fuck-team' : '' }}"
+            wx:key="*678"
+            wx:for="{{ bulkPArr }}">
+      <image class="br" src="{{ item.img }}"></image>
+    </view>
+  </view>
+</view>
+
+<view class="goods-w">
+  <view class="iconfont icon-dianpu lh70 f28 c333">肥猫团购商城</view>
+  <view wx:for="12" class="goods">
+    <image src="{{ img }}"></image>
+    <view class="g-i">
+      <view class="f30 c333">超级好吃的榴莲披萨</view>
+      <view class="f24 c999">规格： 10寸</view>
+      <view class="g-b">
+        <view class="f30 c333">
+          <text class="f24">￥</text>88.00
+        </view>
+        <view class="f24 c999">×2</view>
+      </view>
+    </view>
+  </view>
+  <view class="g-d bd1 lh80 f24">
+    <view class="c333 fw7">送货费</view>
+    <view><text>￥</text>123</view>
+  </view>
+  <view class="g-d bd1 lh80 f24">
+    <view class="c333 fw7">红包抵扣</view>
+    <view class="f24 c999">未使用优惠卷</view>
+  </view>
+  <view class="g-d bd1 lh80 f24">
+    <view class="c333 fw7">积分抵扣</view>
+    <view class="f24 c999">未使用优惠卷</view>
+  </view>
+  <view class="g-d bd1 lh80 f24">
+    <view class="c333 fw7">买家留言</view>
+    <view>2017-02-02 12:30</view>
+  </view>
+  <view class="g-d bd1 lh80">
+    <view>　</view>
+    <view>
+      <text class="f24">实付款:<text class="f28 main-text-color">￥165.5</text></text>
+    </view>
+  </view>
+  <view catchtap="call" class="iconfont icon-dianhua tac f30 c333 lh70">联系商家</view>
+</view>
+
+<view class="f-b">
+  <!--<view>订单编号:　6546546464</view>-->
+  <text data-num="12341234" catchtap="copyNumber" class="f24 lh60 c999"><text class="c666">订单编号:　</text>6546546464 <text  class="copy p020 cfff">复制</text></text>
+  <text class="f24 lh60 c999"><text class="c666">创建时间:　</text>6546546464</text>
+  <text class="f24 lh60 c999"><text class="c666">付款时间:　</text>6546546464</text>
+</view>
+
+        <!--错误弹窗-->
+<import src="../template/template"></import>
+<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>

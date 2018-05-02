@@ -1,0 +1,29 @@
+<view wx:for="1234123" wx:key="*5683245" class="question-wrap bgfff bd20">
+  <view class="q-time lh50 f24 main-text-color bd1">
+    <text class="f28 c999">2018-04-12</text><text>[截止: 2018-04-13]</text><text>　进行中</text>
+  </view>
+  <view class="q-content p20">
+    <view class="f30 c333 lh40">肥猫lasdkfj</view>
+    <view class="f24 c666">fasd阿斯顿发撒旦飞洒地方阿斯顿发发阿斯顿发阿斯顿fasd阿斯顿发撒旦飞洒地方阿斯顿发发阿斯顿发阿斯顿fasd阿斯顿发撒旦飞洒地方阿斯顿发发阿斯顿发阿斯顿</view>
+  </view>
+  <view class="f28 p20 bb q-bottom c999 bd1 bt1 f30">
+    <view class="q-s">
+      <switch color="#ff3344"></switch>暂停/开始
+    </view>
+    <view catchtap="maskChange" data-index="{{ index }}" class="get-url br5 cfff p020">获取链接</view>
+    <view class="iconfont icon-beizhu"></view>
+    <view class="iconfont icon-iconfontshanchu1"></view>
+    <navigator url="../questionCount/questionCount?id={{ item.id }}" class="iconfont icon-shuju"></navigator>
+  </view>
+</view>
+<!--<view class="tac f30 lh80 c999">您还没有创建问卷调查哦</view>-->
+<view class="mask" wx:if="{{ mask }}">
+  <view class="mask-in br10">
+    <view catchtap="maskChange" class="close iconfont icon-guanbi"></view>
+    <view class="mask-title tac lh60 f30 fw7">复制链接发送给朋友</view>
+    <view class="p20 url-wrap">kjashdfklajsdlfjaslfdjasldjflksdfjlasdjflkasjdf;lksdjkfl</view>
+    <view catchtap="copy" class="get-url br5 cfff p020 tac copy">复制链接</view>
+  </view>
+</view>
+<view class="zw"></view>
+<navigator url="../questionCreate/questionCreate" class="iconfont icon-shachu-xue f32 cfff tac lh80">新建问卷</navigator>

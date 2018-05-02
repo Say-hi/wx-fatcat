@@ -1,0 +1,72 @@
+@import "../../common/variable";
+page {
+  background-color: @tabBgColor;
+}
+.tab {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #fff;
+  z-index: 999;
+  view {
+    flex: 1;
+    height: 100%;
+    text-align: center;
+  }
+  .show {
+    border-bottom: 1rpx solid @mainBackgroundColor;
+  }
+}
+.zw {
+  height: 80rpx;
+}
+
+.m-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.m-b {
+  display: flex;
+  align-items: center;
+  .f24 {
+    flex: 1;
+  }
+}
+
+.m-middle {
+  display: flex;
+  justify-content: space-between;
+  .m-m-text {
+    flex: 1;
+  }
+}
+
+.m-finish {
+  color: #36b713;
+}
+
+.upMission {
+  font-size: 24rpx;
+  padding: 5rpx 20rpx;
+  background-color: @mainBackgroundColor;
+  border-radius: 45rpx;
+}
+
+.icon-camera2 {
+  display: flex;
+  flex-direction: column;
+  border: 1rpx solid #eee;
+  padding: 20rpx;
+}
+.mask-in {
+  image {
+    width: 300rpx;
+    height: 300rpx;
+  }
+}

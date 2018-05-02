@@ -1,0 +1,25 @@
+<view wx:if="{{ !needUseCoupon }}" class="tab lh80 f30">
+  <view catchtap="chooseTab" data-index="0" class="{{ currentIndex == 0 ? 'show main-text-color' : 'noshow' }}">未使用</view>
+  <view catchtap="chooseTab" data-index="1" class="{{ currentIndex == 1 ? 'show main-text-color' : 'noshow' }}">已使用</view>
+  <view catchtap="chooseTab" data-index="2" class="{{ currentIndex == 2 ? 'show main-text-color' : 'noshow' }}">已失效</view>
+</view>
+<view class="zw"></view>
+<view class="p20">
+  <view wx:for="3545654644654654644"
+        wx:key="*456"
+        class="coupon br15">
+  <!--左侧-->
+  <view class="c-left tac">
+    <view class='c-l-t'>
+      <text class="f30">￥</text><text class="f54">10</text>
+    </view>
+    <!--<view class="f20">满20元使用</view>-->
+  </view>
+  <!--右侧-->
+  <view class="c-right c999">
+    <view class="f28 c666">小程序10元优惠卷</view>
+    <view class="f20">满100元使用</view>
+    <view class="f20">2018.03.04 12:00 至 2018.03.04 12:00</view>
+  </view>
+</view>
+</view>

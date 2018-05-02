@@ -1,0 +1,46 @@
+<view class='pr user-info-wrap'>
+    <image src='../../images/user_bg.png'></image>
+    <view class='user-info pa tac'>
+        <image class="br"
+               src="{{ userInfo.avatarUrl }}"></image>
+        <view class="f28 cfff">{{ userInfo.nickName }}</view>
+    </view>
+    <view class="pa user-i-b br15">
+        <navigator url='../score/score'>
+            <text class="lh60 f28 main-text-color">188</text>
+            <text class="lh40 f24 c999">我的积分</text>
+        </navigator>
+        <navigator url='../money/money'>
+            <text class="lh60 f28 main-text-color">188.55</text>
+            <text class="lh40 f24 c999">我的猫豆</text>
+        </navigator>
+    </view>
+</view>
+
+<view class='p20 bd1'>
+    <navigator url='../order/order?type=0'
+               hover-class="none"
+               class="content-title bd1"><view class="f30 c333">我的订单</view><view class="arrow f24 c666">全部订单</view></navigator>
+    <view class='my-order'>
+        <navigator url="../order/order?type={{ index * 1 + 1 }}"
+                   wx:for='{{ orderArr }}'
+              wx:key="*67"
+              class='iconfont pr f28 {{ item.ico }}'>{{ item.t }}<text wx:if="{{ item.num > 0 }}">{{ item.num }}</text></navigator>
+    </view>
+</view>
+
+<view class='p20 operationArr bd1'>
+    <navigator url="{{ item.url }}" wx:for="{{ operationArr }}"
+               catchtap="{{ index == 3 ? 'chooseAddress' : '' }}"
+          wx:key="*375"
+          class='iconfont {{ item.ico }} arrow f28 lh80 bd1'>{{ item.t }}
+    </navigator>
+    <button open-typ="contact" class="iconfont icon-service ">联系客服<text class="arrow"></text></button>
+</view>
+<view wx:if="{{ needSetting }}" class="open-setting">
+    <button catchtap="openSetting">开启授权</button>
+</view>
+
+        <!--错误弹窗-->
+<import src="../template/template"></import>
+<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>

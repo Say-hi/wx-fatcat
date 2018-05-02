@@ -1,0 +1,51 @@
+<view class="tac p20 other-top">
+  <image src="{{ src }}"></image>
+  <view class="cfff f32">代付金额</view>
+  <view class="cfff o-money fw7">￥883132121.00</view>
+  <view class="f24 cfff">已完成付款金额70.1元/剩余12.0元未付</view>
+</view>
+<view wx:if="{{ goodsShow }}" class="p20 bgfff">
+  <view class="goods">
+    <image src="{{ src }}"></image>
+    <view class="f28 c666">asdfsadfasdfasdfasdfsadfasdfsadfasdfsadfasdfasdfasdfsadfasdfsadfasdfsadfasdfasdfasdfsadfasdfsadf</view>
+  </view>
+</view>
+
+<view wx:if="{{ fixed }}" class="p20 pay-wrap">
+  <view class="f24 c999 people">
+    <text>已有5位好友替他付款成功</text>
+    <text>5/10</text>
+  </view>
+  <view class="pay">￥8.8元  帮TA付一笔</view>
+</view>
+<view wx:else>
+  <view class="number-pay-wrap">
+    <view wx:for="{{ moneyArr }}"
+          wx:key="*98675"
+          catchtap="chooseFastPay"
+          data-index="{{ index }}"
+          class="br5 f24 c333 tr7 {{ fastPayIndex == index ? 'active' : '' }}">￥{{ item }}</view>
+  </view>
+  <view class="self-title bd1">您也可以输入您想要代付的金额</view>
+  <form bindsubmit="inputPay">
+    <view class="n-pay-self p020 bd1 lh70">
+      <view class="f30 c333 fw7">付款金额</view>
+      <input name="money" class="f28" type="digit" placeholder="0.0"/>
+      <veiw class="f28 cccc">最多88元</veiw>
+    </view>
+    <view class="p020">
+      <button formType="submit" class="pay">帮TA付一笔</button>
+    </view>
+  </form>
+
+</view>
+<view class="tac f30 c999 daifutitle">好友代付详情</view>
+<view class="p20 fukuan-wrap">
+  <view wx:for="{{ itemArr }}" wx:key="*098" class="f24 c666 bd1">
+    <image src="{{ src }}"></image>
+    <view class="ell1">{{ item }}</view>
+    <view class="p020">2分钟前</view>
+    <view class="p020">替他付款</view>
+    <view class="main-text-color p020">￥8.8</view>
+  </view>
+</view>

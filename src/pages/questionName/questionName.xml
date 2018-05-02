@@ -1,0 +1,16 @@
+<form bindsubmit="createQuestion">
+  <view class="bgfff q-name f30 c333">
+    <text>标题</text>
+    <input name="title" placeholder="输入问卷调查标题"/>
+  </view>
+  <textarea class="p20 bgfff f30" name="desc" maxlength="100" placeholder="输入问卷调查简介描述（100字）"></textarea>
+  <view class="q-time bgfff">
+    <view class="end-time p20 f32 c333">设置结束时间，以当日23:59:00为限<switch name="switch" bindchange="switchChange" color="#ff3344"></switch></view>
+    <view wx:if="{{ show }}" class="p20">
+      <picker name="time" mode="date" value="{{date}}" start="{{ startDate }}" bindchange="bindDateChange">
+        <view class="f32 c333">结束时间　{{ date }}</view>
+      </picker>
+    </view>
+  </view>
+  <button formType="submit" class="f30 cfff create tac lh80 br6">创建</button>
+</form>

@@ -1,0 +1,21 @@
+<form bindsubmit="search">
+  <view class="search p20">
+    <view class="s-t br10 lh50 f24">
+      <view class="iconfont icon-sousuo"></view>
+      <input name="searchtext" placeholder="输入商品名称或用户名称"/>
+    </view>
+    <button formType="submit" class="f28 c666">搜索</button>
+  </view>
+</form>
+<navigator url="../proxyFansDetail/proxyFansDetail?id={{ item.id }}"
+           class="arrow bd1 p20"
+           wx:for="32354"
+           wx:key="*5423">
+  <image src="{{ src }}"></image>
+  <view class="ell1">3246546546</view>
+</navigator>
+<view class="tac lh80 f24 c999">暂无相关粉丝哦</view>
+
+        <!--错误弹窗-->
+<import src="../template/template"></import>
+<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>

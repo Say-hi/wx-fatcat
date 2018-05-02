@@ -1,0 +1,44 @@
+@import "../../common/variable";
+
+.search {
+  display: flex;
+  align-items: center;
+  background-color: @tabBgColor;
+  .s-t {
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    flex: 1;
+  }
+  .icon-sousuo {
+    margin: 10rpx;
+    transform: translateY(6rpx);
+    &:before {
+      color: #999;
+    }
+  }
+  input {
+    flex: 1;
+    height: 50rpx;
+  }
+  button {;
+    padding: 0;
+    margin: 0;
+    margin-left: 10rpx;
+    line-height: inherit;
+    &:after {
+      border: none;
+    }
+  }
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  image {
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 50%;
+    margin-right: 20rpx;
+  }
+}

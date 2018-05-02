@@ -1,0 +1,131 @@
+@import "../../common/variable";
+
+.other-top {
+  padding: 20rpx;
+  background-color: @mainBackgroundColor;
+  image {
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 50%;
+    margin-bottom: 20rpx;
+  }
+  .o-money {
+    font-size: 60rpx;
+  }
+}
+
+.goods {
+  background-color: @tabBgColor;
+  display: flex;
+  align-items: center;
+  image {
+    width: 100rpx;
+    height: 100rpx;
+    margin-right: 10rpx;
+  }
+  view {
+    word-break: break-all;
+    flex: 1;
+  }
+}
+
+.people {
+  display: flex;
+  align-items: center;
+}
+
+.pay-wrap {
+  background-color: @tabBgColor;
+}
+
+.pay {
+  line-height: 80rpx;
+  border-radius: 10rpx;
+  background-color: @mainBackgroundColor;
+  text-align: center;
+  color: #fff;
+  font-size: 30rpx;
+  margin-top: 20rpx;
+  &:after {
+    border: none;
+  }
+}
+.daifutitle {
+  line-height: 60rpx;
+  background-color: @tabBgColor;
+  position: relative;
+  &:before {
+    content: '';
+    width: 32%;
+    height: 1rpx;
+    background-color: #999;
+    position: absolute;
+    top: 50%;
+    left: 20rpx;
+    transform: translate(0, -50%);
+  }
+  &:after {
+    content: '';
+    width: 32%;
+    height: 1rpx;
+    background-color: #999;
+    position: absolute;
+    top: 50%;
+    right: 20rpx;
+    transform: translate(0, -50%);
+  }
+}
+
+.fukuan-wrap {
+  image {
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 50%;
+    margin-right: 20rpx;
+  }
+  .bd1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 120rpx;
+  }
+  .ell1 {
+    flex: 1;
+  }
+}
+
+.number-pay-wrap {
+  padding: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  view {
+    padding: 0rpx 40rpx;
+    border: 1rpx solid #999;
+    text-align: center;
+    line-height: 50rpx;
+  }
+  view.active {
+    border: 1rpx solid @mainBackgroundColor;
+    background-color: @mainBackgroundColor;
+    color: #fff;
+  }
+}
+
+.self-title {
+  padding: 20rpx;
+  color: #ccc;
+  font-size: 24rpx;
+  background-color: @tabBgColor;
+}
+.n-pay-self {
+  display: flex;
+  align-items: center;
+  input {
+    flex: 1;
+    margin: 0 20rpx;
+    height: 70rpx;
+    //background-color: @mainBackgroundColor;
+  }
+
+}

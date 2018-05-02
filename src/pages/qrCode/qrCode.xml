@@ -1,0 +1,21 @@
+<view wx:for="{{ goodsArr }}"
+      class="goods p20 bd1"
+      wx:key="*1253">
+  <image src="{{ item.src }}"></image>
+  <view class="g-c p020">
+    <view class="ell1 f30 c333">{{ item.title }}</view>
+    <view class="f28 c666">{{ item.time }}</view>
+  </view>
+  <view catchtap="showQR" data-code="{{ item.code }}" class="f22 code">展示取货码</view>
+</view>
+<view class="mask" catchtap="close" wx:if="{{ show }}">
+  <view class="c-wrap p20">
+    <view class="f30 tac">取货码: {{ code }}</view>
+    <view class="qrcode pr">
+      <canvas canvas-id="qrcode" />
+    </view>
+    <view class="c-bottom tac f24 c999">
+      请妥善保管，一防被他人提货
+    </view>
+  </view>
+</view>

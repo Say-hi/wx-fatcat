@@ -1,0 +1,26 @@
+<view class="out-wrap">
+  <view class="tab">
+    <view catchtap="changeTab" data-index="1" class="f32 cfff {{ currentTab == 1 ? 'active' :  '' }}">日榜</view>
+    <view catchtap="changeTab" data-index="2" class="f32 cfff {{ currentTab == 2 ? 'active' :  '' }}">月榜</view>
+  </view>
+  <view class="tac f24 bgfff lh50 c999">排名数据{{ currentTab == 1 ? '每天' : '每月1号' }}更新一次</view>
+
+  <view class="ranking-wrap">
+    <view class="r-top f24 p020 c999 lh50">
+      <view class="tal">排名</view>
+      <view class="tac">名称</view>
+      <view class="tar">总收益(元)</view>
+    </view>
+    <view wx:for="1234567654654654654654654654" wx:key="*788" class="p020 bgfff bd1 r-content">
+      <view class="r-left">
+        <image wx:if="{{ index <= 2 }}" src="../../images/ranking_{{ index }}.png"></image>
+        <view class="f28 c333" wx:else>{{ index }}</view>
+      </view>
+      <view class="r-center">
+        <image src="{{ src }}"></image>
+        <view class="ell1 f28 c999">dfgsdfgasdgasdfgasdfasdfsadfsadfsafsad</view>
+      </view>
+      <view class="{{ index <= 2 ? 'main-text-color' : 'c333' }} f24">1524154</view>
+    </view>
+  </view>
+</view>

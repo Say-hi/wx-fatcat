@@ -1,0 +1,22 @@
+<view class="wd-top bt1">
+  <view class="f24 c999 lh50">可提现金额</view>
+  <view class="main-text-color">￥{{ allMoney }}</view>
+</view>
+<form bindsubmit="confirm">
+  <view class="p20 wd-i">
+    <view class="f28 c666 lh50">提现金额</view>
+    <view class="bd1 lh80">
+      <text class="f38 c666">￥</text>
+      <input name="money" type="digit" value="{{ all }}" placeholder="输入提现金额"/>
+      <text catchtap="getAll" class="main-text-color f28">全部提现</text>
+    </view>
+    <view class="f24 c999 lh50">提现需1-3个工作日到账，遇节假日顺延，请耐心等待</view>
+  </view>
+  <view class="tac p20 wd-b">
+    <button formType="submit" class="br10 lh88 cfff f36">申请提现</button>
+  </view>
+</form>
+
+        <!--错误弹窗-->
+<import src="../template/template"></import>
+<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>

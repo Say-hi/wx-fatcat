@@ -1,0 +1,49 @@
+<view class="tab f30 lh80">
+  <view catchtap="chooseTab" data-index="0" class="{{ currentIndex == 0 ? 'show main-text-color' : 'noshow' }}">拼团中</view>
+  <view catchtap="chooseTab" data-index="1" class="{{ currentIndex == 1 ? 'show main-text-color' : 'noshow' }}">拼团成功</view>
+  <view catchtap="chooseTab" data-index="2" class="{{ currentIndex == 2 ? 'show main-text-color' : 'noshow' }}">拼团失败</view>
+</view>
+<view class="zw"></view>
+<view class="order"
+      wx:key="*41"
+      wx:for="12">
+<view class="o-t f24 c333 lh50"><text>订单编号: 201234864651</text><text class="f28">等待买家付款</text></view>
+<view class="goods">
+  <image src="{{ img }}"></image>
+  <view class="g-i">
+    <view class="f30 c333">超级好吃的榴莲披萨</view>
+    <view class="f24 c999">规格： 10寸</view>
+    <view class="g-b">
+      <view class="f30 c333">
+        <text class="f24">￥</text>88.00
+      </view>
+      <view class="f24 c999">×2</view>
+    </view>
+  </view>
+</view>
+<view class="tac o-m bd1">
+  <text class="f24 main-text-color">此订单含2件商品</text>
+  <view class="f24 c333 o-price">
+    <text>合计: <text class="f30 main-text-color">88.00</text></text>
+    <text>送货费: <text class="f30 c999">￥88.00</text></text>
+  </view>
+</view>
+<view class="o-btn f28 c999">
+  <view data-id="{{ item.id }}">查看订单</view>
+  <!--<navigator url="../submitOrder/submitOrder?id={{ item.id }}&type=second&time=2018-04-09 14:06:10" >-->
+  <view class="cfff share-btn" data-id="{{ item.id }}">
+    <button open-type="share">邀请好友</button>
+  </view>
+  <!--</navigator>-->
+  <view class="cfff" data-id="{{ item.id }}">提醒发货</view>
+  <view data-id="{{ item.id }}">删除订单</view>
+  <!--<view class="cfff" data-id="{{ item.id }}">确认收货</view>-->
+  <view data-id="{{ item.id }}">再次购买</view>
+  <!--<view class="cfff" data-id="{{ item.id }}">评价晒图</view>-->
+</view>
+</view>
+
+<view wx:if="{{ orderArr.length }}" class="tac no-goods">
+  <image src="../../images/order_bg.png"></image>
+  <view class="tac f24 c999">亲，您还没有相关的订单哟~</view>
+</view>

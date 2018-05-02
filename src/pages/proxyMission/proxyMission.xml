@@ -1,0 +1,33 @@
+<view class="tab f30 lh80">
+  <view catchtap="chooseTab" data-index="0" class="{{ currentIndex == 0 ? 'show main-text-color' : 'noshow' }}">进行中任务</view>
+  <view catchtap="chooseTab" data-index="1" class="{{ currentIndex == 1 ? 'show main-text-color' : 'noshow' }}">已完成</view>
+  <view catchtap="chooseTab" data-index="2" class="{{ currentIndex == 2 ? 'show main-text-color' : 'noshow' }}">已结束</view>
+</view>
+<view class="zw"></view>
+<view wx:for="12341234"
+      wx:key="*1234"
+      class="p20 mission-wrap bd20 bgfff">
+  <view class="m-title">
+    <view class="f26 c999">2018-12-12</view>
+    <view class="f24 main-text-color">奖金10元</view>
+  </view>
+  <view class="f30 c333 m-middle">
+    <text class="m-m-text">阿隆索的房间阿拉思考的卷发拉萨的咖啡阿隆索的房间阿拉思考的卷发拉萨的咖啡阿隆索的房间阿拉思考的卷发拉萨的咖啡</text>
+    <text wx:if="{{ currentIndex == 1 }}" class="f24 m-finish">已完成</text>
+    <text wx:if="{{ currentIndex == 2 }}" class="f24 m-ended c999">未完成，已结束</text>
+  </view>
+  <view class="m-b">
+    <view class="f24 c999">asdfasdfasdfasdfasdf 阿斯顿发撒旦法阿斯顿发生大阿斯顿发撒旦法阿斯顿发生大阿斯顿发撒旦法阿斯顿发生大阿斯顿发撒旦法阿斯顿发生大</view>
+    <view catchtap="maskChange" wx:if="{{ currentIndex == 0 }}" class="upMission cfff">上传凭证</view>
+  </view>
+</view>
+
+<view class="mask" wx:if="{{ mask }}">
+  <view class="mask-in tac">
+    <view catchtap="upImage" class="iconfont icon-camera2">上传照片</view>
+    <image wx:for="1234" src="{{ src }}"></image>
+    <!--添加限制最多4张-->
+    <view catchtap="confirm" class="f30 p20">上传凭证</view>
+    <view catchtap="maskChange" class="f30 p20">取消操作</view>
+  </view>
+</view>
