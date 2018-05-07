@@ -104,8 +104,8 @@ Page({
       for (let [i] of that.data.killArr.entries()) {
         let nowData = new Date().getTime() // 毫秒数
         // console.log('startTime', new Date(that.data.killArr[i].startTime))
-        let startTime = new Date(that.data.killArr[i].startTime).getTime()
-        let endTime = new Date(that.data.killArr[i].endTime).getTime()
+        let startTime = that.data.killArr[i].start_time
+        let endTime = that.data.killArr[i].start_time
         // console.log(nowData, startTime, endTime)
         if (nowData < startTime) { // 未开始
           that.data.killArr[i].status = 1
@@ -138,10 +138,53 @@ Page({
       kill()
     }, 1000)
   },
+  getIndex () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().index,
+      data: {
+        act: 'index'
+      },
+      success (res) {
+        wx.hideLoading()
+        console.log(res)
+        if (res.data.status === 200) {
+          that.setData({
+            bannerArr: res.data.data.ad1List,
+            bannerArr2: res.data.data.ad2List,
+            announcement: res.data.data.noticeList[0].title,
+            newGoodsList: res.data.data.newGoodsList,
+            killArr: res.data.data.FSList,
+            SOGList: res.data.data.SOGList
+          })
+          for (let v of res.data.data.cpl) {
+            v.use_start_time = new Date(v.use_start_time).toLocaleString()
+            v.use_end_time = new Date(v.use_end_time).toLocaleString()
+          }
+          that.setData({
+            cpl: res.data.data.cpl
+          })
+          let count = 0
+          setInterval(() => {
+            if (count >= res.data.data.noticeList.length) {
+              count = 0
+            }
+            that.setData({
+              announcement: res.data.data.noticeList[count].title
+            })
+            count++
+          }, 5000)
+        } else {
+          app.setToast(that, {content: res.data.mdg})
+        }
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad () {
+    this.getIndex()
     // console.dir(app.data)
   },
   /**

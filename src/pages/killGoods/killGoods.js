@@ -54,6 +54,26 @@ Page({
       }
     ]
   },
+  // 获取数据
+  getIndex () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().index,
+      data: {
+        act: 'fs'
+      },
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          that.setData({
+            killArr: res.data.data.FSList
+          })
+        } else {
+          app.setToast(that, {content: res.data.mdg})
+        }
+      }
+    })
+  },
 // 秒杀逻辑
   setKill () {
     let that = this

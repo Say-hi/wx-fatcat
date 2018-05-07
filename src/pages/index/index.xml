@@ -6,7 +6,7 @@
         class="banner">
   <swiper-item  wx:for="{{ bannerArr }}"
                 wx:key="*1">
-    <image mode="widthFix" src="{{ item.img }}"></image>
+    <image mode="widthFix" src="{{ item.ad_code }}"></image>
   </swiper-item>
 </swiper>
 
@@ -20,7 +20,7 @@
 
 <view class="announcement f24 c666 bt1">
   <text class="iconfont icon-gonggao main-text-color">公告</text>
-  <text>{{ announcement }}</text>
+  <text class="a-t">{{ announcement }}</text>
 </view>
 
 <swiper autoplay
@@ -28,8 +28,8 @@
         class="banner banner2">
   <swiper-item  wx:for="{{ bannerArr }}"
                 wx:key="*1">
-    <navigator url="{{ item.url }}">
-      <image mode="widthFix" src="{{ item.img }}"></image>
+    <navigator url="{{ item.ad_link }}">
+      <image mode="widthFix" src="{{ item.ad_code }}"></image>
     </navigator>
   </swiper-item>
 </swiper>
@@ -44,20 +44,20 @@
         <navigator
               wx:for="{{ killArr }}"
               wx:key="*32"
-              url="../goodsDetail/goodsDetail?type=kill&id={{ item.id }}"
+              url="../goodsDetail/goodsDetail?type=kill&id={{ item.goods_id }}"
               class="content-item br6">
-          <image class="br6" mode="widthFix"
-                 src="{{ item.img }}"></image>
+          <image class="br6" mode="aspectFit"
+                 src="{{ item.image }}"></image>
           <view class="p20">
-            <view class="ell1 f24 c000">{{ item.title }}</view>
+            <view class="ell1 f24 c000">{{ item.goods_name }}</view>
             <view>
-              <text class="main-text-color f22">￥ {{ item.salePrice }}</text>　<text class="f20 tat c999">￥ {{ item.oldPrice }}</text>
+              <text class="main-text-color f22">￥ {{ item.shop_price }}</text>　<text class="f20 tat c999">￥ {{ item.market_price }}</text>
             </view>
             <view class="content-sale lh50">
-              <view class="f24 c999">已售:{{ item.salePercent * 100 }}%</view>
+              <view class="f24 c999">已售:{{ item.per }}%</view>
               <view class="content-length br14">
                 <view class="content-length-in"
-                      style="width: {{ 130 * item.salePercent }}rpx"></view>
+                      style="width: {{ 130 * (item.per / 100) }}rpx"></view>
               </view>
             </view>
             <view class="cfff pr content-time p10">
@@ -87,19 +87,19 @@
                  class="content-scroll bb">
         <view class="content-scroll-in">
             <navigator
-                  wx:for="{{ killArr }}"
+                  wx:for="{{ newGoodsList }}"
                   wx:key="*32"
-                  url="../goodsDetail/goodsDetail?type=new&id={{ item.id }}"
+                  url="../goodsDetail/goodsDetail?type=new&id={{ item.goods_id }}"
                   class="content-item br6">
-                <image class="br6" mode="widthFix"
-                       src="{{ item.img }}"></image>
+                <image class="br6" mode="aspectFit"
+                       src="{{ item.image }}"></image>
                 <view class="p20">
-                    <view class="ell1 f24 c000">{{ item.title }}</view>
+                    <view class="ell1 f24 c000">{{ item.goods_name }}</view>
                     <view>
-                        <text class="main-text-color f22">￥ {{ item.salePrice }}</text>
+                        <text class="main-text-color f22">￥ {{ item.shop_price }}</text>
                     </view>
                     <view class="content-sale lh50">
-                        <view class="f24 c999">已售:{{ item.saleCount }}</view>
+                        <view class="f24 c999">已售:{{ item.sales_sum }}</view>
                     </view>
                 </view>
             </navigator>
@@ -114,19 +114,19 @@
     <scroll-view scroll-x
                  class="content-scroll bb">
         <view class="content-scroll-in">
-            <navigator url="../goodsDetail/goodsDetail?type=special&id={{ item.id }}"
-                  wx:for="{{ killArr }}"
+            <navigator url="../goodsDetail/goodsDetail?type=special&id={{ item.goods_id }}"
+                  wx:for="{{ SOGList }}"
                   wx:key="*32"
                   class="content-item br6">
-                <image class="br6" mode="widthFix"
-                       src="{{ item.img }}"></image>
+                <image class="br6" mode="aspectFit"
+                       src="{{ item.image }}"></image>
                 <view class="p20">
-                    <view class="ell1 f24 c000">{{ item.title }}</view>
+                    <view class="ell1 f24 c000">{{ item.goods_name }}</view>
                     <view>
-                        <text class="main-text-color f22">￥ {{ item.salePrice }}</text>
+                        <text class="main-text-color f22">￥ {{ item.shop_os_price }}</text>
                     </view>
                     <view class="content-sale lh50">
-                        <view class="f24 c999">已售:{{ item.saleCount }}</view>
+                        <view class="f24 c999">已售:{{ item.sales_sum }}</view>
                     </view>
                 </view>
             </navigator>
@@ -140,50 +140,20 @@
     <image src="../../images/coupon.png"></image>
     <view class="new-user-coupon-text">
       <view class="f24 new-title tac lh80">新用户专享</view>
-      <view class="coupon br15">
+      <view wx:for="{{ cpl }}" wx:if="{{ index <= 2 }}" wx:key="*345" class="coupon br15">
         <!--左侧-->
-        <view class="c-left tac">
-          <view class='c-l-t'>
-            <text class="f18">￥</text><text class="f32">10</text>
-          </view>
-          <!--<view class="f20">满20元使用</view>-->
-        </view>
-        <!--右侧-->
-        <view class="c-right c999">
-          <view class="f16 c666">小程序10元优惠卷</view>
-          <view class="f12">满100元使用</view>
-          <view class="f12">2018.03.04 12:00 至 2018.03.04 12:00</view>
-        </view>
-      </view>
-      <view class="coupon br15">
-        <!--左侧-->
-        <view class="c-left tac">
+        <view  class="c-left tac">
           <view class='c-l-t'>
             <!--<image src="../../images/red_bag.png"></image>-->
-            <text class="f18">￥</text><text class="f32">10</text>
+            <text class="f18">￥</text><text class="f32">{{ item.money }}</text>
           </view>
           <!--<view class="f20">满20元使用</view>-->
         </view>
         <!--右侧-->
         <view class="c-right c999">
-          <view class="f16 c666">小程序10元优惠卷</view>
-          <view class="f12">满100元使用</view>
-          <view class="f12">2018.03.04 12:00 至 2018.03.04 12:00</view>
-        </view>
-      </view>
-      <view class="coupon br15">
-        <!--左侧-->
-        <view class="c-left tac">
-          <view class='c-l-t'>
-            <text class="f18">￥</text><text class="f32">10</text>
-          </view>
-          <!--<view class="f20">满20元使用</view>-->
-        </view>
-        <!--右侧-->
-        <view class="c-right c999">
-          <view class="f16 c666">小程序10元优惠卷</view>
-          <view class="f12">满100元使用</view>
-          <view class="f12">2018.03.04 12:00 至 2018.03.04 12:00</view>
+          <view class="f16 c666 ell1">{{ item.name }}</view>
+          <view class="f12">满{{ item.condition }}元使用</view>
+          <view class="f12">{{ item.use_start_time }} 至 {{ item.use_end_time }}</view>
         </view>
       </view>
       <view class="tac f24 new-get">已放到您的个人中心红包</view>

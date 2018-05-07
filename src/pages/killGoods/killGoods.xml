@@ -5,12 +5,12 @@
             wx:key="*322"
             class="goods bd1 p200">
         <image
-                mode="widthFix"
-                src='{{ item.img }}'></image>
+                mode="aspectFit"
+                src='{{ item.image }}'></image>
         <view class='other'>
-            <view class='f32 c000'>{{ item.title }}</view>
+            <view class='f32 c000'>{{ item.goods_name }}</view>
             <view class='f36 main-text-color'>
-                <text>￥{{ item.sale_price }}</text>
+                <text>￥{{ item.shop_price }}</text>
                 <view class="cfff content-time p10">
                     <!--<view class="f24 tac">秒杀进行中</view>-->
                     <view class='c-t-pa'>
@@ -26,13 +26,13 @@
                 </view>
             </view>
             <view class='f24 c999 kill-bottom'>
-                <text>￥{{ item.old }}</text>
+                <text>￥{{ item.market_price }}</text>
                 <view class="f24 kill-right">
-                    <view class="f24 c999">已售:{{ item.salePercent * 100 }}%</view>
+                    <view class="f24 c999">已售:{{ item.per }}%</view>
                     <view class="content-sale lh50">
                         <view class="content-length br14">
                             <view class="content-length-in"
-                                  style="width: {{ 132 * item.salePercent }}rpx"></view>
+                                  style="width: {{ 132 * (item.per / 100) }}rpx"></view>
                         </view>
                     </view>
                 </view>
