@@ -63,7 +63,7 @@
             <view class="cfff pr content-time p10">
               <!--<view class="f24 tac">秒杀进行中</view>-->
               <view class="pa">
-                <view class="f24">{{ item.status == 1 ? '倒计时' : item.status == 2 ? '距结束' : '' }}</view>
+                <view class="f20">{{ item.status == 1 ? '倒计时' : item.status == 2 ? '距结束' : '' }}</view>
                 <view class="f20 content-times">
                   <view class="h br5">{{ item.h }}</view>
                   <view>:</view>
@@ -108,7 +108,7 @@
 </view>
 <!--特价-->
 <view class="time-kill p20">
-    <navigator url='../goods/goods?type=special'
+    <navigator url='../goods/goods?type=so'
                hover-class="none"
                class="content-title"><view class="f30 c333">今日特价</view><view class="arrow f24 c666">查看更多</view></navigator>
     <scroll-view scroll-x

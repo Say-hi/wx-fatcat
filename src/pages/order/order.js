@@ -8,16 +8,38 @@ Page({
    */
   data: {
     img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-    currentIndex: 0
+    currentIndex: 0,
+    typeArr: ['', 'WAITPAY', 'WAITSEND', 'WAITRECEIVE', 'FINISH']
   },
   chooseTab (e) {
     this.setData({
       currentIndex: e.currentTarget.dataset.index
     })
+    this.getOrderList(this.data.typeArr[e.currentTarget.dataset.index])
   },
   delOrder (e) {
     wx.showToast({
       title: '模拟删除'
+    })
+  },
+  getOrderList (type = '') {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().orderList,
+      data: {
+        type
+      },
+      success (res) {
+        wx.hideLoading()
+        console.log(res)
+        if (res.data.status === 200) {
+          that.setData({
+            orderList: res.data.data.list
+          })
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
     })
   },
   /**
@@ -31,6 +53,8 @@ Page({
       this.setData({
         currentIndex: options.type
       })
+      this.getOrderList(this.data.typeArr[options.type])
+    } else {
       app.setBar('退货退款')
     }
     // TODO: onLoad

@@ -179,6 +179,9 @@ App({
       title: '请求数据中...'
       // mask: true
     })
+    if (!obj.iv) {
+      obj.data = Object.assign(obj.data, {session_key: that.gs()})
+    }
     wx.request({
       url: obj.url || useUrl.login,
       method: obj.method || 'POST',
@@ -195,7 +198,7 @@ App({
       complete: obj.complete || function (res) {
         // console.log(res)
         // sessionId 失效
-        if (res.data.code === 401) {
+        if (res.data.status === 401) {
           setTimeout(() => {
             if (!that.gs()) {
               let page = getCurrentPages()
@@ -205,12 +208,15 @@ App({
                     wx.getUserInfo({
                       lang: 'zh_CN',
                       success (res2) {
+                        let {iv, encryptedData, rawData, signature} = res2
                         that.wxrequest({
                           url: useUrl.login,
                           data: {
                             code: res.code,
-                            iv: res2.iv,
-                            encryptedData: res2.encryptedData
+                            iv,
+                            encryptedData,
+                            rawData,
+                            signature
                           },
                           success (res3) {
                             console.log(1)
@@ -239,12 +245,15 @@ App({
                     wx.getUserInfo({
                       lang: 'zh_CN',
                       success (res2) {
+                        let {iv, encryptedData, rawData, signature} = res2
                         that.wxrequest({
                           url: useUrl.login,
                           data: {
                             code: res.code,
-                            iv: res2.iv,
-                            encryptedData: res2.encryptedData
+                            iv,
+                            encryptedData,
+                            rawData,
+                            signature
                           },
                           success (res3) {
                             console.log(2)
@@ -278,14 +287,14 @@ App({
     let that = this
     if (wx.getStorageSync('session_key')) {
       let checkObj = {
-        url: useUrl.indexApplicationLists,
+        url: useUrl.carList,
         data: {
           session_key: wx.getStorageSync('session_key')
         },
         success (res) {
           wx.hideLoading()
           // session失效
-          if (res.data.code === 401) {
+          if (res.data.status === 401) {
             console.log('session_key失效')
             // 无条件获取登陆code
             wx.login({
@@ -296,8 +305,7 @@ App({
                 let obj = {
                   success (data) {
                     wx.setStorageSync('userInfo', data.userInfo)
-                    let iv = data.iv
-                    let encryptedData = data.encryptedData
+                    let {iv, encryptedData, rawData, signature} = data
                     let recommendId = ''
                     if (params) {
                       recommendId: params.id
@@ -309,7 +317,9 @@ App({
                         recommend_id: recommendId || 0,
                         code: code,
                         iv: iv,
-                        encryptedData: encryptedData
+                        rawData,
+                        signature,
+                        encryptedData
                       },
                       success (res) {
                         // let session_key = 'akljgaajgoehageajnafe'
@@ -355,8 +365,10 @@ App({
           let obj = {
             success (data) {
               wx.setStorageSync('userInfo', data.userInfo)
-              let iv = data.iv
-              let encryptedData = data.encryptedData
+              console.log(data)
+              let {iv, encryptedData, rawData, signature} = data
+              // let iv = data.iv
+              // let encryptedData = data.encryptedData
               let recommendId = ''
               if (params) {
                 recommendId: params.id
@@ -367,6 +379,8 @@ App({
                 data: {
                   recommend_id: recommendId || 0,
                   code,
+                  rawData,
+                  signature,
                   iv,
                   encryptedData
                 },
@@ -457,7 +471,7 @@ App({
       },
       success (res) {
         wx.hideLoading()
-        if (res.data.code === 200) {
+        if (res.data.status === 200) {
           _this.setData({
             mCount: res.data.data.count
           })

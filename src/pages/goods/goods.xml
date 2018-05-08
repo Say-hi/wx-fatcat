@@ -1,18 +1,18 @@
 <view class='p20'>
     <navigator
-        url='../goodsDetail/goodsDetail?type={{ type }}&id={{ item.id }}'
+        url='../goodsDetail/goodsDetail?type={{ type }}&id={{ item.goods_id }}'
         wx:for='{{ goodsArr }}'
         wx:key="*321"
         class="goods bd1 p200">
         <image
-                mode="widthFix"
-                src='{{ item.img }}'></image>
+                mode="aspectFit"
+                src='{{ item.image }}'></image>
         <view class='other'>
-            <view class='f32 c000'>{{ item.title }}</view>
-            <view class='f36 main-text-color'>￥{{ item.sale_price }}</view>
+            <view class='f32 c000'>{{ item.goods_name }}</view>
+            <view class='f36 main-text-color'>￥{{ item.shop_os_price || item.shop_price }}</view>
             <view class='f24 c999'>
-                <text>￥{{ item.old }}</text>
-                <text>已售:{{ item.sale_count }}</text>
+                <text>￥{{ item.market_price || item.shop_price }}</text>
+                <text>已售:{{ item.sales_sum }}</text>
             </view>
         </view>
     </navigator>

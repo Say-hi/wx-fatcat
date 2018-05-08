@@ -1,5 +1,5 @@
 // 获取全局应用程序实例对象
-// const app = getApp()
+const app = getApp()
 let timer = null
 // 创建页面实例对象
 Page({
@@ -7,52 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    killArr: [
-      {
-        title: '阿斯顿发送到发多少发',
-        sale_price: '123.41',
-        old: '123',
-        sale_count: '123',
-        id: 123,
-        img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        startTime: '2018/04/16 18:00:00',
-        salePercent: 0.4,
-        endTime: '2018/04/17 19:00:00'
-      },
-      {
-        title: '阿斯顿发送到发多少发',
-        sale_price: '123.41',
-        old: '123',
-        sale_count: '123',
-        id: 123,
-        img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        startTime: '2018/04/16 18:00:00',
-        salePercent: 0.4,
-        endTime: '2018/04/16 19:00:00'
-      },
-      {
-        title: '阿斯顿发送到发多少发',
-        sale_price: '123.41',
-        old: '123',
-        sale_count: '123',
-        id: 123,
-        img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        startTime: '2018/04/16 18:00:00',
-        salePercent: 0.4,
-        endTime: '2018/04/16 19:00:00'
-      },
-      {
-        title: '阿斯顿发送到发多少发阿斯顿发送到发多少发阿斯顿发送到发多少发阿斯顿发送到发多少发',
-        sale_price: '123.41',
-        old: '123',
-        sale_count: '123',
-        id: 123,
-        img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        startTime: '2018/04/16 18:00:00',
-        salePercent: 0.4,
-        endTime: '2018/04/16 19:00:00'
-      }
-    ]
+    killArr: []
   },
   // 获取数据
   getIndex () {
@@ -68,8 +23,9 @@ Page({
           that.setData({
             killArr: res.data.data.FSList
           })
+          that.setKill()
         } else {
-          app.setToast(that, {content: res.data.mdg})
+          app.setToast(that, {content: res.data.msg})
         }
       }
     })
@@ -81,8 +37,8 @@ Page({
       let shutDown = 0
       for (let [i] of that.data.killArr.entries()) {
         let nowData = new Date().getTime() // 毫秒数
-        let startTime = new Date(that.data.killArr[i].startTime).getTime()
-        let endTime = new Date(that.data.killArr[i].endTime).getTime()
+        let startTime = that.data.killArr[i].start_time * 1000
+        let endTime = that.data.killArr[i].end_time * 1000
         if (nowData < startTime) { // 未开始
           that.data.killArr[i].status = 1
           that.data.killArr[i].h = Math.floor((startTime - nowData) / 3600000)
@@ -118,6 +74,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad () {
+    this.getIndex()
     // TODO: onLoad
   },
 
@@ -132,7 +89,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow () {
-    this.setKill()
+    // this.setKill()
     // TODO: onShow
   },
 

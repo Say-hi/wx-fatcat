@@ -7,11 +7,12 @@
   <view class="f32 cfff">等待买家付款</view>
   <view class="f24 cfff">{{ timeText ?  '剩余' + timeText + '付款, 超时将自动取消订单' : '该订单超时已取消' }}</view>
 </view>
-<view catchtap="chooseShopAddress" class="address">
+<!--<view catchtap="chooseShopAddress" class="address">-->
+<view class="address">
   <view class="iconfont p20 icon-xianxiamendian arrow f30 c666">
-    <picker bindchange="bindShopPickerChange" value="{{ shopIndex }}" range="{{ shopArr }}">
+    <picker bindchange="bindShopPickerChange" value="{{ shopIndex }}" range-key="pickup_name" range="{{ shopArr }}">
       <view class="picker">
-        {{ shopArr[shopIndex] }}
+        {{ shopArr[shopIndex].pickup_name }}
       </view>
     </picker>
   </view>
@@ -47,14 +48,14 @@
 <view class="goods-w">
   <view class="iconfont icon-dianpu lh70 f28 c333">肥猫团购商城</view>
   <view wx:for="{{ menuArr }}" wx:key="*32" class="goods">
-    <image src="{{ item.img }}"></image>
+    <image src="{{ item.image }}"></image>
     <view class="g-i">
-      <view class="f30 c333">{{ item.name }}</view>
+      <view class="f30 c333">{{ item.goods_name }}</view>
       <view class="g-b">
         <view class="f30 c333">
-          <text class="f24">￥</text>{{ item.salePrice }}
+          <text class="f24">￥</text>{{ item.goods_price }}
         </view>
-        <view class="f24 c999">×{{ item.num }}</view>
+        <view class="f24 c999">×{{ item.goods_num }}</view>
       </view>
     </view>
   </view>
@@ -72,16 +73,16 @@
   </navigator>
   <view class="g-d bd1 lh80 f24">
     <view class="c333 fw7">积分抵扣</view>
-    <view class="fuck-score {{ fuck_score ? '' : 'c999' }}"><view class="c333">可用<text class="main-text-color">12</text>积分　</view><text>-￥</text>{{ sendMoney }}　<switch color="#ff4344" bindchange="fuckScore"></switch></view>
+    <view class="fuck-score {{ fuck_score ? '' : 'c999' }}"><view class="c333">可用<text class="main-text-color">{{ userInfo.pay_points }}</text>积分　</view><text>-￥</text>{{ userInfo.pay_points / 100 }}　<switch color="#ff4344" bindchange="fuckScore"></switch></view>
   </view>
   <view class="g-d bd1 lh80 f24">
     <view class="c333 fw7">买家留言:</view>
-    <input placeholder="请输入您的留言"/>
+    <input bindinput="inputValue" placeholder="请输入您的留言"/>
   </view>
   <view class="g-d">
     <view>　</view>
     <view>
-      <text class="f24">共2件商品　小计:<text class="f28 main-text-color">￥{{ calculateMoney }}</text></text>
+      <text class="f24">共{{ allCount }}件商品　小计:<text class="f28 main-text-color">￥{{ calculateMoney }}</text></text>
     </view>
   </view>
 </view>
@@ -91,7 +92,7 @@
 <view class="m-bottom bd1">
   <!--<view class="iconfont icon-gouwuche cfff"><text class="f24 cfff">2</text></view>-->
   <view class="m-money tar p020">
-    <view class="f24 c333">合计金额: <text class="main-text-color f40">￥{{ calculateMoney }}</text></view>
+    <view class="f24 c333">合计金额: <text class="main-text-color f40">￥{{ fuck_score ? calculateMoney - (userInfo.pay_points / 100) : calculateMoney }}</text></view>
     <!--<view class="f22" style="color: #f60;">满20元起送</view>-->
   </view>
   <!--<view catchtap="showLostTime" class="f36 cfff confirm tac">提交订单</view>-->

@@ -33,7 +33,7 @@ Page({
       {
         i: 'icon-tejia',
         t: '今日特价',
-        url: '../goods/goods?type=special'
+        url: '../goods/goods?type=so'
       },
       {
         i: 'icon-miaosha',
@@ -104,8 +104,8 @@ Page({
       for (let [i] of that.data.killArr.entries()) {
         let nowData = new Date().getTime() // 毫秒数
         // console.log('startTime', new Date(that.data.killArr[i].startTime))
-        let startTime = that.data.killArr[i].start_time
-        let endTime = that.data.killArr[i].start_time
+        let startTime = that.data.killArr[i].start_time * 1000
+        let endTime = that.data.killArr[i].end_time * 1000
         // console.log(nowData, startTime, endTime)
         if (nowData < startTime) { // 未开始
           that.data.killArr[i].status = 1
@@ -147,7 +147,7 @@ Page({
       },
       success (res) {
         wx.hideLoading()
-        console.log(res)
+        // console.log(res)
         if (res.data.status === 200) {
           that.setData({
             bannerArr: res.data.data.ad1List,
@@ -157,6 +157,7 @@ Page({
             killArr: res.data.data.FSList,
             SOGList: res.data.data.SOGList
           })
+          that.setKill()
           for (let v of res.data.data.cpl) {
             v.use_start_time = new Date(v.use_start_time).toLocaleString()
             v.use_end_time = new Date(v.use_end_time).toLocaleString()
@@ -184,7 +185,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad () {
-    this.getIndex()
+    app.wxlogin(this.getIndex)
+    // this.getIndex()
     // console.dir(app.data)
   },
   /**
@@ -197,7 +199,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow () {
-    this.setKill()
     console.log(' ---------- onShow ----------')
   },
   /**
@@ -213,6 +214,9 @@ Page({
   onUnload () {
     clearInterval(timer)
     console.log(' ---------- onUnload ----------')
+  },
+  onShareAppMessage () {
+
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作

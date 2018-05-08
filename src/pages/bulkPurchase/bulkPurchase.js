@@ -1,44 +1,37 @@
 // 获取全局应用程序实例对象
-// const app = getApp()
+const app = getApp()
 
 // 创建页面实例对象
 Page({
   /**
    * 页面的初始数据
    */
-  data: {
-    goodsArr: [
-      {
-        title: '阿斯顿发送到发多少发',
-        sale_price: '123.41',
-        old: '123',
-        sale_count: '123',
-        id: 123,
-        img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg'
+  data: {},
+// 获取数据
+  getIndex () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().index,
+      data: {
+        act: 'gb'
       },
-      {
-        title: '阿斯顿发送到发多少发阿斯顿发送到发多少发阿斯顿发送到发多少发阿斯顿发送到发多少发阿斯顿发送到发多少发阿斯顿发送到发多少发',
-        sale_price: '123.41',
-        old: '123',
-        sale_count: '123',
-        id: 123,
-        img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg'
-      },
-      {
-        title: '阿斯顿发送到发多少发',
-        sale_price: '123.41',
-        old: '123',
-        sale_count: '123',
-        id: 123,
-        img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg'
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          that.setData({
+            goodsArr: res.data.data.GBList
+          })
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
       }
-    ]
+    })
   },
-
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad () {
+    this.getIndex()
     // TODO: onLoad
   },
 

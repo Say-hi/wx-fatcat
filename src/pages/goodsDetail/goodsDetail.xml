@@ -6,17 +6,17 @@
                   wx:key="*143">
       <image catchtap="{{ index == 0 ? 'showVideo': 'showImage' }}"
              data-index="{{ index }}"
-             mode="widthFix"
+             mode="aspectFit"
              class="{{ index == 0 ? 'iconfont icon-bofang' : '' }} {{ type != 'kill' ? 'bofang-center' : '' }}"
-             src="{{ item.img }}"></image>
+             src="{{ item.image_url }}"></image>
     </swiper-item>
   </swiper>
   <view wx:if="{{ type === 'kill' }}"
         class="kill pa">
     <view class="cfff k-left">
-      <view class="f44">￥9.9</view>
+      <view class="f44">￥{{ goodsInfo.shop_price }}</view>
       <view class="kill-b-l">
-        <view class="f24">￥108</view>
+        <view class="f24">￥{{ goodsInfo.market_price }}</view>
         <view class="iconfont f22 icon-miaosha1">
           秒杀商品
         </view>
@@ -39,15 +39,15 @@
     </view>
   </view>
 </view>
-<view class="f32 c000 p20">阿斯顿发送到发送到发发生发生地方阿斯顿发送到发送到发发生发生地方阿斯顿发送到发送到发发生发生地方</view>
-<view class="f36 main-text-color p020">￥9.9 <text wx:if="{{ type !== 'kill' }}" class="f30">/件</text>　<text wx:if="{{ type !== 'kill' }}" class="f30 c999 del-money">￥213</text></view>
+<view class="f32 c000 p20">{{ goodsInfo.goods_remark }}</view>
+<view class="f36 main-text-color p020">￥{{ goodsInfo.shop_price }} <text wx:if="{{ type !== 'kill' }}" class="f30">/件</text>　<text wx:if="{{ type !== 'kill' }}" class="f30 c999 del-money">￥{{ goodsInfo.market_price }}</text></view>
 <view class="f24 c999 sale p020 bd1">
   <view class="sale-left">
-    <text>已售: {{ type === 'kill' ? goodsInfo.salePercent * 100 : goodsInfo.saleCount }} <text wx:if="{{ type === 'kill' }}">%</text></text>
+    <text>已售: {{ type === 'kill' ? goodsInfo.per : goodsInfo.sales_sum }} <text wx:if="{{ type === 'kill' }}">%</text></text>
     <view wx:if="{{ type === 'kill' }}"
           class="content-length br14">
       <view class="content-length-in"
-            style="width: {{ 130 * goodsInfo.salePercent }}rpx"></view>
+            style="width: {{ 130 * (goodsInfo.per / 100) }}rpx"></view>
     </view>
   </view>
   <button catchtap="shareShow" class="iconfont icon-fenxiang main-text-color"></button>
@@ -107,19 +107,19 @@
   <view class="tab tab2 f28">
     <view data-index="1"
           class="{{ tabChooseNow2 == 1 ? 'active' : '' }} tac tab-item tr7 br5"
-          catchtap="tabChoose2">全部({{ comment.all || 0 }})</view>
+          catchtap="tabChoose2">全部({{ commentStatistics.c0 || 0 }})</view>
     <view data-index="2"
           class="{{ tabChooseNow2 == 2 ? 'active' : '' }} tac tab-item tr7 br5"
-          catchtap="tabChoose2">好评({{ comment.good || 0 }})</view>
+          catchtap="tabChoose2">好评({{ commentStatistics.c1 || 0 }})</view>
     <view data-index="3"
           class="{{ tabChooseNow2 == 3 ? 'active' : '' }} tac tab-item tr7 br5"
-          catchtap="tabChoose2">中评({{ comment.middle || 0 }})</view>
+          catchtap="tabChoose2">中评({{ commentStatistics.c2 || 0 }})</view>
     <view data-index="4"
           class="{{ tabChooseNow2 == 4 ? 'active' : '' }} tac tab-item tr7 br5"
-          catchtap="tabChoose2">差评({{ comment.bad || 0 }})</view>
+          catchtap="tabChoose2">差评({{ commentStatistics.c3 || 0 }})</view>
   </view>
   <view catchtap="onlyPic"
-        class="iconfont icon-queren c666 f24 {{ onlyPic ? 'active' : '' }}">晒图({{ item.photo || 0 }})</view>
+        class="iconfont icon-queren c666 f24 {{ onlyPic ? 'active' : '' }}">晒图({{ commentStatistics.c4 || 0 }})</view>
 
   <view class="c-right pr bd1"
         wx:key="*97"
@@ -148,7 +148,7 @@
 <view class="zw"></view>
 <view class="bottom-btn f20 c666 bt1">
     <navigator url="../index/index"
-               open-type="reLoad"
+               open-type="reLaunch"
                wx:if="{{ type != 'bulkP' }}"
                class='iconfont tac icon-shouye2'>首页</navigator>
     <navigator url='../car/car'
@@ -190,18 +190,19 @@
   <view class="buy-bottom">
     <view class="b-b-t bd1">
       <image class="br10"
-             src="{{ bannerArr[0].img }}"></image>
+             mode="widthFix"
+             src="{{ bannerArr[0].image_url }}"></image>
       <view class="b-b-t-r p20">
         <view catchtap="closeBuy"
-              class="f28 c333 iconfont icon-guanbi">阿斯顿发撒旦开发</view>
-        <view class="f36 main-text-color">￥68.00</view>
+              class="f28 c333 iconfont icon-guanbi">{{ goodsInfo.goods_name }}</view>
+        <view class="f36 main-text-color">￥{{ goodsInfo.shop_price }}</view>
         <view wx:if="{{ type == 'bulkP' }}"
-              class="f24 c999">2人团　原价:　￥88.00</view>
+              class="f24 c999">{{ goodsInfo.virtual_num }}人团　原价:　￥{{ goodsInfo.market_price }}</view>
       </view>
     </view>
     <view class="b-b-number p20">
       <view class="f30 c000">数量</view>
-      <view class="f24 c666">库存:2000</view>
+      <view class="f24 c666">库存:{{ goodsInfo.store_count }}</view>
       <view class="choose-count">
         <view catchtap="chooseMenuNum" data-type="del" data-index="{{ index }}" class="del order-btn cfff">-</view>
         <view class="order-num">{{ goodsInfo.num || 1 }}</view>
@@ -217,7 +218,7 @@
       class="mask">
 <video class='video-content'
        autoplay
-       src="{{ videoSrc }}"></video>
+       src="{{ goodsInfo.video }}"></video>
 <view catchtap="showVideo"
       class='video-content tac video-content-close-btn'>关闭</view>
 </view>

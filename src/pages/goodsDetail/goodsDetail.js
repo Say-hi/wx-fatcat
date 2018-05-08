@@ -10,21 +10,8 @@ Page({
   data: {
     tabChooseNow: '2',
     tabChooseNow2: '1',
+    page: 0,
     tipsArr: ['门店自提', '送货上门', '质量保证', '企业认证'],
-    bannerArr: [
-      {
-        img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        url: '../asdf/adsf'
-      },
-      {
-        img: 'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg',
-        url: '../asdf/adsf'
-      },
-      {
-        img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        url: '../asdf/adsf'
-      }
-    ],
     nowStartArr: [
       {
         src: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
@@ -48,18 +35,6 @@ Page({
         price: 456
       }
     ],
-    goodsInfo: {
-      id: 1,
-      img: 'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg',
-      title: '阿斯顿佛啊圣诞节快发拉萨的空间发阿斯顿飞考虑将阿斯顿飞',
-      salePrice: '9.00',
-      oldPrice: '10.00',
-      salePercent: 0.4,
-      saleCount: 500,
-      num: 1,
-      startTime: '2018/04/18 11:00:00',
-      endTime: '2018/04/25 19:00:00'
-    },
     videoSrc: 'http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400'
   },
   onlyPic () {
@@ -85,7 +60,7 @@ Page({
   showImage (e) {
     let showArray = []
     for (let v of this.data.bannerArr) {
-      showArray.push(v.img)
+      showArray.push(v.image_url)
     }
     app.showImg(e, showArray)
   },
@@ -94,8 +69,8 @@ Page({
     let that = this
     function kill () {
       let nowData = new Date().getTime() // 毫秒数
-      let startTime = new Date(that.data.goodsInfo.startTime).getTime()
-      let endTime = new Date(that.data.goodsInfo.endTime).getTime()
+      let startTime = that.data.goodsInfo.start_time * 1000
+      let endTime = that.data.goodsInfo.end_time * 1000
       if (nowData < startTime) { // 未开始
         that.data.goodsInfo.status = 1
         that.data.goodsInfo.h = Math.floor((startTime - nowData) / 3600000)
@@ -129,7 +104,7 @@ Page({
       let shutDown = 0
       for (let [i] of that.data.nowStartArr.entries()) {
         let nowData = new Date().getTime() // 毫秒数
-        let endTime = new Date(that.data.nowStartArr[i].endTime).getTime()
+        let endTime = that.data.nowStartArr[i].end_time
         if (nowData < endTime) { // 进行中
           that.data.nowStartArr[i].status = 2
           that.data.nowStartArr[i].h = Math.floor((endTime - nowData) / 3600000)
@@ -217,10 +192,10 @@ Page({
     let qrCode = null
     // let three = null
     // let four = null
-    app.downLoad(that.data.bannerArr[0].img)
+    app.downLoad(that.data.bannerArr[0].image_url)
       .then((res) => {
         bannerImg = res
-        return app.downLoad(that.data.goodsInfo.img)
+        return app.downLoad(that.data.bannerArr[0].image_url)
       })
       .then((res2) => {
         qrCode = res2
@@ -240,12 +215,12 @@ Page({
     ctx.setFillStyle('#000000')
     ctx.setTextAlign('left')
     ctx.setTextBaseline('middle')
-    ctx.fillText(that.data.goodsInfo.title.slice(0, 8) + '...', ctxW / 2 - 90 * XS, 170 * XS + 30)
+    ctx.fillText(that.data.goodsInfo.goods_remark.slice(0, 8) + '...', ctxW / 2 - 90 * XS, 170 * XS + 30)
     ctx.setFontSize(22 * XS)
     ctx.setFillStyle('#ff4344')
     ctx.setTextAlign('left')
     ctx.setTextBaseline('middle')
-    ctx.fillText('￥' + that.data.goodsInfo.salePrice, ctxW / 2 - 90 * XS, 170 * XS + 60)
+    ctx.fillText('￥' + that.data.goodsInfo.shop_price, ctxW / 2 - 90 * XS, 170 * XS + 60)
     ctx.setFillStyle('#f9f9f9')
     ctx.fillRect(ctxW / 2 - 90 * XS, 170 * XS + 80, ctxW - 30 * XS, 2)
     ctx.setFontSize(14 * XS)
@@ -277,6 +252,7 @@ Page({
   // 购买弹窗
   closeBuy (e) {
     if (this.data.type === 'kill' && this.data.goodsInfo.status === 3) return app.setToast(this, {content: '秒杀活动已结束'})
+    if (this.data.type === 'special' && !this.data.goodsInfo.activity_is_on) return app.setToast(this, {content: '亲，本商品特价活动已结束'})
     let that = this
     let time = 0
     if (this.data.buy) {
@@ -305,6 +281,8 @@ Page({
       if (!this.data.goodsInfo.num) {
         this.data.goodsInfo.num = 1
       } else {
+        if (this.data.goodsInfo.buy_limit <= this.data.goodsInfo.num) return app.setToast(this, {content: `亲，每人限购${this.data.goodsInfo.buy_limit}件哦`})
+        if (this.data.goodsInfo.store_count <= this.data.goodsInfo.num) return app.setToast(this, {content: '超出库存啦'})
         ++this.data.goodsInfo.num
       }
     }
@@ -321,7 +299,7 @@ Page({
       goodsStorage.push(vv)
     } else {
       for (let [i, m] of goodsStorage.entries()) {
-        if (m.id === vv.id) { // 缓存中存在该项,重新赋值，跳出循环
+        if (m.goods_id === vv.goods_id) { // 缓存中存在该项,重新赋值，跳出循环
           goodsStorage[i] = vv
           break
         } else if (i === goodsStorage.length - 1) {
@@ -331,11 +309,30 @@ Page({
     }
     app.su('goodsStorage', goodsStorage)
   },
+  // 将物品添加至后台购物车
+  addToCar () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().addCar,
+      data: {
+        goods_id: that.data.goodsInfo.goods_id,
+        goods_num: that.data.goodsInfo.num || 1
+      },
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 1) {
+          that.closeBuy()
+        } else if (res.data.status === -4) {
+          app.setToast(that, {content: res.data.msg})
+          that.closeBuy()
+        }
+      }
+    })
+  },
   // 购买确认
   buyConfirm () {
     if (this.data.buyType === 'car') {
-      this.setGoodsStorage()
-      this.closeBuy()
+      this.addToCar()
     } else {
       app.su('goodsStorageNow', this.data.goodsInfo)
     }
@@ -343,6 +340,92 @@ Page({
   showVideo () {
     this.setData({
       videoShow: !this.data.videoShow
+    })
+  },
+  getGoodsInfo (id) {
+    let that = this
+    if (this.data.type === 'bulkP') {
+      wx.getLocation({
+        type: 'gcj02 ',
+        success (res) {
+          app.wxrequest({
+            url: app.getUrl().goodsInfo,
+            data: {
+              id,
+              lat: res.latitude,
+              log: res.longitude
+            },
+            success (res) {
+              wx.hideLoading()
+              if (res.data.status === 200) {
+                app.WP('introduce', 'html', res.data.data.goods.goods_content, that, 5)
+                that.setData({
+                  goodsInfo: res.data.data.goods,
+                  bannerArr: res.data.data.goodsImagesList,
+                  commentStatistics: res.data.data.commentStatistics
+                })
+                that.getComment(1)
+                if (that.data.type === 'kill') {
+                  that.setKill()
+                } else if (that.data.type === 'bulkP') {
+                  that.lostTime()
+                }
+              } else {
+                app.setToast(that, {content: res.data.msg})
+              }
+            }
+          })
+        },
+        fail (res) {
+          console.log('err', res)
+          app.setToast(that, {content: '未授权地理位置信息，无法获取附近的拼团'})
+        }
+      })
+    } else {
+      app.wxrequest({
+        url: app.getUrl().goodsInfo,
+        data: {
+          id
+        },
+        success (res) {
+          wx.hideLoading()
+          if (res.data.status === 200) {
+            app.WP('introduce', 'html', res.data.data.goods.goods_content, that, 5)
+            that.setData({
+              goodsInfo: res.data.data.goods,
+              bannerArr: res.data.data.goodsImagesList,
+              commentStatistics: res.data.data.commentStatistics
+            })
+            that.getComment(1)
+            if (that.data.type === 'kill') {
+              that.setKill()
+            } else if (that.data.type === 'bulkP') {
+              that.lostTime()
+            }
+          } else {
+            app.setToast(that, {content: res.data.msg})
+          }
+        }
+      })
+    }
+  },
+  getComment (commentType) {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().ajaxComment,
+      data: {
+        goods_id: that.data.goodsInfo.goods_id,
+        commentType,
+        p: that.data.page++
+      },
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          console.log(res)
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
     })
   },
   /**
@@ -362,6 +445,7 @@ Page({
         })
       }
     })
+    this.getGoodsInfo(options.id)
     // TODO: onLoad
   },
 
@@ -376,11 +460,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow () {
-    if (this.data.type === 'kill') {
-      this.setKill()
-    } else if (this.data.type === 'bulkP') {
-      this.lostTime()
-    }
     // TODO: onShow
   },
 
@@ -413,8 +492,8 @@ Page({
     let that = this
     return {
       title: '您的好友向您分享了好产品',
-      path: `pages/goodsDetail/goodsDetail?type=${that.data.type}?id=${that.data.goodsInfo.id}`,
-      imageUrl: that.data.bannerArr[0].img
+      path: `pages/goodsDetail/goodsDetail?type=${that.data.type}?id=${that.data.goodsInfo.goods_id}`,
+      imageUrl: that.data.bannerArr[0].image_url
     }
   }
 })

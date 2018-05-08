@@ -5,19 +5,19 @@
             wx:key="*321"
             class="goods bd1 p200">
         <image
-                mode="widthFix"
-                src='{{ item.img }}'></image>
+                mode="aspectFit"
+                src='{{ item.image }}'></image>
         <view class='other'>
             <view class='f32 c000'>{{ item.title }}</view>
             <view class='f36 main-text-color'>
-                <view class='f20 cfff lh30 tac p020'>2人拼团价</view>
-                <view>￥{{ item.sale_price }}</view>
+                <view class='f20 cfff lh30 tac p020'>{{ item.virtual_num }}人拼团价</view>
+                <view>￥{{ item.price }}</view>
                 <view data-id="{{ item.id }}"
                       class='f24 cfff br44 lh40 tac p020'>去开团</view>
             </view>
             <view class='f24 c999'>
-                <text>￥{{ item.old }}</text>
-                <text>已售:{{ item.sale_count }}</text>
+                <text>￥{{ item.goods_price }}</text>
+                <text>已售:{{ item.buy_num }}</text>
             </view>
         </view>
     </navigator>

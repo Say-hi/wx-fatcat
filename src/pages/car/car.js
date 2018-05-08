@@ -8,38 +8,149 @@ Page({
    */
   data: {
     allMoney: 0,
-    src: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg'
+    menuArr: []
+  },
+  // 修改购物车商品数量
+  changeGoodsNum (e) {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().changeNum,
+      data: {
+        id: that.data.menuArr[e.currentTarget.dataset.index].id,
+        goods_num: e.currentTarget.dataset.type === 'del' ? --that.data.menuArr[e.currentTarget.dataset.index].goods_num : ++that.data.menuArr[e.currentTarget.dataset.index].goods_num
+      },
+      success (res) {
+        wx.hideLoading()
+        that.data.flag = false
+        if (res.data.status === 200) {
+          that.setData({
+            menuArr: that.data.menuArr
+          })
+          that.calculatorMoney()
+        } else {
+          e.currentTarget.dataset.type === 'del' ? ++that.data.menuArr[e.currentTarget.dataset.index].goods_num : --that.data.menuArr[e.currentTarget.dataset.index].goods_num
+          that.setData({
+            menuArr: that.data.menuArr
+          })
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
+    })
   },
   // 菜单页数量选择
   chooseMenuNum (e) {
-    if (e.currentTarget.dataset.type === 'del') {
-      --this.data.menuArr[e.currentTarget.dataset.index].num
-    } else {
-      if (!this.data.menuArr[e.currentTarget.dataset.index].num) {
-        this.data.menuArr[e.currentTarget.dataset.index].num = 1
-      } else {
-        ++this.data.menuArr[e.currentTarget.dataset.index].num
+    if (this.data.flag) return
+    this.data.flag = true
+    this.changeGoodsNum(e)
+    // this.setData({
+    //   menuArr: this.data.menuArr
+    // })
+  },
+  // 将物品添加至后台购物车
+  addToCar (v, i) {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().addCar,
+      data: {
+        goods_id: v.goods_id,
+        goods_num: v.num
+      },
+      success (res) {
+        wx.hideLoading()
+        if (i * 1 === that.data.menuArr.length - 1) {
+          console.log('last')
+        }
       }
-    }
-    this.setData({
-      menuArr: this.data.menuArr
     })
-    this.calculatorMoney()
+  },
+  // 修改购物车选中状态
+  AsyncUpdateCart () {
+    let that = this
+    let cart = []
+    for (let v of that.data.menuArr) {
+      cart.push({
+        id: v.id,
+        goods_num: v.goods_num,
+        selected: v.selected
+      })
+    }
+    app.wxrequest({
+      url: app.getUrl().AsyncUpdateCart,
+      // header: 'application/json',
+      data: {
+        cart: JSON.stringify(cart)
+      },
+      success (res) {
+        wx.hideLoading()
+        console.log(res)
+        if (res.data.status === 1) {
+          wx.navigateTo({
+            url: `../submitOrder/submitOrder?money=${res.data.result.total_fee}`
+          })
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
+    })
   },
   // 确认订单
   confirm () {
-    wx.navigateTo({
-      url: `../submitOrder/submitOrder?money=${this.data.allMoney}`
+    // for (let [i, v] of this.data.menuArr.entries()) {
+    //   this.addToCar(v, i)
+    // }
+    this.AsyncUpdateCart()
+  },
+  // 获取购物车列表
+  getCarList () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().carList,
+      data: {},
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          that.setData({
+            menuArr: res.data.data.cartList
+          })
+          that.calculatorMoney()
+          for (let v of res.data.data.cartList) {
+            if (v.selected * 1 === 0) return
+          }
+          that.setData({
+            all: true
+          })
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
     })
   },
-  // 删除当前物品
+  // 删除购物车商品
   del (e) {
-    this.data.menuArr.splice(e.currentTarget.dataset.index, 1)
-    this.setData({
-      menuArr: this.data.menuArr
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().delete,
+      data: {
+        id: that.data.menuArr[e.currentTarget.dataset.index].id
+      },
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          that.data.menuArr.splice(e.currentTarget.dataset.index, 1)
+          that.setData({
+            menuArr: that.data.menuArr
+          })
+          that.calculatorMoney()
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
     })
-    this.calculatorMoney()
   },
+  // // 删除当前物品
+  // del (e) {
+  //
+  // },
   // 编辑
   setting () {
     this.setData({
@@ -49,10 +160,15 @@ Page({
   // 计算总价格
   calculatorMoney () {
     let allMoney = 0
-    app.su('goodsStorage', this.data.menuArr)
-    for (let v of app.gs('goodsStorage')) {
-      if (v.num && v.checked) {
-        allMoney += v.num * v.salePrice
+    // app.su('goodsStorage', this.data.menuArr)
+    // for (let v of app.gs('goodsStorage')) {
+    //   if (v.num && v.checked) {
+    //     allMoney += v.num * v.shop_price
+    //   }
+    // }
+    for (let v of this.data.menuArr) {
+      if (v.goods_num && !!v.selected) {
+        allMoney += v.goods_num * v.goods_price
       }
     }
     this.setData({
@@ -64,7 +180,7 @@ Page({
     if (must === 'must') {
       // console.log(1)
       for (let v of this.data.menuArr) {
-        v['checked'] = true
+        v['selected'] = 1
       }
       this.setData({
         all: true,
@@ -73,7 +189,7 @@ Page({
     } else {
       // console.log(2)
       for (let v of this.data.menuArr) {
-        v['checked'] = !this.data.all
+        v['selected'] = this.data.all ? 0 : 1
       }
       this.setData({
         all: !this.data.all,
@@ -84,9 +200,9 @@ Page({
   },
   // 多项选择
   choose (e) {
-    this.data.menuArr[e.currentTarget.dataset.index].checked = !this.data.menuArr[e.currentTarget.dataset.index].checked
+    this.data.menuArr[e.currentTarget.dataset.index].selected = this.data.menuArr[e.currentTarget.dataset.index].selected * 1 === 1 ? 0 : 1
     for (let [i, v] of this.data.menuArr.entries()) {
-      if (!v.checked) {
+      if (!v.selected) {
         this.setData({
           all: false,
           menuArr: this.data.menuArr
@@ -121,16 +237,17 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow () {
-    if (app.gs('goodsStorage')) {
-      this.setData({
-        menuArr: app.gs('goodsStorage')
-      })
-      this.chooseAll('must')
-    } else {
-      this.setData({
-        menuArr: []
-      })
-    }
+    // if (app.gs('goodsStorage')) {
+    //   this.setData({
+    //     menuArr: app.gs('goodsStorage')
+    //   })
+    //   this.chooseAll('must')
+    // } else {
+    //   this.setData({
+    //     menuArr: []
+    //   })
+    // }
+    this.getCarList()
     // TODO: onShow
   },
 

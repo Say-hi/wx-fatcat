@@ -8,12 +8,11 @@ Page({
    */
   data: {
     active: 2,
-    img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-    sendMoney: 20,
+    sendMoney: 0,
     timeIndex: 0,
     shopIndex: 0,
     timeArr: ['12:00-14:00', '14:00-16:00', '12:00-14:00', '14:00-16:00'],
-    shopArr: ['选择您附近的门店地址', 'asdfasdf', 'asdfasdf', 'asdfasdfasdfsda']
+    shopArr: [{pickup_name: '选择您附近的门店地址'}]
   },
   fuckScore (e) {
     this.setData({
@@ -27,7 +26,7 @@ Page({
   },
   bindShopPickerChange (e) {
     this.setData({
-      shopIndex: e.detail.value
+      shopIndex: e.detail.value * 1
     })
   },
   chooseSendType (e) {
@@ -79,6 +78,7 @@ Page({
   },
   // 选择支付方式
   choosePay () {
+    if (!this.data.shopIndex) return app.setToast(this, {content: '请选择您附近的门店地址'})
     if (!this.data.addressInfo) return app.setToast(this, {content: '请选择您的收货地址'})
     wx.showActionSheet({
       itemList: ['微信支付', '猫豆支付', '找人代付'],
@@ -110,7 +110,7 @@ Page({
   },
   // 倒计时
   showLostTime (startTime) {
-    let endTime = new Date(startTime).getTime() + 900000 // 超时15分钟
+    let endTime = startTime * 1000 + 900000 // 超时15分钟
     let timer = setInterval(() => {
       if (endTime - new Date().getTime() <= 0) {
         // todo 取消订单
@@ -131,6 +131,53 @@ Page({
       })
     }, 100)
   },
+  // 获取购物车列表
+  getCarList () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().cart2,
+      data: {},
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          that.setData({
+            menuArr: res.data.data.cartList,
+            sendMoney: res.data.data.cartPriceInfo.shipping_price || 0,
+            userInfo: res.data.data.user,
+            allCount: res.data.data.cartPriceInfo.goods_num,
+            shopArr: that.data.shopArr.concat(res.data.data.pickupList)
+          })
+          that.calculateMoney()
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
+    })
+  },
+  inputValue (e) {
+    this.setData({
+      userNote: e.detail.value
+    })
+  },
+  // 提交订单
+  submitOrder () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().cart3,
+      data: {
+        address: that.data.addressInfo.provinceName + that.data.addressInfo.cityName + that.data.addressInfo.countyName + that.data.addressInfo.detailInfo,
+        consignee: that.data.addressInfo.userName,
+        mobile: that.data.addressInfo.telNumber,
+        pay_points: that.data.fuck_score ? that.data.userInfo.pay_points : 0,
+        act: 'submit_order',
+        user_note: that.data.userNote || ''
+      },
+      success (res) {
+        wx.hideLoading()
+        console.log(res)
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -146,6 +193,7 @@ Page({
     if (options.time) {
       this.showLostTime(options.time)
     }
+    this.getCarList()
     // this.calculateMoney()
     // TODO: onLoad
   },
@@ -161,17 +209,17 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow () {
-    if (app.gs('useCoupon')) {
-      this.setData({
-        useCoupon: app.gs('useCoupon')
-      })
-    }
-    if (app.gs('addressInfo')) {
-      this.setData({
-        addressInfo: app.gs('addressInfo')
-      })
-    }
-    this.calculateMoney()
+    // if (app.gs('useCoupon')) {
+    //   this.setData({
+    //     useCoupon: app.gs('useCoupon')
+    //   })
+    // }
+    // if (app.gs('addressInfo')) {
+    //   this.setData({
+    //     addressInfo: app.gs('addressInfo')
+    //   })
+    // }
+    // this.calculateMoney()
     // TODO: onShow
   },
 
