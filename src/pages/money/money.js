@@ -1,5 +1,5 @@
 // 获取全局应用程序实例对象
-// const app = getApp()
+const app = getApp()
 
 // 创建页面实例对象
 Page({
@@ -8,6 +8,9 @@ Page({
    */
   data: {
     title: 'money',
+    userMoney: '0.00',
+    page: 0,
+    lists: [],
     show: false
   },
   show () {
@@ -20,13 +23,41 @@ Page({
       show: false
     })
   },
+  // 获取交易流水
+  getData (p) {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().recharge,
+      data: {
+        type: 1,
+        p
+      },
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === '200') {
+          console.log(res)
+          if (res.data.data.lists.length) {
+            for (let v of res.data.data.lists) {
+              v.change_time = new Date(v.change_time * 1000).toLocaleString()
+            }
+          }
+          that.setData({
+            lists: that.data.lists.concat(res.data.data.lists),
+            userMoney: res.data.data.user_money,
+            more: res.data.data.lists.length < 10 ? 0 : 1
+          })
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad () {
     // TODO: onLoad
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -38,9 +69,16 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow () {
+    this.setData({
+      page: 0
+    })
+    this.getData(++this.data.page)
     // TODO: onShow
   },
-
+  onReachBottom () {
+    if (!this.data.more) return app.setToast(this, {content: '没有更多数据啦~'})
+    this.getData(++this.data.page)
+  },
   /**
    * 生命周期函数--监听页面隐藏
    */

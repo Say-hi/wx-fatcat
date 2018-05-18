@@ -15,6 +15,8 @@ let serviceUrl = {
   cart2: baseDomain + '/Api/Cart/cart2',
   cart3: baseDomain + '/Api/Cart/cart3',
   orderList: baseDomain + '/Api/Order/order_list',
+  recharge: baseDomain + '/Api/User/recharge',
+  userInfo: baseDomain + '/Api/User/index',
   addCar: baseDomain + '/Api/Cart/ajaxAddCart'
 }
 module.exports = serviceUrl

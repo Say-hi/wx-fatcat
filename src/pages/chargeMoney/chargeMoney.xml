@@ -1,5 +1,5 @@
 <view class="user-money p20 lh40">
-  <text class="f28 c333">当前剩余猫豆:　<text class="f30">256.65</text></text>
+  <text class="f28 c333">当前剩余猫豆:　<text class="f30">{{ userMoney }}</text></text>
   <text class="main-text-color f22">1猫豆=1元</text>
 </view>
 

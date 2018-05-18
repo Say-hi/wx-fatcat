@@ -11,6 +11,7 @@ Page({
     tabChooseNow: '2',
     tabChooseNow2: '1',
     page: 0,
+    commentArr: [],
     tipsArr: ['门店自提', '送货上门', '质量保证', '企业认证'],
     nowStartArr: [
       {
@@ -53,8 +54,11 @@ Page({
   tabChoose2 (e) {
     if (e.currentTarget.dataset.index === this.data.tabChooseNow2) return
     this.setData({
-      tabChooseNow2: e.currentTarget.dataset.index
+      tabChooseNow2: e.currentTarget.dataset.index,
+      page: 0,
+      commentArr: []
     })
+    this.getComment(e.currentTarget.dataset.index)
   },
   // 放大图片
   showImage (e) {
@@ -104,7 +108,7 @@ Page({
       let shutDown = 0
       for (let [i] of that.data.nowStartArr.entries()) {
         let nowData = new Date().getTime() // 毫秒数
-        let endTime = that.data.nowStartArr[i].end_time
+        let endTime = that.data.nowStartArr[i].end_time * 1000
         if (nowData < endTime) { // 进行中
           that.data.nowStartArr[i].status = 2
           that.data.nowStartArr[i].h = Math.floor((endTime - nowData) / 3600000)
@@ -253,16 +257,20 @@ Page({
   closeBuy (e) {
     if (this.data.type === 'kill' && this.data.goodsInfo.status === 3) return app.setToast(this, {content: '秒杀活动已结束'})
     if (this.data.type === 'special' && !this.data.goodsInfo.activity_is_on) return app.setToast(this, {content: '亲，本商品特价活动已结束'})
+    if (e && e.currentTarget.dataset.type === 'buy' && e.currentTarget.dataset.end * 1 === 1) return app.setToast(this, {content: '亲，该拼团已经结束了哦'})
     let that = this
     let time = 0
     if (this.data.buy) {
       this.setData({
-        small: true
+        small: true,
+        bulkpChoose: -1
       })
       time = 600
     } else {
       this.setData({
-        small: false
+        small: false,
+        bulkpChoose: (e.currentTarget.dataset.index * 1 === 0 ? 0 : e.currentTarget.dataset.index) || -1,
+        bulkpSelf: e.currentTarget.dataset.self ? 1 : 0
       })
     }
     setTimeout(() => {
@@ -334,8 +342,32 @@ Page({
     if (this.data.buyType === 'car') {
       this.addToCar()
     } else {
-      app.su('goodsStorageNow', this.data.goodsInfo)
+      if (this.data.bulkpSelf) {
+        wx.navigateTo({
+          url: `../submitOrder/submitOrder?type=bulkpBuyNow&id=${this.data.goodsInfo.goods_id}&num=${this.data.goodsInfo.num}&group_by=${this.data.bulkpSelf}&prom_id=${this.data.goodsInfo}`
+        })
+      } else {
+        wx.navigateTo({
+          url: `../submitOrder/submitOrder?type=buyNow&id=${this.data.goodsInfo.goods_id}&num=${this.data.goodsInfo.num || 1}`
+        })
+      }
+      // app.su('goodsStorageNow', this.data.goodsInfo)
     }
+  },
+  // 立即购买
+  buyNow () {
+    // app.wxrequest({
+    //   url: app.getUrl().cart2,
+    //   data: {
+    //     action: 'buy_now',
+    //     goods_id: that.data.goodsInfo.goods_id,
+    //     goods_num: that.data.goodsInfo.num || 1
+    //   },
+    //   success (res) {
+    //     wx.hideLoading()
+    //     console.log(res)
+    //   }
+    // })
   },
   showVideo () {
     this.setData({
@@ -362,7 +394,8 @@ Page({
                 that.setData({
                   goodsInfo: res.data.data.goods,
                   bannerArr: res.data.data.goodsImagesList,
-                  commentStatistics: res.data.data.commentStatistics
+                  commentStatistics: res.data.data.commentStatistics,
+                  nowStartArr: res.data.data.groupList
                 })
                 that.getComment(1)
                 if (that.data.type === 'kill') {
@@ -416,12 +449,18 @@ Page({
       data: {
         goods_id: that.data.goodsInfo.goods_id,
         commentType,
-        p: that.data.page++
+        p: ++that.data.page
       },
       success (res) {
         wx.hideLoading()
         if (res.data.status === 200) {
-          console.log(res)
+          for (let v of res.data.data.commentlist) {
+            v.add_time = new Date(v.add_time * 1000).toLocaleDateString()
+          }
+          that.setData({
+            commentArr: that.data.commentArr.concat(res.data.data.commentlist),
+            more: res.data.data.commentlist.length < 10 ? 0 : 1
+          })
         } else {
           app.setToast(that, {content: res.data.msg})
         }
@@ -448,7 +487,10 @@ Page({
     this.getGoodsInfo(options.id)
     // TODO: onLoad
   },
-
+  onReachBottom () {
+    if (!this.data.more) return app.setToast(this, {content: '没有更多内容了'})
+    this.getComment(this.data.tabChooseNow2)
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

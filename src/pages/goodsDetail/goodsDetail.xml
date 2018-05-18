@@ -75,17 +75,19 @@
         wx:key="*687"
         class="p200 now-bp-w">
     <image class="br"
-           src="{{ item.src }}"></image>
+           src="{{ item.image }}"></image>
     <view class="now-bp-t">
-      <text class="f26 c000">{{ item.name }}</text>
-      <text class="f24 c999" wx:if="{{ item.status == 2 }}">还差<text class="main-text-color">{{item.need}}</text>人 剩余{{ item.h }}:{{ item.m }}:{{ item.s }} </text>
+      <text class="f26 c000">{{ item.title }}</text>
+      <text class="f24 c999" wx:if="{{ item.status == 2 }}">还差<text class="main-text-color">{{item.virtual_num - item.success_order_num}}</text>人 剩余{{ item.h }}:{{ item.m }}:{{ item.s }} </text>
       <text class="f24 c999" wx:if="{{ item.status == 3 }}">拼团已结束</text>
     </view>
     <view>
-      <text class="f32 main-text-color">￥49.99</text>
+      <text class="f32 main-text-color">￥{{ item.price }}</text>
       <text wx:if="{{ item.status != 3 }}"
             catchtap="closeBuy"
             data-type="buy"
+            data-end="{{ item.is_end * 1 }}"
+            data-index="{{ index }}"
             class="f26 cfff join br5">去参团</text>
     </view>
   </view>
@@ -124,23 +126,25 @@
   <view class="c-right pr bd1"
         wx:key="*97"
         wx:for="{{ commentArr }}">
-    <image src="http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg"
+    <image src="{{ item.head_pic }}"
            class="br user-img pa"></image>
     <view class="f24 c666 c-t">
-      <text>asdf</text><text class="f22 c999">321346354321</text>
+      <text>{{ item.username }}</text><text class="f22 c999">{{ item.add_time }}</text>
     </view>
     <view class="star">
       <text wx:for="12345"
             wx:key="*97"
-            class="iconfont icon-xingxing {{ item.score > index ? 'active' : '' }}"></text>
+            wx:for-item="sitem"
+            class="iconfont icon-xingxing {{ item.goods_rank > index ? 'active' : '' }}"></text>
     </view>
-    <view class="user-t f24 c333">asdfsadf阿斯顿发撒旦法阿斯顿发撒旦法阿斯顿发阿斯顿发撒旦发生地方</view>
-    <view class="user-pic">
-      <image wx:for="{{ bannerArr }}"
+    <view class="user-t f24 c333">{{ item.content }}</view>
+    <view wx:if="{{ onlyPic }}" class="user-pic">
+      <image wx:for="{{ item.img }}"
              wx:key="*364"
+             wx:for-item="iitem"
              mode="aspectFit"
              catchtap="showImg"
-             src="{{ item.img }}"></image>
+             src="{{ iitem }}"></image>
     </view>
   </view>
   <view class="tac f32 c999 lh80">{{ commentArr.length ? more ? '加载更多' : '没有更多了' : '暂无相关评论' }}</view>
@@ -156,8 +160,8 @@
                wx:if="{{ type != 'bulkP' }}"
                class='iconfont tac icon-gouwucheman'>购物车</navigator>
     <view catchtap="closeBuy" data-type="car" wx:if="{{ type != 'bulkP' }}" class='f32 tac cfff'>加入购物车</view>
-    <view catchtap="closeBuy" data-type="buy" wx:if="{{ type != 'bulkP' }}" class='f32 tac cfff'>立即购买</view>
-    <view catchtap="closeBuy" data-type="buy" wx:if="{{ type == 'bulkP' }}" class="f32 tac cfff">单独购买￥123</view>
+    <view catchtap="closeBuy" data-type="buy" data-now="now" wx:if="{{ type != 'bulkP' }}" class='f32 tac cfff'>立即购买</view>
+    <view catchtap="closeBuy" data-type="buy" data-self="self" wx:if="{{ type == 'bulkP' }}" class="f32 tac cfff">单独购买￥123</view>
     <view catchtap="closeBuy" data-type="buy" wx:if="{{ type == 'bulkP' }}" class="f32 tac cfff">发起拼团￥23</view>
 </view>
 <view wx:if="{{ shareChoose }}"
@@ -196,8 +200,10 @@
         <view catchtap="closeBuy"
               class="f28 c333 iconfont icon-guanbi">{{ goodsInfo.goods_name }}</view>
         <view class="f36 main-text-color">￥{{ goodsInfo.shop_price }}</view>
-        <view wx:if="{{ type == 'bulkP' }}"
+        <view wx:if="{{ type == 'bulkP' && bulkpChoose < 0 }}"
               class="f24 c999">{{ goodsInfo.virtual_num }}人团　原价:　￥{{ goodsInfo.market_price }}</view>
+        <view wx:if="{{ type == 'bulkP' && bulkpChoose >= 0  }}"
+              class="f24 c999">{{ nowStartArr[bulkpChoose].virtual_num }}人团　原价:　￥{{ nowStartArr[bulkpChoose].goods_price }}</view>
       </view>
     </view>
     <view class="b-b-number p20">

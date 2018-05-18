@@ -92,7 +92,7 @@
 <view class="m-bottom bd1">
   <!--<view class="iconfont icon-gouwuche cfff"><text class="f24 cfff">2</text></view>-->
   <view class="m-money tar p020">
-    <view class="f24 c333">合计金额: <text class="main-text-color f40">￥{{ fuck_score ? calculateMoney - (userInfo.pay_points / 100) : calculateMoney }}</text></view>
+    <view class="f24 c333">合计金额: <text class="main-text-color f40">￥{{ calculateMoney }}</text></view>
     <!--<view class="f22" style="color: #f60;">满20元起送</view>-->
   </view>
   <!--<view catchtap="showLostTime" class="f36 cfff confirm tac">提交订单</view>-->

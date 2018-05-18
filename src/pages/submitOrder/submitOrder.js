@@ -18,6 +18,7 @@ Page({
     this.setData({
       fuck_score: e.detail.value
     })
+    this.calculateMoney()
   },
   bindPickerChange (e) {
     this.setData({
@@ -105,7 +106,7 @@ Page({
   // 计算价格
   calculateMoney () {
     this.setData({
-      calculateMoney: this.data.useCoupon ? this.data.allMoney * 1 + this.data.sendMoney * 1 - this.data.useCoupon.del : this.data.allMoney * 1 + this.data.sendMoney * 1
+      calculateMoney: (this.data.useCoupon ? this.data.fuck_score ? this.data.allMoney - this.data.useCoupon.del - this.data.userInfo.pay_points / 100 : this.data.allMoney - this.data.useCoupon.del : this.data.fuck_score ? this.data.allMoney - this.data.userInfo.pay_points / 100 : this.data.allMoney).toFixed(2)
     })
   },
   // 倒计时
@@ -132,17 +133,22 @@ Page({
     }, 100)
   },
   // 获取购物车列表
-  getCarList () {
+  getCarList (options) {
     let that = this
+    let data = {}
+    if (options.type === 'buyNow') {
+      data = Object.assign({action: 'buy_now', goods_id: options.id, goods_num: options.num})
+    }
     app.wxrequest({
       url: app.getUrl().cart2,
-      data: {},
+      data,
       success (res) {
         wx.hideLoading()
         if (res.data.status === 200) {
           that.setData({
             menuArr: res.data.data.cartList,
-            sendMoney: res.data.data.cartPriceInfo.shipping_price || 0,
+            sendMoney: res.data.data.cartPriceInfo.shipping_price || 0, // 送货费
+            allMoney: res.data.data.cartPriceInfo.total_fee * 1 || 0, // 商品当前总价
             userInfo: res.data.data.user,
             allCount: res.data.data.cartPriceInfo.goods_num,
             shopArr: that.data.shopArr.concat(res.data.data.pickupList)
@@ -186,14 +192,14 @@ Page({
     // new Date(new Date().getTime() + 1500000)
     this.setData({
       lostTime: options.type === 'second' ? true : false,
-      menuArr: app.gs('goodsStorage'),
+      // menuArr: app.gs('goodsStorage'),
       sendTime: new Date(new Date().getTime() + 1500000).toLocaleString(),
       allMoney: options.money || 0
     })
     if (options.time) {
       this.showLostTime(options.time)
     }
-    this.getCarList()
+    this.getCarList(options)
     // this.calculateMoney()
     // TODO: onLoad
   },

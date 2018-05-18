@@ -33,7 +33,10 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad () {
+  onLoad (options) {
+    this.setData({
+      userMoney: options.userMoney || 0
+    })
     // TODO: onLoad
   },
 

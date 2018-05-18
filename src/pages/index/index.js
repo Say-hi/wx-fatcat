@@ -7,20 +7,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    bannerArr: [
-      {
-        img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        url: '../asdf/adsf'
-      },
-      {
-        img: 'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg',
-        url: '../asdf/adsf'
-      },
-      {
-        img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        url: '../asdf/adsf'
-      }
-    ],
     indicatorColor: 'rgba(0, 0, 0, 0.1)',
     indicatorActiveColor: '#000000',
     show: true,
@@ -44,39 +30,6 @@ Page({
         i: 'icon-fensix',
         t: '拼团',
         url: '../bulkPurchase/bulkPurchase'
-      }
-    ],
-    announcement: '阿斯顿佛啊圣诞节快发拉萨的空间发阿斯顿飞考虑将阿斯顿飞',
-    killArr: [
-      {
-        img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        title: '阿斯顿佛啊圣诞节快发拉萨的空间发阿斯顿飞考虑将阿斯顿飞',
-        salePrice: '100.00',
-        oldPrice: '1000.00',
-        salePercent: 0.4,
-        saleCount: 500,
-        startTime: '2018/04/18 18:00:00',
-        endTime: '2018/04/25 19:00:10'
-      },
-      {
-        img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        title: '阿斯顿佛啊圣诞节快发拉萨的空间发阿斯顿飞考虑将阿斯顿飞',
-        salePrice: '9.00',
-        oldPrice: '10.00',
-        salePercent: 0.4,
-        saleCount: 500,
-        startTime: '2018/02/16 21:30:00',
-        endTime: '2018/04/25 21:53:20'
-      },
-      {
-        img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        title: '阿斯顿佛啊圣诞节快发拉萨的空间发阿斯顿飞考虑将阿斯顿飞',
-        salePrice: '9.00',
-        oldPrice: '10.00',
-        salePercent: 0.4,
-        saleCount: 500,
-        startTime: '2018/02/16 18:00:00',
-        endTime: '2018/04/25 19:00:08'
       }
     ]
   },
@@ -138,6 +91,7 @@ Page({
       kill()
     }, 1000)
   },
+
   getIndex () {
     let that = this
     app.wxrequest({
@@ -181,11 +135,31 @@ Page({
       }
     })
   },
+
+  MaskGetUserInfo (e) {
+    console.log(e)
+    if (e.detail.iv) {
+      this.setData({
+        needUserInfo: true
+      })
+      app.wxlogin(this.getIndex)
+    }
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad () {
-    app.wxlogin(this.getIndex)
+    /*eslint-disable*/
+    this.setData({
+      show: app.gs('userInfo') ? false : true
+    })
+    if (app.gs('userInfo')) {
+      this.setData({
+        needUserInfo: true
+      })
+      app.wxlogin(this.getIndex)
+    }
+    // app.wxlogin(this.getIndex)
     // this.getIndex()
     // console.dir(app.data)
   },
@@ -193,27 +167,27 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady () {
-    console.log(' ---------- onReady ----------')
+    // console.log(' ---------- onReady ----------')
   },
   /**
    * 生命周期函数--监听页面显示
    */
   onShow () {
-    console.log(' ---------- onShow ----------')
+    // console.log(' ---------- onShow ----------')
   },
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide () {
     clearInterval(timer)
-    console.log(' ---------- onHide ----------')
+    // console.log(' ---------- onHide ----------')
   },
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload () {
     clearInterval(timer)
-    console.log(' ---------- onUnload ----------')
+    // console.log(' ---------- onUnload ----------')
   },
   onShareAppMessage () {
 
@@ -222,6 +196,6 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh () {
-    console.log(' ---------- onPullDownRefresh ----------')
+    // console.log(' ---------- onPullDownRefresh ----------')
   }
 })

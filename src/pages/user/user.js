@@ -11,24 +11,27 @@ Page({
       {
         ico: 'icon-qianbao',
         t: '待付款',
-        num: 1
+        num: 0
       },
       {
         ico: 'icon-daifahuo1',
         t: '待发货',
-        num: 123
+        num: 0
       },
       {
         ico: 'icon-daifahuo',
-        t: '待收货'
+        t: '待收货',
+        num: 0
       },
       {
         ico: 'icon-icon-receive',
-        t: '已收货'
+        t: '已收货',
+        num: 0
       },
       {
         ico: 'icon-shouhou',
-        t: '退款/售后'
+        t: '退款/售后',
+        num: 0
       }
     ],
     operationArr: [
@@ -105,6 +108,29 @@ Page({
       }
     })
   },
+  // 获取用户信息
+  getUserInfo () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().userInfo,
+      data: {},
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          that.data.orderArr[0].num = res.data.data.waitPay
+          that.data.orderArr[1].num = res.data.data.waitSend
+          that.data.orderArr[2].num = res.data.data.waitReceive
+          that.data.orderArr[3].num = res.data.data.uncomment_count
+          that.setData({
+            userInfo: res.data.userInfo,
+            orderArr: that.data.orderArr
+          })
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -126,6 +152,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow () {
+    this.getUserInfo()
     // TODO: onShow
   },
 
