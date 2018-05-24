@@ -1,13 +1,14 @@
 <view wx:for="{{ goodsArr }}"
       class="goods p20 bd1"
       wx:key="*1253">
-  <image src="{{ item.src }}"></image>
+  <image src="{{ item.goods_list[0].image }}"></image>
   <view class="g-c p020">
-    <view class="ell1 f30 c333">{{ item.title }}</view>
+    <view class="ell1 f30 c333">{{ item.goods_list[0].goods_name }}</view>
     <view class="f28 c666">{{ item.time }}</view>
   </view>
-  <view catchtap="showQR" data-code="{{ item.code }}" class="f22 code">展示取货码</view>
+  <view catchtap="showQR" data-code="{{ item.order_sn }}" class="f22 code">展示取货码</view>
 </view>
+<view wx:if="{{ !goodsArr.length }}" class="tac f24 c999">暂无可相关订单哦</view>
 <view class="mask" catchtap="close" wx:if="{{ show }}">
   <view class="c-wrap p20">
     <view class="f30 tac">取货码: {{ code }}</view>
@@ -19,3 +20,7 @@
     </view>
   </view>
 </view>
+
+        <!--错误弹窗-->
+<import src="../template/template"></import>
+<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>

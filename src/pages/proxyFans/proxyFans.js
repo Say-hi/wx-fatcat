@@ -9,6 +9,27 @@ Page({
   data: {
     src: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg'
   },
+
+  // 获取我的粉丝
+  getFans (keyword) {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().fansList,
+      data: {
+        keyword
+      },
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          that.setData({
+            list: res.data.data.fans_list
+          })
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
+    })
+  },
   search (e) {
     if (!e.detail.value.searchtext) return app.setToast(this, {content: '请输入搜索内容'})
   },

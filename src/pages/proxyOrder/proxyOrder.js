@@ -18,6 +18,27 @@ Page({
       }
     })
   },
+  // 核销订单
+  orderConfirm (code) {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().orderConfirm,
+      data: {
+        pickup_code: code
+      },
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          wx.showToast({
+            title: '核销成功'
+          })
+          that.MaskTwoChange()
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
+    })
+  },
   confirm () {
     // todo 确认核销
     wx.showToast({
@@ -25,11 +46,8 @@ Page({
     })
     this.maskChange()
   },
-  confirmInput () {
-    wx.showToast({
-      title: '核销成功'
-    })
-    this.MaskTwoChange()
+  confirmInput (e) {
+    this.orderConfirm(e.detail.value.code)
   },
   maskChange (e) {
     (e && e.currentTarget.dataset.id) && this.setData({writeOffId: e.currentTarget.dataset.id})

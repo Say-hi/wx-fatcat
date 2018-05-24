@@ -7,15 +7,19 @@ Page({
    * 页面的初始数据
    */
   data: {
-    img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
+    orderList: [],
     currentIndex: 0,
-    typeArr: ['', 'WAITPAY', 'WAITSEND', 'WAITRECEIVE', 'FINISH']
+    typeArr: ['', 'WAITPAY', 'WAITSEND', 'WAITRECEIVE', 'FINISH'],
+    page: 0
   },
   chooseTab (e) {
     this.setData({
-      currentIndex: e.currentTarget.dataset.index
+      currentIndex: e.currentTarget.dataset.index,
+      orderList: [],
+      page: 0
     })
-    this.getOrderList(this.data.typeArr[e.currentTarget.dataset.index])
+    if (this.data.type !== '5') this.getOrderList(this.data.typeArr[e.currentTarget.dataset.index])
+    else this.getreturnGoodsList()
   },
   delOrder (e) {
     wx.showToast({
@@ -27,14 +31,37 @@ Page({
     app.wxrequest({
       url: app.getUrl().orderList,
       data: {
-        type
+        type,
+        P: ++this.data.page
       },
       success (res) {
         wx.hideLoading()
         console.log(res)
         if (res.data.status === 200) {
           that.setData({
-            orderList: res.data.data.list
+            orderList: that.data.orderList.concat(res.data.data.list),
+            more: res.data.data.list.length < 10 ? 0 : 1
+          })
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
+    })
+  },
+  getreturnGoodsList () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().refundOrderList,
+      data: {
+        refund_status: that.data.currentIndex,
+        p: ++this.data.page
+      },
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          that.setData({
+            orderList: that.data.orderList.concat(res.data.data.list),
+            more: res.data.data.list.length < 10 ? 0 : 1
           })
         } else {
           app.setToast(that, {content: res.data.msg})
@@ -56,10 +83,15 @@ Page({
       this.getOrderList(this.data.typeArr[options.type])
     } else {
       app.setBar('退货退款')
+      this.getreturnGoodsList()
     }
     // TODO: onLoad
   },
-
+  onReachBottom () {
+    if (!this.data.more) return app.setToast(this, {content: '没有更多信息了'})
+    if (this.data.type !== '5') this.getOrderList(this.data.typeArr[this.data.currentIndex])
+    else this.getreturnGoodsList()
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

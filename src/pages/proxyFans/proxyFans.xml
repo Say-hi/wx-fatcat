@@ -7,14 +7,14 @@
     <button formType="submit" class="f28 c666">搜索</button>
   </view>
 </form>
-<navigator url="../proxyFansDetail/proxyFansDetail?id={{ item.id }}"
+<navigator url="../proxyFansDetail/proxyFansDetail?id={{ item.user_id }}"
            class="arrow bd1 p20"
-           wx:for="32354"
+           wx:for="{{ list }}"
            wx:key="*5423">
-  <image src="{{ src }}"></image>
-  <view class="ell1">3246546546</view>
+  <image src="{{ item.head_pic }}"></image>
+  <view class="ell1">{{ item.nickname }}</view>
 </navigator>
-<view class="tac lh80 f24 c999">暂无相关粉丝哦</view>
+<view wx:if="{{ !list.length }}" class="tac lh80 f24 c999">暂无相关粉丝哦</view>
 
         <!--错误弹窗-->
 <import src="../template/template"></import>

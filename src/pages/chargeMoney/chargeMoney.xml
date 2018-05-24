@@ -13,16 +13,22 @@
     <text class="f24 c333">54猫豆</text>
   </view>
 </view>
+<form bindsubmit="charge">
+  <view class="charge-input bd1 bt1 p20">
+    <text class="f30 c333 fw7">购买数额</text>
+    <input name="inputmoney" class="f30" type="digit" value="{{ inputMoney }}" placeholder="0.00"/>
+  </view>
+  <text class="p020 f24 c999">购买后可使用猫豆进行交易支付</text>
+  <view class="tac" style="width: 100%;">
+    <button formType="submit" class="f30 br10 tac cfff lh80 confirm-btn">立即购买</button>
+  </view>
+</form>
 
-<view class="charge-input bd1 bt1 p20">
-  <text class="f30 c333 fw7">购买数额</text>
-  <input class="f30" type="digit" placeholder="0.00"/>
-</view>
-<text class="p020 f24 c999">购买后可使用猫豆进行交易支付</text>
-<view class="tac" style="width: 100%;">
-  <view class="f30 br10 tac cfff lh80 confirm-btn">立即购买</view>
-</view>
 <view class="mask" wx:if="{{ buySuccess }}">
   <view class="iconfont icon-xuanze">支付成功</view>
   <navigator open-type="navigateBack" class="f30 main-text-color lh50">查看猫豆余额</navigator>
 </view>
+
+        <!--错误弹窗-->
+<import src="../template/template"></import>
+<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>

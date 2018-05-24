@@ -117,12 +117,12 @@ Page({
       success (res) {
         wx.hideLoading()
         if (res.data.status === 200) {
-          that.data.orderArr[0].num = res.data.data.waitPay
-          that.data.orderArr[1].num = res.data.data.waitSend
-          that.data.orderArr[2].num = res.data.data.waitReceive
-          that.data.orderArr[3].num = res.data.data.uncomment_count
+          that.data.orderArr[0].num = res.data.data.user.waitPay
+          that.data.orderArr[1].num = res.data.data.user.waitSend
+          that.data.orderArr[2].num = res.data.data.user.waitReceive
+          that.data.orderArr[3].num = res.data.data.user.uncomment_count
           that.setData({
-            userInfo: res.data.userInfo,
+            userInfo: res.data.data.user,
             orderArr: that.data.orderArr
           })
         } else {
@@ -135,9 +135,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad () {
-    this.setData({
-      userInfo: app.gs('userInfo')
-    })
+    // this.setData({
+    //   userInfo: app.gs('userInfo')
+    // })
     // TODO: onLoad
   },
 

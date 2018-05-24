@@ -1,5 +1,5 @@
 // 获取全局应用程序实例对象
-// const app = getApp()
+const app = getApp()
 const wxBarCode = require('../../utils/index')
 // 创建页面实例对象
 Page({
@@ -7,21 +7,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    goodsArr: [
-      {
-        src: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        title: 'aaaaaaaaaaa',
-        time: '2017-12-08 10:50',
-        code: 'aaaaaaaaaaa'
-      },
-      {
-        src: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        title: '123421342134',
-        time: '2017-12-08 10:50',
-        code: '123421342134'
-      }
-    ],
-    code: '201722481024'
+    goodsArr: [],
+    code: ''
   },
   showQR (e) {
     this.setData({
@@ -35,11 +22,31 @@ Page({
       show: false
     })
   },
+  getList () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().orderList,
+      data: {},
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          for (let v of res.data.data.list) {
+            v.add_time = new Date(v.add_time * 1000).toLocaleString()
+          }
+          that.setData({
+            goodsArr: res.data.data.list
+          })
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad () {
-
+    this.getList()
     // TODO: onLoad
   },
 

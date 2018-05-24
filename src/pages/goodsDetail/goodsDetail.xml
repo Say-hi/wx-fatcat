@@ -161,8 +161,8 @@
                class='iconfont tac icon-gouwucheman'>购物车</navigator>
     <view catchtap="closeBuy" data-type="car" wx:if="{{ type != 'bulkP' }}" class='f32 tac cfff'>加入购物车</view>
     <view catchtap="closeBuy" data-type="buy" data-now="now" wx:if="{{ type != 'bulkP' }}" class='f32 tac cfff'>立即购买</view>
-    <view catchtap="closeBuy" data-type="buy" data-self="self" wx:if="{{ type == 'bulkP' }}" class="f32 tac cfff">单独购买￥123</view>
-    <view catchtap="closeBuy" data-type="buy" wx:if="{{ type == 'bulkP' }}" class="f32 tac cfff">发起拼团￥23</view>
+    <view catchtap="closeBuy" data-type="buy" data-self="self" wx:if="{{ type == 'bulkP' }}" class="f32 tac cfff">单独购买￥{{ goodsInfo.market_price }}</view>
+    <view catchtap="closeBuy" data-type="buy" wx:if="{{ type == 'bulkP' }}" class="f32 tac cfff">发起拼团￥{{ goodsInfo.shop_price }}</view>
 </view>
 <view wx:if="{{ shareChoose }}"
       class="mask {{ small ? 'small' : '' }}">
@@ -198,17 +198,26 @@
              src="{{ bannerArr[0].image_url }}"></image>
       <view class="b-b-t-r p20">
         <view catchtap="closeBuy"
+              wx:if="{{ bulkpChoose < 0 }}"
               class="f28 c333 iconfont icon-guanbi">{{ goodsInfo.goods_name }}</view>
-        <view class="f36 main-text-color">￥{{ goodsInfo.shop_price }}</view>
-        <view wx:if="{{ type == 'bulkP' && bulkpChoose < 0 }}"
-              class="f24 c999">{{ goodsInfo.virtual_num }}人团　原价:　￥{{ goodsInfo.market_price }}</view>
-        <view wx:if="{{ type == 'bulkP' && bulkpChoose >= 0  }}"
+        <view class="f36 main-text-color" wx:if="{{ bulkpChoose < 0 && bulkpSelf != 1}}">￥{{ goodsInfo.shop_price }}</view>
+        <view class="f36 main-text-color" wx:if="{{ bulkpChoose < 0 && bulkpSelf == 1}}">￥{{ goodsInfo.market_price }}</view>
+
+        <view catchtap="closeBuy"
+              wx:if="{{ type == 'bulkP' && bulkpChoose >= 0  }}"
+              class="f28 c333 iconfont icon-guanbi">{{ nowStartArr[bulkpChoose].goods_name }}</view>
+        <view class="f36 main-text-color" wx:if="{{ type == 'bulkP' && bulkpChoose >= 0  }}">￥{{ nowStartArr[bulkpChoose].price }}</view>
+
+        <view wx:if="{{ type == 'bulkP' && bulkpChoose < 0 && bulkpSelf != 1}}"
+              class="f24 c999"><text>{{ goodsInfo.virtual_num }}人团　原价:　￥{{ goodsInfo.market_price }}</text></view>
+        <view wx:if="{{ type == 'bulkP' && bulkpChoose >= 0}}"
               class="f24 c999">{{ nowStartArr[bulkpChoose].virtual_num }}人团　原价:　￥{{ nowStartArr[bulkpChoose].goods_price }}</view>
       </view>
     </view>
     <view class="b-b-number p20">
       <view class="f30 c000">数量</view>
-      <view class="f24 c666">库存:{{ goodsInfo.store_count }}</view>
+      <view class="f24 c666" wx:if="{{ bulkpChoose < 0 }}">库存:{{ goodsInfo.store_count }}</view>
+      <view class="f24 c666" wx:if="{{ type == 'bulkP' && bulkpChoose >= 0  }}">库存:{{ nowStartArr[bulkpChoose].goods_num }}</view>
       <view class="choose-count">
         <view catchtap="chooseMenuNum" data-type="del" data-index="{{ index }}" class="del order-btn cfff">-</view>
         <view class="order-num">{{ goodsInfo.num || 1 }}</view>
@@ -227,6 +236,12 @@
        src="{{ goodsInfo.video }}"></video>
 <view catchtap="showVideo"
       class='video-content tac video-content-close-btn'>关闭</view>
+</view>
+
+<view wx:if="{{ needSetting }}" class="mask">
+  <view class="open-setting">
+    <button catchtap="openSetting">开启授权</button>
+  </view>
 </view>
         <!--错误弹窗-->
 <import src="../template/template"></import>

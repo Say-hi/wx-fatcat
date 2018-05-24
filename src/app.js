@@ -176,8 +176,8 @@ App({
   wxrequest (obj) {
     let that = this
     wx.showLoading({
-      title: '请求数据中...'
-      // mask: true
+      title: '请求数据中...',
+      mask: true
     })
     if (!obj.iv) {
       obj.data = Object.assign(obj.data, {session_key: that.gs()})

@@ -13,29 +13,7 @@ Page({
     page: 0,
     commentArr: [],
     tipsArr: ['门店自提', '送货上门', '质量保证', '企业认证'],
-    nowStartArr: [
-      {
-        src: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        name: 'asdf',
-        need: 123,
-        endTime: '2018/04/25 16:18:50',
-        price: 456
-      },
-      {
-        src: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        name: 'asdf',
-        need: 123,
-        endTime: '2018/04/28 16:18:50',
-        price: 456
-      },
-      {
-        src: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        name: 'asdf',
-        need: 123,
-        endTime: '2018/04/17 16:38:00',
-        price: 456
-      }
-    ],
+    nowStartArr: [],
     videoSrc: 'http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400'
   },
   onlyPic () {
@@ -269,7 +247,7 @@ Page({
     } else {
       this.setData({
         small: false,
-        bulkpChoose: (e.currentTarget.dataset.index * 1 === 0 ? 0 : e.currentTarget.dataset.index) || -1,
+        bulkpChoose: typeof e.currentTarget.dataset.index === 'number' ? e.currentTarget.dataset.index : -1,
         bulkpSelf: e.currentTarget.dataset.self ? 1 : 0
       })
     }
@@ -290,6 +268,9 @@ Page({
         this.data.goodsInfo.num = 1
       } else {
         if (this.data.goodsInfo.buy_limit <= this.data.goodsInfo.num) return app.setToast(this, {content: `亲，每人限购${this.data.goodsInfo.buy_limit}件哦`})
+        if (this.data.nowStartArr.length && this.data.bulkpChoose >= 0) {
+          if (this.data.nowStartArr[this.data.bulkpChoose].goods_num <= this.data.goodsInfo.num && this.data.bulkpChoose >= 0) return app.setToast(this, {content: '超出库存啦'})
+        }
         if (this.data.goodsInfo.store_count <= this.data.goodsInfo.num) return app.setToast(this, {content: '超出库存啦'})
         ++this.data.goodsInfo.num
       }
@@ -342,10 +323,16 @@ Page({
     if (this.data.buyType === 'car') {
       this.addToCar()
     } else {
-      if (this.data.bulkpSelf) {
-        wx.navigateTo({
-          url: `../submitOrder/submitOrder?type=bulkpBuyNow&id=${this.data.goodsInfo.goods_id}&num=${this.data.goodsInfo.num}&group_by=${this.data.bulkpSelf}&prom_id=${this.data.goodsInfo}`
-        })
+      if (this.data.type === 'bulkP') {
+        if (this.data.bulkpChoose >= 0) {
+          wx.navigateTo({
+            url: `../submitOrder/submitOrder?type=bulkpBuy&id=${this.data.nowStartArr[this.data.bulkpChoose].goods_id}&num=${this.data.goodsInfo.num || 1}&group_by=${this.data.bulkpSelf}&prom_id=${this.data.nowStartArr[this.data.bulkpChoose].id}`
+          })
+        } else {
+          wx.navigateTo({
+            url: `../submitOrder/submitOrder?type=bulkpBuy&id=${this.data.goodsInfo.goods_id}&num=${this.data.goodsInfo.num || 1}&group_by=${this.data.bulkpSelf}&prom_id=${this.data.goodsInfo.prom_id}`
+          })
+        }
       } else {
         wx.navigateTo({
           url: `../submitOrder/submitOrder?type=buyNow&id=${this.data.goodsInfo.goods_id}&num=${this.data.goodsInfo.num || 1}`
@@ -353,21 +340,6 @@ Page({
       }
       // app.su('goodsStorageNow', this.data.goodsInfo)
     }
-  },
-  // 立即购买
-  buyNow () {
-    // app.wxrequest({
-    //   url: app.getUrl().cart2,
-    //   data: {
-    //     action: 'buy_now',
-    //     goods_id: that.data.goodsInfo.goods_id,
-    //     goods_num: that.data.goodsInfo.num || 1
-    //   },
-    //   success (res) {
-    //     wx.hideLoading()
-    //     console.log(res)
-    //   }
-    // })
   },
   showVideo () {
     this.setData({
@@ -379,13 +351,16 @@ Page({
     if (this.data.type === 'bulkP') {
       wx.getLocation({
         type: 'gcj02 ',
-        success (res) {
+        success (res2) {
+          that.setData({
+            needSetting: false
+          })
           app.wxrequest({
             url: app.getUrl().goodsInfo,
             data: {
               id,
-              lat: res.latitude,
-              log: res.longitude
+              lat: res2.latitude,
+              log: res2.longitude
             },
             success (res) {
               wx.hideLoading()
@@ -411,6 +386,9 @@ Page({
         },
         fail (res) {
           console.log('err', res)
+          that.setData({
+            needSetting: true
+          })
           app.setToast(that, {content: '未授权地理位置信息，无法获取附近的拼团'})
         }
       })
@@ -467,12 +445,28 @@ Page({
       }
     })
   },
+  // 获取设置
+  openSetting () {
+    let that = this
+    wx.openSetting({
+      success (res) {
+        // console.log(res)
+        if (res.authSetting['scope.userLocation']) {
+          that.setData({
+            needSetting: false
+          })
+          that.getGoodsInfo(that.data.options.id)
+        }
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad (options) {
     this.setData({
-      type: options.type || 'bulkP'
+      type: options.type || 'bulkP',
+      options
     })
     let that = this
     wx.getSystemInfo({

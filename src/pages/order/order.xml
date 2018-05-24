@@ -10,7 +10,7 @@
 <view class="order"
       wx:key="*41"
       wx:for="{{ orderList }}">
-  <view class="o-t f24 c333 lh50"><text>订单编号: {{ item.order_sn }}</text><text class="f28">{{ item.order_status_desc }}</text></view>
+  <view class="o-t f24 c333 lh50"><text>订单编号: {{ item.order_sn }}</text><text class="f28">{{ item.order_status_desc || item.status_str }}</text></view>
   <view class="goods">
     <image src="{{ item.goods_list[0].image }}"></image>
     <view class="g-i">

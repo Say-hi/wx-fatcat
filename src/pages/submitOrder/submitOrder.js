@@ -136,8 +136,13 @@ Page({
   getCarList (options) {
     let that = this
     let data = {}
-    if (options.type === 'buyNow') {
+    this.setData({
+      options
+    })
+    if (options.type === 'buyNow' || (options.type === 'bulkpBuy' && options.group_by * 1 === 1)) {
       data = Object.assign({action: 'buy_now', goods_id: options.id, goods_num: options.num})
+    } else if (options.type === 'bulkpBuy' && options.group_by * 1 !== 1) {
+      data = Object.assign({prom_id: options.prom_id, goods_num: options.num})
     }
     app.wxrequest({
       url: app.getUrl().cart2,
@@ -155,7 +160,17 @@ Page({
           })
           that.calculateMoney()
         } else {
-          app.setToast(that, {content: res.data.msg})
+          console.log(res.data.msg.msg)
+          if (res.data.msg.status === 0) {
+            app.setToast(that, {content: res.data.msg.msg})
+            setTimeout(() => {
+              wx.navigateBack({
+                delta: 1
+              })
+            }, 1500)
+          } else {
+            app.setToast(that, {content: res.data.msg})
+          }
         }
       }
     })
@@ -190,6 +205,7 @@ Page({
   onLoad (options) {
     /*eslint-disable*/
     // new Date(new Date().getTime() + 1500000)
+    // type=bulkpBuy&id=3&num=87&group_by=1&prom_id=1
     this.setData({
       lostTime: options.type === 'second' ? true : false,
       // menuArr: app.gs('goodsStorage'),
@@ -201,7 +217,6 @@ Page({
     }
     this.getCarList(options)
     // this.calculateMoney()
-    // TODO: onLoad
   },
 
   /**

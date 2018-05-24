@@ -2,16 +2,16 @@
     <image src='../../images/user_bg.png'></image>
     <view class='user-info pa tac'>
         <image class="br"
-               src="{{ userInfo.avatarUrl }}"></image>
-        <view class="f28 cfff">{{ userInfo.nickName }}</view>
+               src="{{ userInfo.head_pic }}"></image>
+        <view class="f28 cfff">{{ userInfo.nickname }}</view>
     </view>
     <view class="pa user-i-b br15">
         <navigator url='../score/score'>
-            <text class="lh60 f28 main-text-color">188</text>
+            <text class="lh60 f28 main-text-color">{{ userInfo.pay_points }}</text>
             <text class="lh40 f24 c999">我的积分</text>
         </navigator>
-        <navigator url='../money/money'>
-            <text class="lh60 f28 main-text-color">188.55</text>
+        <navigator url='../money/money?money={{ userInfo.user_money }}'>
+            <text class="lh60 f28 main-text-color">{{ userInfo.user_money }}</text>
             <text class="lh40 f24 c999">我的猫豆</text>
         </navigator>
     </view>
@@ -37,9 +37,12 @@
     </navigator>
     <button open-typ="contact" class="iconfont icon-service ">联系客服<text class="arrow"></text></button>
 </view>
-<view wx:if="{{ needSetting }}" class="open-setting">
-    <button catchtap="openSetting">开启授权</button>
+<view class="mask" wx:if="{{ needSetting }}">
+    <view class="open-setting">
+        <button catchtap="openSetting">开启授权</button>
+    </view>
 </view>
+
 
         <!--错误弹窗-->
 <import src="../template/template"></import>

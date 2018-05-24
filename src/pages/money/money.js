@@ -34,8 +34,7 @@ Page({
       },
       success (res) {
         wx.hideLoading()
-        if (res.data.status === '200') {
-          console.log(res)
+        if (res.data.status === 200) {
           if (res.data.data.lists.length) {
             for (let v of res.data.data.lists) {
               v.change_time = new Date(v.change_time * 1000).toLocaleString()
@@ -55,7 +54,10 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad () {
+  onLoad (options) {
+    this.setData({
+      userMoney: options.money
+    })
     // TODO: onLoad
   },
   /**
@@ -70,7 +72,8 @@ Page({
    */
   onShow () {
     this.setData({
-      page: 0
+      page: 0,
+      lists: []
     })
     this.getData(++this.data.page)
     // TODO: onShow
