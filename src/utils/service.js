@@ -34,6 +34,8 @@ let serviceUrl = {
   withdrawals: baseDomain + '/Api/User/withdrawals.html',
   coupon: baseDomain + '/Api/User/coupon.html',
   teamOrderList: baseDomain + '/Api/Order/team_order_list',
+  orderStatus2: baseDomain + '/Api/Order/order_status2.html',
+  pickupOrderList: baseDomain + '/Api/Order/pickup_order_list.html',
   payByOrder: baseDomain + '/Api/Pay/payByOrder'
 }
 module.exports = serviceUrl

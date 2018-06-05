@@ -1,16 +1,19 @@
 <view class="tab f30 lh80">
-  <view catchtap="chooseTab" data-index="0" class="{{ currentIndex == 0 ? 'show main-text-color' : 'noshow' }}">今天出货(100)</view>
+  <view catchtap="chooseTab" data-index="2" class="{{ currentIndex == 2 ? 'show main-text-color' : 'noshow' }}">今天出货(100)</view>
   <view catchtap="chooseTab" data-index="1" class="{{ currentIndex == 1 ? 'show main-text-color' : 'noshow' }}">已到站点(100)</view>
-  <view catchtap="chooseTab" data-index="2" class="{{ currentIndex == 2 ? 'show main-text-color' : 'noshow' }}">未到站点(100)</view>
+  <view catchtap="chooseTab" data-index="0" class="{{ currentIndex == 0 ? 'show main-text-color' : 'noshow' }}">未到站点(100)</view>
 </view>
 <view class="zw"></view>
-<navigator url="../sendWorkerDetail/sendWorkerDetail?id={{ item.id }}" wx:for="12341234"
+<navigator url="../sendWorkerDetail/sendWorkerDetail?id={{ item.pickup_id }}&name={{ item.pickup_address }}&num={{ item.order_num }}" wx:for="{{ list }}"
       class="arrow bd1 p20"
       wx:key="*689">
   <view class="iconfont icon-xianxiamendian main-text-color"></view>
   <view class="f28">
-    <text class="c333">释放扫赌房价阿隆索的风景</text>
-    <text class="c666">订单数量: 4</text>
+    <text class="c333">{{ item.pickup_address }}</text>
+    <text class="c666">订单数量: {{ item.order_num }}</text>
   </view>
-  <view class="f17 {{ status != 1 ? 'arrive' : 'onroad' }}">未到站点</view>
+  <!--<view class="f17 {{ status != 1 ? 'arrive' : 'onroad' }}">未到站点</view>-->
 </navigator>
+<view wx:if="{{ !list.length }}" class="tac f24 c999">你还没有相关的信息哦</view>
+<import src="../template/template"></import>
+<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>

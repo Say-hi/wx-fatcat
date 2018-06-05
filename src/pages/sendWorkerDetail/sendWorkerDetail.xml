@@ -1,21 +1,25 @@
 <view class="d-top f28">
-  <view class="iconfont icon-xianxiamendian c333">阿克苏东方红卡死的风景卡</view>
-  <view class="c666">订单数量:23 <text class="f22 {{ status != 1 ? 'arrive' : 'onroad' }}">asdf</text></view>
+  <view class="iconfont icon-xianxiamendian c333">{{ options.name }}</view>
+  <!--<view class="c666">订单数量:{{ options.num }} <text class="f22 {{ status != 1 ? 'arrive' : 'onroad' }}">asdf</text></view>-->
+  <view class="c666">订单数量:{{ options.num }}</view>
 </view>
 
-<view wx:for="{{ menuArr }}" wx:for-item="oItem" wx:key="*325" class="p20 out-g bd20">
-  <view class="f24 c999 lh44">订单编号: {{ oItem.orderNum }}</view>
-  <view class="goods" wx:for="{{ oItem.arr }}" wx:key="*9879">
-    <image src="{{ item.img }}"></image>
+<view wx:for="{{ list }}" wx:for-item="oItem" wx:key="*325" class="p20 out-g bd20">
+  <view class="f24 c999 lh44">订单编号: {{ oItem.order_sn }}</view>
+  <view class="goods" wx:for="{{ oItem.goods_list }}" wx:key="*9879">
+    <image src="{{ item.image }}"></image>
     <view class="g-i">
-      <view class="f30 c333">{{ item.name }}</view>
+      <view class="f30 c333">{{ item.goods_name }}</view>
       <view class="g-b">
         <view class="f30 c333">
-          <text class="f30">￥{{ item.salePrice }}　</text>
-          <text class="f22 c999 through-line">￥{{ item.salePrice }}</text>
+          <text class="f30">￥{{ item.final_price }}　</text>
+          <text class="f22 c999 through-line">￥{{ item.goods_price }}</text>
         </view>
-        <view class="f24 c999">×{{ item.num }}</view>
+        <view class="f24 c999">×{{ item.goods_num }}</view>
       </view>
     </view>
   </view>
 </view>
+<view wx:if="{{ !list.length }}" class="tac f24 c999">暂无相关信息</view>
+<import src="../template/template"></import>
+<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>

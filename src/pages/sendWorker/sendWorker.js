@@ -1,5 +1,5 @@
 // 获取全局应用程序实例对象
-// const app = getApp()
+const app = getApp()
 
 // 创建页面实例对象
 Page({
@@ -7,17 +7,38 @@ Page({
    * 页面的初始数据
    */
   data: {
-    currentIndex: 0
+    currentIndex: 2
   },
   chooseTab (e) {
     this.setData({
       currentIndex: e.currentTarget.dataset.index
+    })
+    this.getData()
+  },
+  getData () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().orderStatus2,
+      data: {
+        order_status2: that.data.currentIndex * 1 === 2 ? '' : that.data.currentIndex
+      },
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          that.setData({
+            list: res.data.data.pickup_list
+          })
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
     })
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad () {
+    this.getData()
     // TODO: onLoad
   },
 

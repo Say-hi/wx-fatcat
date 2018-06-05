@@ -1,83 +1,39 @@
 // 获取全局应用程序实例对象
-// const app = getApp()
+const app = getApp()
 
 // 创建页面实例对象
 Page({
   /**
    * 页面的初始数据
    */
-  data: {
-    menuArr: [
-      {
-        orderNum: 212343465,
-        arr: [
-          {
-            img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-            name: '阿斯顿佛啊圣诞节快发拉萨的空间发阿斯顿飞考虑将阿斯顿飞',
-            salePrice: '100.00',
-            oldPrice: '1000.00',
-            num: 1,
-            orderNum: 6565464544
-          },
-          {
-            img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-            name: '阿斯顿佛啊圣诞节快发拉萨的空间发阿斯顿飞考虑将阿斯顿飞',
-            salePrice: '100.00',
-            oldPrice: '1000.00',
-            num: 1,
-            orderNum: 6565464544
-          }
-        ]
+  data: {},
+  getDatat (id) {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().pickupOrderList,
+      data: {
+        pickup_id: id
       },
-      {
-        orderNum: 212343465,
-        arr: [
-          {
-            img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-            name: '阿斯顿佛啊圣诞节快发拉萨的空间发阿斯顿飞考虑将阿斯顿飞',
-            salePrice: '100.00',
-            oldPrice: '1000.00',
-            num: 1,
-            orderNum: 6565464544
-          },
-          {
-            img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-            name: '阿斯顿佛啊圣诞节快发拉萨的空间发阿斯顿飞考虑将阿斯顿飞',
-            salePrice: '100.00',
-            oldPrice: '1000.00',
-            num: 1,
-            orderNum: 6565464544
-          }
-        ]
-      },
-      {
-        orderNum: 212343465,
-        arr: [
-          {
-            img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-            name: '阿斯顿佛啊圣诞节快发拉萨的空间发阿斯顿飞考虑将阿斯顿飞',
-            salePrice: '100.00',
-            oldPrice: '1000.00',
-            num: 1,
-            orderNum: 6565464544
-          },
-          {
-            img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-            name: '阿斯顿佛啊圣诞节快发拉萨的空间发阿斯顿飞考虑将阿斯顿飞',
-            salePrice: '100.00',
-            oldPrice: '1000.00',
-            num: 1,
-            orderNum: 6565464544
-          }
-        ]
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          that.setData({
+            list: res.data.data.list
+          })
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
       }
-    ]
+    })
   },
-
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad () {
+  onLoad (options) {
+    this.setData({
+      options
+    })
+    this.getDatat(options.id)
     // TODO: onLoad
   },
 
