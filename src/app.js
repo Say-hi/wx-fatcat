@@ -43,7 +43,7 @@ const wxParse = require('./wxParse/wxParse')
 // moment.locale('zh-cn')
 App({
   data: {
-    name: '披萨点餐小程序',
+    name: '肥猫团购',
     basedomain: 'http://group.lanzhangxiu.cn'
   },
   call (phoneNumber = '13378692079') {

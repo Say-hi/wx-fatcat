@@ -1,12 +1,12 @@
 <view class="tac p20 other-top">
-  <image src="{{ src }}"></image>
+  <image src="{{ userInfo.avatarUrl}}"></image>
   <view class="cfff f32">代付金额</view>
-  <view class="cfff o-money fw7">￥883132121.00</view>
+  <view class="cfff o-money fw7">￥{{ options.calculateMoney }}</view>
 </view>
 <view class="p20 bgfff">
-  <view class="goods">
-    <image src="{{ src }}"></image>
-    <view class="f28 c666">asdfsadfasdfasdfasdfsadfasdfsadfasdfsadfasdfasdfasdfsadfasdfsadfasdfsadfasdfasdfasdfsadfasdfsadf</view>
+  <view class="goods" wx:for="{{ menuArr }}" wx:key="*2134">
+    <image src="{{ item.image }}"></image>
+    <view class="f28 c666">{{ item.goods_name }}</view>
   </view>
 </view>
 <view class="goodsshow p20 bd20 bgfff">
@@ -15,18 +15,23 @@
 </view>
 <view class="goodsshow p20 bgfff">
   <text class="f30 c333 fw7">是否指定人数平均分摊付款</text>
-  <switch color="#ff4344" bindchange="showGoods"></switch>
+  <switch color="#ff4344" bindchange="samePay"></switch>
 </view>
-<view class="p020 bgfff">
-  <text class="f30 c333 fw7">是否指定人数平均分摊付款</text>
+<view wx:if="{{ sameP === 1 }}">
+  <view class="p020 bgfff">
+    <text class="f30 c333 fw7">指定人数平均分摊付款</text>
+  </view>
+  <view class="goodsshow p020 bgfff">
+    <text class="f30 c333 fw7">指定付款人数</text>
+    <input bindinput="inputValue" class="tar f28" type="number" placeholder="请输入代付人数"/>
+  </view>
+  <view class="p020 f24 c666 bgfff">人均付款金额<text class="main-text-color">{{ peoplePay || '0' }}元/人</text></view>
 </view>
-<view class="goodsshow p020 bgfff">
-  <text class="f30 c333 fw7">指定付款人数</text>
-  <input class="tar f28" type="number" placeholder="请输入代付人数"/>
-</view>
-<view class="p020 f24 c666 bgfff">人均付款金额<text class="main-text-color">8.8元/人</text></view>
-<view class="p20 f30 fw7">您的代付订单已经创建，赶快发给好友帮您付款吧~</view>
-<view class="tac p020">
+<view wx:if="{{ sendOrder }}" class="p20 f30 fw7">您的代付订单已经创建，赶快发给好友帮您付款吧~</view>
+<view wx:if="{{ sendOrder }}" class="tac p020">
   <button class="br10 cfff" open-type="share">发送给好友</button>
+</view>
+<view wx:if="{{ !sendOrder }}" class="tac p020">
+  <button class="br10 cfff" catchtap="shareOrder">生成代付订单</button>
 </view>
 <view class="p20 f24 c999">代付订单暂不可申请退款，请您知晓</view>

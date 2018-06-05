@@ -63,11 +63,11 @@
     <view class="c333 fw7">送货费</view>
     <view><text>￥</text>{{ sendMoney }}</view>
   </view>
-  <navigator url="../coupon/coupon?type=order&money={{ allMoney }}">
+  <navigator catchtap="setCoupon" url="../coupon/coupon?type=order&money={{ allMoney }}">
     <view class="g-d bd1 lh80 f24">
       <view class="c333 fw7">红包抵扣</view>
       <view class="arrow f24 c999">
-        {{ useCoupon ? '满' + useCoupon.need  + '减' + useCoupon.del : '选择红包' }}
+        {{ useCoupon ? '满' + useCoupon.coupon.condition  + '减' + useCoupon.coupon.money : '选择红包' }}
       </view>
     </view>
   </navigator>

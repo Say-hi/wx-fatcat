@@ -3,23 +3,27 @@
   <view catchtap="chooseTab" data-index="1" class="{{ currentIndex == 1 ? 'show main-text-color' : 'noshow' }}">已使用</view>
   <view catchtap="chooseTab" data-index="2" class="{{ currentIndex == 2 ? 'show main-text-color' : 'noshow' }}">已失效</view>
 </view>
-<view class="zw"></view>
+<view wx:if="{{ !needUseCoupon }}" class="zw"></view>
 <view class="p20">
-  <view wx:for="3545654644654654644"
+  <view wx:for="{{ couponList }}"
         wx:key="*456"
-        class="coupon br15">
+        catchtap="{{ item.coupon.able * 1 === 0 ? '' : 'chooseCoupon' }}"
+        data-index="{{ index }}"
+        class="coupon br15 {{ item.coupon.able * 1 === 0 ? 'no-use' : '' }}">
   <!--左侧-->
   <view class="c-left tac">
     <view class='c-l-t'>
-      <text class="f30">￥</text><text class="f54">10</text>
+      <text class="f30">￥</text><text class="f54">{{ item.money || item.coupon.money * 1 }}</text>
     </view>
     <!--<view class="f20">满20元使用</view>-->
   </view>
   <!--右侧-->
   <view class="c-right c999">
-    <view class="f28 c666">小程序10元优惠卷</view>
-    <view class="f20">满100元使用</view>
-    <view class="f20">2018.03.04 12:00 至 2018.03.04 12:00</view>
+    <view class="f28 c666">{{ item.name || item.coupon.name }}</view>
+    <view class="f20">满{{ item.condition || item.coupon.condition * 1 }}元使用</view>
+    <view class="f20">{{ item.use_start_time || item.coupon.use_start_time }} 至 {{ item.use_end_time || item.coupon.use_end_time }}</view>
   </view>
 </view>
 </view>
+
+<view wx:if="{{ !couponList.length }}" class="tac f24 c999">您暂无相关优惠卷</view>

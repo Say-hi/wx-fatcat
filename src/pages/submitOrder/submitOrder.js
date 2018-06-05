@@ -81,32 +81,23 @@ Page({
   choosePay () {
     if (!this.data.shopIndex) return app.setToast(this, {content: '请选择您附近的门店地址'})
     if (!this.data.addressInfo) return app.setToast(this, {content: '请选择您的收货地址'})
+    let that = this
     wx.showActionSheet({
       itemList: ['微信支付', '猫豆支付', '找人代付'],
       itemColor: '#333',
       success (res) {
-        console.log(res.tapIndex)
-        wx.showToast({
-          title: '模拟支付成功'
-        })
-        if (res.tapIndex === 2) {
-          wx.redirectTo({
-            url: '../otherPay/otherPay?id=123'
-          })
-        } else {
-          wx.redirectTo({
-            url: '../order/order?type=2'
-          })
-        }
-        wx.removeStorageSync('goodsStorage')
-        wx.removeStorageSync('useCoupon')
+        that.submitOrder(res)
       }
     })
   },
   // 计算价格
   calculateMoney () {
+    let money = (this.data.useCoupon ? this.data.fuck_score ? this.data.allMoney - this.data.useCoupon.del - this.data.userInfo.pay_points / 100 : this.data.allMoney - this.data.useCoupon.del : this.data.fuck_score ? this.data.allMoney - this.data.userInfo.pay_points / 100 : this.data.allMoney).toFixed(2)
+    if (money <= 0) {
+      money = '0.00'
+    }
     this.setData({
-      calculateMoney: (this.data.useCoupon ? this.data.fuck_score ? this.data.allMoney - this.data.useCoupon.del - this.data.userInfo.pay_points / 100 : this.data.allMoney - this.data.useCoupon.del : this.data.fuck_score ? this.data.allMoney - this.data.userInfo.pay_points / 100 : this.data.allMoney).toFixed(2)
+      calculateMoney: money
     })
   },
   // 倒计时
@@ -142,7 +133,7 @@ Page({
     if (options.type === 'buyNow' || (options.type === 'bulkpBuy' && options.group_by * 1 === 1)) {
       data = Object.assign({action: 'buy_now', goods_id: options.id, goods_num: options.num})
     } else if (options.type === 'bulkpBuy' && options.group_by * 1 !== 1) {
-      data = Object.assign({prom_id: options.prom_id, goods_num: options.num})
+      data = Object.assign({action: 'buy_now', goods_id: options.id, prom_id: options.prom_id, goods_num: options.num})
     }
     app.wxrequest({
       url: app.getUrl().cart2,
@@ -156,7 +147,8 @@ Page({
             allMoney: res.data.data.cartPriceInfo.total_fee * 1 || 0, // 商品当前总价
             userInfo: res.data.data.user,
             allCount: res.data.data.cartPriceInfo.goods_num,
-            shopArr: that.data.shopArr.concat(res.data.data.pickupList)
+            shopArr: that.data.shopArr.concat(res.data.data.pickupList),
+            coupon: res.data.data.userCartCouponList
           })
           that.calculateMoney()
         } else {
@@ -181,22 +173,134 @@ Page({
     })
   },
   // 提交订单
-  submitOrder () {
+  submitOrder (res) {
     let that = this
+    let data = {
+      address: that.data.addressInfo.provinceName + that.data.addressInfo.cityName + that.data.addressInfo.countyName + that.data.addressInfo.detailInfo,
+      consignee: that.data.addressInfo.userName,
+      mobile: that.data.addressInfo.telNumber,
+      pay_points: that.data.fuck_score ? that.data.userInfo.pay_points : 0,
+      act: 'submit_order',
+      user_note: that.data.userNote || '',
+      pickup_id: that.data.shopArr[that.data.shopIndex].pickup_id
+    }
+    if (that.data.options.type === 'buyNow') { // 立即购买
+      data = Object.assign({
+        action: 'buy_now',
+        goods_id: that.data.options.id,
+        goods_num: that.data.options.num
+      }, data)
+    } else if (that.data.options.type === 'bulkpBuy') { // 拼团
+      data = Object.assign({
+        action: 'buy_now',
+        goods_id: that.data.options.id,
+        goods_num: that.data.options.num,
+        group_by: that.data.options.group_by * 1 === 1 ? '0' : '1',
+        team_id: that.data.options.prom_id
+      }, data)
+    }
     app.wxrequest({
       url: app.getUrl().cart3,
+      data,
+      success (res2) {
+        wx.hideLoading()
+        if (res2.data.status === 200) {
+          that.setData({
+            orderInfo: res2.data.data.order
+          })
+          if (res.tapIndex === 2) {
+            app.su('otherPayInfo', that.data.menuArr)
+            wx.redirectTo({
+              url: '../otherPay/otherPay?id=' + res2.data.data.order.order_id + `&calculateMoney=${res2.data.data.order.order_amount || that.data.calculateMoney}`
+            })
+          } else if (res.tapIndex === 0) {
+            that.wechatPay()
+          } else if (res.tapIndex === 1) {
+            that.catPay()
+          }
+        } else {
+          app.setToast(that, {content: res2.data.msg})
+        }
+      }
+    })
+  },
+  // 微信支付
+  wechatPay () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().payByOrder,
       data: {
-        address: that.data.addressInfo.provinceName + that.data.addressInfo.cityName + that.data.addressInfo.countyName + that.data.addressInfo.detailInfo,
-        consignee: that.data.addressInfo.userName,
-        mobile: that.data.addressInfo.telNumber,
-        pay_points: that.data.fuck_score ? that.data.userInfo.pay_points : 0,
-        act: 'submit_order',
-        user_note: that.data.userNote || ''
+        order_id: that.data.orderInfo.order_id,
+        pay_type: 1
       },
       success (res) {
         wx.hideLoading()
-        console.log(res)
+        if (res.data.status === 200) {
+          app.wxpay(Object.assign({
+            success (payRes) {
+              if (payRes.errMsg === 'requestPayment:ok') {
+                wx.showToast({
+                  title: '支付成功',
+                  mask: true
+                })
+                wx.removeStorageSync('goodsStorage')
+                wx.removeStorageSync('useCoupon')
+                setTimeout(() => {
+                  wx.redirectTo({
+                    url: '../order/order?type=2'
+                  })
+                }, 1400)
+              }
+            },
+            fail () {
+              wx.showToast({
+                title: '支付失败'
+              })
+            }
+          }, res.data.data))
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
       }
+    })
+  },
+  // 猫豆支付
+  catPay () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().payByOrder,
+      data: {
+        order_id: that.data.orderInfo.order_id,
+        pay_type: 2
+      },
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          wx.showToast({
+            title: '支付成功',
+            mask: true
+          })
+          wx.removeStorageSync('goodsStorage')
+          wx.removeStorageSync('useCoupon')
+          setTimeout(() => {
+            wx.redirectTo({
+              url: '../order/order?type=2'
+            })
+          }, 1400)
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
+    })
+  },
+  // 设置红包缓存
+  setCoupon () {
+    app.su('setCoupon', this.data.coupon)
+  },
+  // 设置使用红包
+  useCoupon () {
+    this.setData({
+      useCoupon: app.gs('useCoupon') || null
     })
   },
   /**
@@ -206,6 +310,9 @@ Page({
     /*eslint-disable*/
     // new Date(new Date().getTime() + 1500000)
     // type=bulkpBuy&id=3&num=87&group_by=1&prom_id=1
+    this.setData({
+      options
+    })
     this.setData({
       lostTime: options.type === 'second' ? true : false,
       // menuArr: app.gs('goodsStorage'),
@@ -230,6 +337,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow () {
+    this.useCoupon()
     // if (app.gs('useCoupon')) {
     //   this.setData({
     //     useCoupon: app.gs('useCoupon')
@@ -248,6 +356,7 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide () {
+    wx.removeStorageSync('useCoupon')
     // TODO: onHide
   },
 

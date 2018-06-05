@@ -326,11 +326,11 @@ Page({
       if (this.data.type === 'bulkP') {
         if (this.data.bulkpChoose >= 0) {
           wx.navigateTo({
-            url: `../submitOrder/submitOrder?type=bulkpBuy&id=${this.data.nowStartArr[this.data.bulkpChoose].goods_id}&num=${this.data.goodsInfo.num || 1}&group_by=${this.data.bulkpSelf}&prom_id=${this.data.nowStartArr[this.data.bulkpChoose].id}`
+            url: `../submitOrder/submitOrder?type=bulkpBuy&id=${this.data.nowStartArr[this.data.bulkpChoose].goods_id}&num=${this.data.goodsInfo.num || 1}&group_by=${this.data.bulkpSelf}&prom_id=${this.data.nowStartArr[this.data.bulkpChoose].team_id}`
           })
         } else {
           wx.navigateTo({
-            url: `../submitOrder/submitOrder?type=bulkpBuy&id=${this.data.goodsInfo.goods_id}&num=${this.data.goodsInfo.num || 1}&group_by=${this.data.bulkpSelf}&prom_id=${this.data.goodsInfo.prom_id}`
+            url: `../submitOrder/submitOrder?type=bulkpBuy&id=${this.data.goodsInfo.goods_id}&num=${this.data.goodsInfo.num || 1}&group_by=${this.data.bulkpSelf}&prom_id=0`
           })
         }
       } else {
@@ -370,7 +370,7 @@ Page({
                   goodsInfo: res.data.data.goods,
                   bannerArr: res.data.data.goodsImagesList,
                   commentStatistics: res.data.data.commentStatistics,
-                  nowStartArr: res.data.data.groupList
+                  nowStartArr: res.data.data.teamList
                 })
                 that.getComment(1)
                 if (that.data.type === 'kill') {

@@ -14,9 +14,26 @@ Page({
       all: this.data.allMoney
     })
   },
+  // 提现
   confirm (e) {
     if (!e.detail.value.money) return app.setToast(this, {content: '请输入提现金额'})
     else if (e.detail.value.money > this.data.allMoney) return app.setToast(this, {content: '可提现金额不足'})
+    // if (e.detail.value.money <= 0 || e.detail.value > this.data.allMoney) return app.setToast(this, {content: '请输入合理的提现金额'})
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().withdrawals,
+      data: {
+        money: e.detail.value.money
+      },
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          app.setToast(that, {content: '提现已受理'})
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
+    })
   },
   /**
    * 生命周期函数--监听页面加载

@@ -87,6 +87,23 @@ page {
     background: #fff;
   }
 }
+.no-use::before {
+  position: absolute;
+  content: '不符合条件';
+  top: 50%;
+  left: 50%;
+  font-size: 24rpx;
+  width: 150rpx;
+  text-align: center;
+  height: 40rpx;
+  line-height: 40rpx;
+  border: 1rpx solid #ccc;
+  padding: 10rpx;
+  border-radius: 5rpx;
+  color: #333;
+  //background-color: #f00;
+  transform: translate(-50%, -50%) rotateZ(-10deg);
+}
 .new-get {
   margin-top: 10rpx;
   color: #dcd7d7;

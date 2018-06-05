@@ -1,6 +1,6 @@
 <view class='p20'>
     <navigator
-            url='../goodsDetail/goodsDetail?type=bulkP&id={{ item.id }}'
+            url='../goodsDetail/goodsDetail?type=bulkP&id={{ item.goods_id }}'
             wx:for='{{ goodsArr }}'
             wx:key="*321"
             class="goods bd1 p200">

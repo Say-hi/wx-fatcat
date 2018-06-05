@@ -26,6 +26,14 @@ let serviceUrl = {
   refundOrderList: baseDomain + '/Api/Order/refund_order_list',
   refundOrder: baseDomain + '/Api/Order/refund_order.html',
   refund_order_img: baseDomain + '/Api/Order/refund_order_img.html',
-  addCar: baseDomain + '/Api/Cart/ajaxAddCart'
+  addCar: baseDomain + '/Api/Cart/ajaxAddCart',
+  payByUserMoney: baseDomain + '/Api/Pay/payByUserMoney',
+  createDaifuOrder: baseDomain + '/Api/Cart/createDaifuOrder',
+  orderTa: baseDomain + '/Api/Order/orderTa.html',
+  payByOrderTa: baseDomain + '/Api/Pay/payByOrderTa',
+  withdrawals: baseDomain + '/Api/User/withdrawals.html',
+  coupon: baseDomain + '/Api/User/coupon.html',
+  teamOrderList: baseDomain + '/Api/Order/team_order_list',
+  payByOrder: baseDomain + '/Api/Pay/payByOrder'
 }
 module.exports = serviceUrl

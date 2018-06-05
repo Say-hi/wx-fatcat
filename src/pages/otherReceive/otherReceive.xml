@@ -1,22 +1,22 @@
 <view class="tac p20 other-top">
-  <image src="{{ src }}"></image>
+  <image src="{{ orderInfo.daifuOrder.head_pic }}"></image>
   <view class="cfff f32">代付金额</view>
-  <view class="cfff o-money fw7">￥883132121.00</view>
-  <view class="f24 cfff">已完成付款金额70.1元/剩余12.0元未付</view>
+  <view class="cfff o-money fw7">￥{{ orderInfo.daifuOrder.order_amount }}</view>
+  <view class="f24 cfff">已完成付款金额{{ orderInfo.daifuOrder.fin_money }}元/剩余{{ orderInfo.daifuOrder.unpay_money }}元未付</view>
 </view>
-<view wx:if="{{ goodsShow }}" class="p20 bgfff">
-  <view class="goods">
-    <image src="{{ src }}"></image>
-    <view class="f28 c666">asdfsadfasdfasdfasdfsadfasdfsadfasdfsadfasdfasdfasdfsadfasdfsadfasdfsadfasdfasdfasdfsadfasdfsadf</view>
+<view wx:if="{{ orderInfo.daifuOrder.is_hide == 0 }}" class="p20 bgfff">
+  <view class="goods" wx:for="{{ orderInfo.daifuOrder.goodsList }}">
+    <image src="{{ item.image }}"></image>
+    <view class="f28 c666">{{ item.goods_name }}</view>
   </view>
 </view>
 
-<view wx:if="{{ fixed }}" class="p20 pay-wrap">
+<view wx:if="{{ orderInfo.daifuOrder.d_order_type == 1 }}" class="p20 pay-wrap">
   <view class="f24 c999 people">
-    <text>已有5位好友替他付款成功</text>
-    <text>5/10</text>
+    <text>已有{{ orderInfo.daifuOrder.pay_num }}位好友替他付款成功</text>
+    <text>{{ orderInfo.daifuOrder.pay_num }}/{{ orderInfo.daifuOrder.total_num }}</text>
   </view>
-  <view class="pay">￥8.8元  帮TA付一笔</view>
+  <view class="pay">￥{{ orderInfo.daifuOrder.per_money }}元  帮TA付一笔</view>
 </view>
 <view wx:else>
   <view class="number-pay-wrap">
@@ -30,8 +30,8 @@
   <form bindsubmit="inputPay">
     <view class="n-pay-self p020 bd1 lh70">
       <view class="f30 c333 fw7">付款金额</view>
-      <input name="money" class="f28" type="digit" placeholder="0.0"/>
-      <veiw class="f28 cccc">最多88元</veiw>
+      <input name="money" value="{{ fastPayMoney }}" class="f28" type="digit" placeholder="0.0"/>
+      <veiw class="f28 cccc">最多{{ orderInfo.daifuOrder.order_amount }}元</veiw>
     </view>
     <view class="p020">
       <button formType="submit" class="pay">帮TA付一笔</button>
@@ -41,11 +41,18 @@
 </view>
 <view class="tac f30 c999 daifutitle">好友代付详情</view>
 <view class="p20 fukuan-wrap">
-  <view wx:for="{{ itemArr }}" wx:key="*098" class="f24 c666 bd1">
-    <image src="{{ src }}"></image>
-    <view class="ell1">{{ item }}</view>
-    <view class="p020">2分钟前</view>
-    <view class="p020">替他付款</view>
-    <view class="main-text-color p020">￥8.8</view>
+  <view wx:for="{{ orderInfo.userList }}" wx:key="*098" class="f24 c666 bd1">
+    <image src="{{ item.head_pic }}"></image>
+    <view class="ell1">{{ item.nickname }}</view>
+    <view class="p020">{{ item.pay_time_str }}</view>
+    <view class="p020">好友代付</view>
+    <view class="main-text-color p020">￥{{ item.pay_money }}</view>
   </view>
+  <view wx:if="{{ !orderInfo.userList.length }}" class="tac f24 c999">您将第一个替好友代付哦</view>
 </view>
+
+
+        <!--错误弹窗-->
+<import src="../template/template"></import>
+<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>
+<template wx:if="{{ !needUserInfo }}" is="getUserInfo"></template>

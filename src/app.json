@@ -2,13 +2,14 @@
 //  群信息小程序页面分布
   "pages": [
     "pages/index/index", // 首页
+    "pages/otherPay/otherPay", // 他人代付
+    "pages/coupon/coupon", // 我的红包
     "pages/question/question", // 问卷调查
     "pages/questionCreate/questionCreate", // 问卷创建
     "pages/questionCountDetail/questionCountDetail", // 问卷统计详情
     "pages/questionCount/questionCount", // 问卷统计
     "pages/questionName/questionName", // 问卷调查设置标题
     "pages/otherReceive/otherReceive", // 他人支付付款
-    "pages/otherPay/otherPay", // 他人代付
     "pages/proxy/proxy", // 代理端中心
     "pages/proxyMission/proxyMission", // 代理 任务
     "pages/proxyFansDetail/proxyFansDetail", // 代理 粉丝详情
@@ -29,7 +30,6 @@
     "pages/bulkPOrder/bulkPOrder", // 拼团订单
     "pages/user/user", // 我的
     "pages/order/order", // 订单
-    "pages/coupon/coupon", // 我的红包
     "pages/chargeMoney/chargeMoney", // 充值猫豆
     "pages/score/score", // 积分
     "pages/money/money", // 猫豆余额
@@ -38,7 +38,6 @@
     "pages/bulkPurchase/bulkPurchase", // 拼团商品列表
     "pages/killGoods/killGoods", // 秒杀商品列表
     "pages/goods/goods" // 商品,,
-
     // Dont remove this comment
   ],
   // Window configuration
