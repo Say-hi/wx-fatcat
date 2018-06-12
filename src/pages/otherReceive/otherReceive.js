@@ -8,12 +8,6 @@ Page({
    */
   data: {
     basedomain: app.data.basedomain,
-    src: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-    itemArr: [
-      'asdfasdfsd',
-      '阿斯顿发撒旦法',
-      'asdf阿斯顿发生阿斯顿发'
-    ],
     moneyArr: [5, 10, 20]
   },
   chooseFastPay (e) {
@@ -63,6 +57,17 @@ Page({
       }
     })
   },
+  payMoneyPer () {
+    let that = this
+    let e = {
+      detail: {
+        value: {
+          money: that.data.orderInfo.daifuOrder.per_money
+        }
+      }
+    }
+    this.inputPay(e)
+  },
   inputPay (e) {
     let that = this
     if (e.detail.value.money <= 0) return app.setToast(this, {content: '请输入代付金额'})
@@ -107,6 +112,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad (options) {
+    console.log('options', options)
     this.setData({
       options
     })

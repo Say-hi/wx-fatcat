@@ -45,6 +45,25 @@ Page({
       }
     })
   },
+  // 提醒发货
+  orderMsg (e) {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().orderMsg,
+      data: {
+        order_id: e.currentTarget.dataset.id,
+        pickup_id: e.currentTarget.dataset.pid
+      },
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          app.setToast(that, {content: '已提醒商家发货'})
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

@@ -8,7 +8,10 @@ Page({
    */
   data: {
     img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-    currentIndex: 0
+    currentIndex: 0,
+    list: [],
+    page: 0,
+    typeArr: ['', 'WAITPAY', 'WAITSEND', 'WAITRECEIVE', 'FINISH']
   },
   scanCode () {
     wx.scanCode({
@@ -39,18 +42,16 @@ Page({
       }
     })
   },
-  confirm () {
+  confirm (e) {
     // todo 确认核销
-    wx.showToast({
-      title: '核销成功'
-    })
+    this.orderConfirm(e.currentTarget.dataset.code)
     this.maskChange()
   },
   confirmInput (e) {
     this.orderConfirm(e.detail.value.code)
   },
   maskChange (e) {
-    (e && e.currentTarget.dataset.id) && this.setData({writeOffId: e.currentTarget.dataset.id})
+    (e && e.currentTarget.dataset.id) && this.setData({writeOffId: e.currentTarget.dataset.id, code: e.currentTarget.dataset.code})
     this.setData({
       mask: !this.data.mask
     })
@@ -66,11 +67,116 @@ Page({
   },
   chooseTab (e) {
     this.setData({
-      currentIndex: e.currentTarget.dataset.index
+      currentIndex: e.currentTarget.dataset.index,
+      list: [],
+      page: 0
     })
+    this.proxyOrderList()
   },
   search (e) {
     if (!e.detail.value.searchtext) return app.setToast(this, {content: '请输入搜索内容'})
+  },
+  cancel (e) {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().cancel,
+      data: {
+        order_id: e.currentTarget.dataset.id
+      },
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status * 1 === 1) {
+          wx.showToast({
+            title: '取消成功',
+            mask: true
+          })
+          setTimeout(() => {
+            if (that.data.type !== '5') that.getOrderList(that.data.typeArr[that.data.currentIndex])
+            else that.getreturnGoodsList()
+          }, 1400)
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
+    })
+  },
+  sendMsg (e) {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().proxySendMsg,
+      data: {
+        order_id: e.currentIndex.dataset.id
+      },
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          wx.showToast({
+            title: '发送成功',
+            mask: true
+          })
+          setTimeout(() => {
+
+          }, 1400)
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
+    })
+  },
+  proxyOrderList () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().proxyOrderList,
+      data: {
+        type: that.data.typeArr[that.data.currentIndex],
+        page: ++that.data.page
+      },
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          that.setData({
+            list: that.data.list.concat(res.data.data.list),
+            more: res.data.data.list.length < 10 ? 0 : 1
+          })
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
+    })
+  },
+  onReachBottom () {
+    if (!this.data.more) return app.setToast(this, {content: '没有更多订单了'})
+    this.proxyOrderList()
+  },
+  sendOrder (e) {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().proxyDelivery,
+      data: {
+        order_id: e.currentIndex.dataset.id
+      },
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+           wx.showToast({
+             title: '该订单发货',
+             mask: true
+           })
+          setTimeout(() => {
+             let e = {
+               currentTarget: {
+                 dataset: {
+                   index: that.data.currentIndex
+                 }
+               }
+             }
+             that.chooseTab(e)
+          }, 1400)
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
+    })
   },
   /**
    * 生命周期函数--监听页面加载
@@ -79,6 +185,7 @@ Page({
     this.setData({
       currentIndex: options.type
     })
+    this.proxyOrderList()
     // TODO: onLoad
   },
 

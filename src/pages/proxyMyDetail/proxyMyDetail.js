@@ -7,9 +7,27 @@ Page({
    * 页面的初始数据
    */
   data: {
-    title: 'proxyMyDetail'
+    title: 'proxyMyDetail',
+    page: 0,
+    list: []
   },
-
+  // 提现明细
+  withdrawalsList () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().withdrawalsList,
+      data: {
+        p: ++that.data.page
+      },
+      success (res) {
+        wx.hideLoading()
+        that.setData({
+          list: that.data.list.concat(res.data.data.list),
+          more: res.data.data.list.length < 10 ? 0 : 1
+        })
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -19,6 +37,7 @@ Page({
       this.setData({
         show: true
       })
+      this.withdrawalsList()
     }
     // TODO: onLoad
   },
@@ -29,7 +48,10 @@ Page({
   onReady () {
     // TODO: onReady
   },
-
+  onReachBottom () {
+    if (!this.data.more) return app.setToast(this, {content: '没有更多数据啦~'})
+    this.withdrawalsList()
+  },
   /**
    * 生命周期函数--监听页面显示
    */

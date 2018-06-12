@@ -18,35 +18,35 @@
 
 <view class="order"
       wx:key="*409"
-      wx:for="123412">
-  <view class="o-t f24 c333 lh50"><text>订单编号: 201234864651</text><text class="f28">等待买家付款</text></view>
+      wx:for="{{ list }}">
+  <view class="o-t f24 c333 lh50"><text>订单编号: {{ item.order_sn }}</text><text class="f28">{{ item.order_status_desc }}</text></view>
   <view class="goods">
-    <image src="{{ img }}"></image>
+    <image src="{{ item.goods_list[0].image }}"></image>
     <view class="g-i">
-      <view class="f30 c333">超级好吃的榴莲披萨</view>
-      <view class="f24 c999">规格： 10寸</view>
+      <view class="f30 c333">{{ item.goods_list[0].goods_name }}</view>
+      <!--<view class="f24 c999">规格： 10寸</view>-->
       <view class="g-b">
         <view class="f30 c333">
-          <text class="f24">￥</text>88.00
+          <text class="f24">￥</text>{{ item.goods_list[0].final_price }}
         </view>
-        <view class="f24 c999">×2</view>
+        <view class="f24 c999">×{{ item.goods_list[0].goods_num }}</view>
       </view>
     </view>
   </view>
   <view class="tac o-m bd1">
-    <text class="f24 main-text-color">此订单含2件商品</text>
+    <text class="f24 main-text-color">此订单含{{ item.order_goods_num }}件商品</text>
     <view class="f24 c333 o-price">
-      <text>合计: <text class="f30 main-text-color">88.00</text></text>
-      <text>送货费: <text class="f30 c999">￥88.00</text></text>
+      <text>合计: <text class="f30 main-text-color">{{ item.total_amount }}</text></text>
+      <text>送货费: <text class="f30 c999">￥{{ item.shipping_price }}</text></text>
     </view>
   </view>
   <view class="o-btn f28 c999">
-    <view data-id="{{ item.id }}">查看订单</view>
-    <view data-id="{{ item.id }}">关闭订单</view>
-    <view data-id="{{ item.id }}">发送通知</view>
-    <view catchtap="maskChange" class="cfff" data-id="{{ item.id || 123 }}">核销订单</view>
-    <view class="cfff" data-id="{{ item.id }}">发货</view>
-    <view catchtap="call" class="blue cfff" data-phone="{{ item.phone }}">拨打电话</view>
+    <navigator wx:if="{{ item.order_status_code == 'WAITSEND' }}" url="../finish/finish?id={{ item.order_id }}"><view>查看订单</view></navigator>
+    <view wx:if="{{ item.order_status_code == 'WAITPAY' }}" catchtap="cancel" data-id="{{ item.order_id }}">关闭订单</view>
+    <view wx:if="{{ item.order_status_code == 'WAITRECEIVE' }}" catchtap="sendMsg" data-id="{{ item.order_id }}">发送通知</view>
+    <view wx:if="{{ item.order_status_code == 'WAITRECEIVE' }}" catchtap="maskChange" data-code="{{ item.code }}" class="cfff" data-id="{{ item.id }}">核销订单</view>
+    <view wx:if="{{ item.order_status_code == 'WAITSEND' }}" catchtap="sendOrder" class="cfff" data-id="{{ item.order_id }}">发货</view>
+    <view wx:if="{{ item.order_status_code == 'WAITRECEIVE' }}" catchtap="call" class="blue cfff" data-phone="{{ item.mobile }}">拨打电话</view>
   </view>
 </view>
 
@@ -56,7 +56,7 @@
     <view class="f36 cfff">核销订单</view>
     <view catchtap="scanCode" class="iconfont f30 c333 tal bottom icon-QR">扫码核销</view>
     <view catchtap="MaskTwoChange" class="iconfont f30 c333 tal bottom icon-yanzhengma">取货码核销</view>
-    <view catchtap="confirm" class="iconfont f30 c333 tal bottom icon-xuanze">直接确认核销</view>
+    <view catchtap="confirm" data-code="{{ code }}" class="iconfont f30 c333 tal bottom icon-xuanze">直接确认核销</view>
   </view>
 </view>
 
@@ -71,7 +71,11 @@
   </view>
 </view>
 
-<view wx:if="{{ orderArr.length }}" class="tac no-goods">
-<image src="../../images/order_bg.png"></image>
-<view class="tac f24 c999">亲，您还没有相关的订单哟~</view>
+<view wx:if="{{ !list.length }}" class="tac no-goods">
+  <image src="../../images/order_bg.png"></image>
+  <view class="tac f24 c999">亲，您还没有相关的订单哟~</view>
 </view>
+
+        <!--错误弹窗-->
+<import src="../template/template"></import>
+<template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>

@@ -7,7 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    allMoney: 10000
+    allMoney: 0
   },
   getAll () {
     this.setData({
@@ -35,10 +35,28 @@ Page({
       }
     })
   },
+  performance () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().performance,
+      data: {},
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          that.setData({
+            allMoney: res.data.data.info.user_money || 0
+          })
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad () {
+    this.performance()
     // TODO: onLoad
   },
 

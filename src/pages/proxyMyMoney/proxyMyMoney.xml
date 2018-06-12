@@ -1,33 +1,33 @@
 
 <view class="p20 p-t">
   <view class="bd1 tac achievement p200">
-    <view class="f40 main-text-color">3164</view>
+    <view class="f40 main-text-color">{{ performance.yugu_total || 0 }}</view>
     <view class="f22 c999">预估总收益金额</view>
   </view>
   <view class="achievement-wrap">
     <view class="achievement bd1 p200">
-      <text class="f40 main-text-color">654465</text>
+      <text class="f40 main-text-color">{{ performance.task_total || 0 }}</text>
       <text class="f22 c999">任务奖励</text>
     </view>
     <view class="achievement bd1 p200">
-      <text class="f40 main-text-color">1000</text>
+      <text class="f40 main-text-color">{{ performance.tg_total || 0 }}</text>
       <text class="f22 c999">推广佣金</text>
     </view>
   </view>
   <view class="achievement-wrap">
     <view class="achievement bd1 p200">
-      <text class="f40 main-text-color">654465</text>
+      <text class="f40 main-text-color">{{ performance.leiji_total || 0 }}</text>
       <text class="f22 c999">账户累计收益金额</text>
     </view>
     <view class="achievement bd1 p200">
-      <text class="f40 main-text-color">1000</text>
+      <text class="f40 main-text-color">{{ performance.jiesuan_total || 0 }}</text>
       <text class="f22 c999">待结算金额</text>
     </view>
   </view>
 </view>
 
 <view class="p20 f26 c333 pr get-money">
-已结算可提现金额　　<text class="main-text-color">1000.0</text><navigator url="../proxyWithdraw/proxyWithdraw"
+已结算可提现金额　　<text class="main-text-color">{{ performance.user_money || 0 }}</text><navigator url="../proxyWithdraw/proxyWithdraw"
                                                                 hover-class="none"
                                                                 class="pa cfff f30">提现</navigator>
 </view>

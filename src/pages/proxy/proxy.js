@@ -1,5 +1,5 @@
 // 获取全局应用程序实例对象
-// const app = getApp()
+const app = getApp()
 
 // 创建页面实例对象
 Page({
@@ -51,7 +51,23 @@ Page({
       }
     ]
   },
-
+  performance () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().performance,
+      data: {},
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          that.setData({
+            proxyInfo: res.data.data.info
+          })
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -70,7 +86,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow () {
-    // TODO: onShow
+    this.performance()
   },
 
   /**

@@ -116,8 +116,6 @@ Page({
         return
       }
       let lost = parseInt((endTime - (new Date().getTime())) / 1000)
-      // let m = parseInt(lost / 60)
-      // let s = lost % 60
       this.setData({
         timeText: parseInt(lost / 60) === 0 ? lost % 60 + '秒' : parseInt(lost / 60) + '分' + lost % 60 + '秒'
       })
@@ -130,10 +128,12 @@ Page({
     this.setData({
       options
     })
-    if (options.type === 'buyNow' || (options.type === 'bulkpBuy' && options.group_by * 1 === 1)) {
+    if (options.type === 'buyNow') {
       data = Object.assign({action: 'buy_now', goods_id: options.id, goods_num: options.num})
+    } else if (options.type === 'bulkpBuy' && options.group_by * 1 === 1) {
+      data = Object.assign({action: 'buy_now', group_buy: 0, goods_id: options.id, team_id: options.prom_id, goods_num: options.num})
     } else if (options.type === 'bulkpBuy' && options.group_by * 1 !== 1) {
-      data = Object.assign({action: 'buy_now', goods_id: options.id, prom_id: options.prom_id, goods_num: options.num})
+      data = Object.assign({action: 'buy_now', group_buy: 1, goods_id: options.id, team_id: options.prom_id, goods_num: options.num})
     }
     app.wxrequest({
       url: app.getUrl().cart2,
@@ -245,9 +245,10 @@ Page({
                 })
                 wx.removeStorageSync('goodsStorage')
                 wx.removeStorageSync('useCoupon')
+                let url = that.data.options.type === 'bulkpBuy' ? '../bulkPOrder/bulkPOrder' : '../order/order?type=2'
                 setTimeout(() => {
                   wx.redirectTo({
-                    url: '../order/order?type=2'
+                    url
                   })
                 }, 1400)
               }
@@ -282,9 +283,10 @@ Page({
           })
           wx.removeStorageSync('goodsStorage')
           wx.removeStorageSync('useCoupon')
+          let url = that.data.options.type === 'bulkpBuy' ? '../bulkPOrder/bulkPOrder' : '../order/order?type=2'
           setTimeout(() => {
             wx.redirectTo({
-              url: '../order/order?type=2'
+              url
             })
           }, 1400)
         } else {

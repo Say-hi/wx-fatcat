@@ -37,10 +37,32 @@ Page({
       }
     })
   },
+  getData (id) {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().orderDetail,
+      data: {
+        order_id: id
+      },
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          res.data.data.order_info.add_time = new Date(res.data.data.order_info.add_time * 1000).toLocaleString()
+          res.data.data.order_info.pay_time = new Date(res.data.data.order_info.pay_time * 1000).toLocaleString()
+          that.setData({
+            info: res.data.data.order_info
+          })
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad () {
+  onLoad (options) {
+    this.getData(options.id)
     // TODO: onLoad
   },
 

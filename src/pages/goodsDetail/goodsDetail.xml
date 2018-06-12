@@ -78,7 +78,7 @@
            src="{{ item.image }}"></image>
     <view class="now-bp-t">
       <text class="f26 c000">{{ item.title }}</text>
-      <text class="f24 c999" wx:if="{{ item.status == 2 }}">还差<text class="main-text-color">{{item.virtual_num - item.order_num}}</text>人 剩余{{ item.h }}:{{ item.m }}:{{ item.s }} </text>
+      <text class="f24 c999" wx:if="{{ item.status == 2 }}">还差<text class="main-text-color">{{item.virtual_num - item.join_num}}</text>人 剩余{{ item.h }}:{{ item.m }}:{{ item.s }} </text>
       <text class="f24 c999" wx:if="{{ item.status == 3 }}">拼团已结束</text>
     </view>
     <view>
@@ -246,3 +246,4 @@
         <!--错误弹窗-->
 <import src="../template/template"></import>
 <template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>
+<template wx:if="{{ needUserInfo }}" is="getUserInfo"></template>

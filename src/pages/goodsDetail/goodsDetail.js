@@ -350,7 +350,7 @@ Page({
     let that = this
     if (this.data.type === 'bulkP') {
       wx.getLocation({
-        type: 'gcj02 ',
+        type: 'gcj02',
         success (res2) {
           that.setData({
             needSetting: false
@@ -460,6 +460,15 @@ Page({
       }
     })
   },
+  MaskGetUserInfo (e) {
+    // console.log(e)
+    if (e.detail.iv) {
+      this.setData({
+        needUserInfo: false
+      })
+      app.wxlogin(this.getGoodsInfo, this.options.id)
+    }
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -478,7 +487,20 @@ Page({
         })
       }
     })
-    this.getGoodsInfo(options.id)
+    /*eslint-disable*/
+    this.setData({
+      show: app.gs('userInfo') ? false : true
+    })
+    if (!app.gs('userInfo')) {
+      this.setData({
+        needUserInfo: true
+      })
+      // console.log('this.getGoodsInfo', this.getGoodsInfo)
+      // console.log('options.id', options.id)
+      app.wxlogin(this.getGoodsInfo, options.id)
+    } else {
+      this.getGoodsInfo(options.id)
+    }
     // TODO: onLoad
   },
   onReachBottom () {

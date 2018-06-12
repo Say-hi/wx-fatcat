@@ -18,6 +18,12 @@ Page({
       mskId: e.currentTarget.dataset.id || null
     })
   },
+  confirm () {
+    this.maskChange()
+    wx.showToast({
+      title: '上传成功'
+    })
+  },
   chooseTab (e) {
     this.setData({
       currentIndex: e.currentTarget.dataset.index,

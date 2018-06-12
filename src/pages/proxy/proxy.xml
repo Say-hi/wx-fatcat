@@ -8,21 +8,21 @@
     </navigator>
     <view class="achievement-wrap">
         <view class="achievement bd1 p200">
-            <text class="f40 main-text-color">654465</text>
+            <text class="f40 main-text-color">{{ proxyInfo.yugu_total || 0 }}</text>
             <text class="f22 c999">预估总收益</text>
         </view>
         <view class="achievement bd1 p200">
-            <text class="f40 main-text-color">1000</text>
+            <text class="f40 main-text-color">{{ proxyInfo.user_money || 0 }}</text>
             <text class="f22 c999">可提现金额</text>
         </view>
     </view>
     <view class="achievement-wrap">
         <view class="achievement bd1 p200">
-            <text class="f40 main-text-color">654465</text>
+            <text class="f40 main-text-color">{{ proxyInfo.tixian_total || 0 }}</text>
             <text class="f22 c999">已提现历史收益</text>
         </view>
         <view class="achievement bd1 p200">
-            <text class="f40 main-text-color">1000</text>
+            <text class="f40 main-text-color">{{ proxyInfo.refund_total || 0 }}</text>
             <text class="f22 c999">退款收益</text>
         </view>
     </view>

@@ -179,7 +179,8 @@ App({
       title: '请求数据中...',
       mask: true
     })
-    if (!obj.iv) {
+    // console.log('obj', obj)
+    if (!obj.data.iv) {
       obj.data = Object.assign(obj.data, {session_key: that.gs()})
     }
     wx.request({
@@ -284,8 +285,11 @@ App({
   },
   // 用户登陆
   wxlogin (loginSuccess, params) {
+    // console.log('loginSuccess', loginSuccess)
+    // console.log('params', params)
     let that = this
     if (wx.getStorageSync('session_key')) {
+      // console.log(1)
       let checkObj = {
         url: useUrl.carList,
         data: {
@@ -356,6 +360,7 @@ App({
       }
       that.wxrequest(checkObj)
     } else {
+      // console.log(2)
       // 无条件获取登陆code
       wx.login({
         success (res) {
@@ -364,15 +369,19 @@ App({
           // 获取用户信息
           let obj = {
             success (data) {
+              // console.log('getuserinfo', data)
+              if (!data.iv) return
+              // console.log('goto')
               wx.setStorageSync('userInfo', data.userInfo)
-              console.log(data)
               let {iv, encryptedData, rawData, signature} = data
               // let iv = data.iv
               // let encryptedData = data.encryptedData
               let recommendId = ''
+              // console.log('params', params)
               if (params) {
                 recommendId: params.id
               }
+              // console.log('recommendId', recommendId)
               // 获取session_key
               let objs = {
                 url: useUrl.login,
@@ -389,7 +398,9 @@ App({
                   // let s = 'DUGufWMOkMIolSIXLajTvCEvXAYQZwSpnafUVlSagdNEReVSRDAECzwEVAtFbPWg'
                   wx.setStorageSync('session_key', session.data.data.session_key)
                   // wx.setStorageSync('session_key', s)
+                  // console.log('loginSuccessOut', loginSuccess)
                   if (loginSuccess) {
+                    // console.log('loginSuccess', loginSuccess)
                     loginSuccess(params)
                   }
                 }

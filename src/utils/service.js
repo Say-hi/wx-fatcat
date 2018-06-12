@@ -36,6 +36,14 @@ let serviceUrl = {
   teamOrderList: baseDomain + '/Api/Order/team_order_list',
   orderStatus2: baseDomain + '/Api/Order/order_status2.html',
   pickupOrderList: baseDomain + '/Api/Order/pickup_order_list.html',
+  withdrawalsList: baseDomain + '/Api/User/withdrawals_list.html',
+  performance: baseDomain + '/Api/User/performance.html',
+  orderMsg: baseDomain + '/Api/User/order_msg.html',
+  orderDetail: baseDomain + '/Api/Order/order_detail.html',
+  cancelOrder: baseDomain + '/Api/Order/cancel_order.html',
+  proxySendMsg: baseDomain + '/Api/User/proxy_send_msg.html',
+  proxyOrderList: baseDomain + '/Api/Order/proxy_order_list',
+  proxyDelivery: baseDomain + '/Api/Order/proxy_delivery.html',
   payByOrder: baseDomain + '/Api/Pay/payByOrder'
 }
 module.exports = serviceUrl

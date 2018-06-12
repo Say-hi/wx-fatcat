@@ -37,7 +37,7 @@ Page({
         if (res.data.status === 200) {
           if (res.data.data.lists.length) {
             for (let v of res.data.data.lists) {
-              v.change_time = new Date(v.change_time * 1000).toLocaleString()
+              v.add_time = new Date(v.add_time * 1000).toLocaleString()
             }
           }
           that.setData({

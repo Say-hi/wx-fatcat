@@ -16,7 +16,7 @@
     <text>已有{{ orderInfo.daifuOrder.pay_num }}位好友替他付款成功</text>
     <text>{{ orderInfo.daifuOrder.pay_num }}/{{ orderInfo.daifuOrder.total_num }}</text>
   </view>
-  <view class="pay">￥{{ orderInfo.daifuOrder.per_money }}元  帮TA付一笔</view>
+  <view catchtap="payMoneyPer" class="pay">￥{{ orderInfo.daifuOrder.per_money }}元  帮TA付一笔</view>
 </view>
 <view wx:else>
   <view class="number-pay-wrap">

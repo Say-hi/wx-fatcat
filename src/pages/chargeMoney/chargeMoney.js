@@ -80,7 +80,7 @@ Page({
    */
   onLoad (options) {
     this.setData({
-      userMoney: options.userMoney || 0
+      userMoney: options.money || 0
     })
     // TODO: onLoad
   },

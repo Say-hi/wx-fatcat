@@ -140,7 +140,7 @@ Page({
     console.log(e)
     if (e.detail.iv) {
       this.setData({
-        needUserInfo: true
+        needUserInfo: false
       })
       app.wxlogin(this.getIndex)
     }
@@ -153,14 +153,16 @@ Page({
     this.setData({
       show: app.gs('userInfo') ? false : true
     })
-    if (app.gs('userInfo')) {
+    if (!app.gs('userInfo')) {
       this.setData({
         needUserInfo: true
       })
       app.wxlogin(this.getIndex)
+    } else {
+      this.getIndex()
     }
     // app.wxlogin(this.getIndex)
-    // this.getIndex()
+    //
     // console.dir(app.data)
   },
   /**
