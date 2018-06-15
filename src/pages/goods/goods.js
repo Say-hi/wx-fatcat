@@ -15,7 +15,9 @@ Page({
     app.wxrequest({
       url: app.getUrl().index,
       data: {
-        act: type
+        act: type,
+        latitude: app.gs('userLocation').latitude || '',
+        longitude: app.gs('userLocation').longitude || ''
       },
       success (res) {
         wx.hideLoading()
@@ -37,6 +39,7 @@ Page({
       type: options.type
     })
     this.getIndex(options.type)
+    app.setFuck(this)
     // TODO: onLoad
   },
 

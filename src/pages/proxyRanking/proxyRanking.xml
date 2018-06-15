@@ -11,16 +11,16 @@
       <view class="tac">名称</view>
       <view class="tar">总收益(元)</view>
     </view>
-    <view wx:for="1234567654654654654654654654" wx:key="*788" class="p020 bgfff bd1 r-content">
+    <view wx:for="{{ currentTab == 1 ? dayRank : monthRank }}" wx:key="*788" class="p020 bgfff bd1 r-content">
       <view class="r-left">
         <image wx:if="{{ index <= 2 }}" src="../../images/ranking_{{ index }}.png"></image>
         <view class="f28 c333" wx:else>{{ index }}</view>
       </view>
       <view class="r-center">
-        <image src="{{ src }}"></image>
-        <view class="ell1 f28 c999">dfgsdfgasdgasdfgasdfasdfsadfsadfsafsad</view>
+        <image src="{{ item.head_pic }}"></image>
+        <view class="ell1 f28 c999">{{ item.nickname }}</view>
       </view>
-      <view class="{{ index <= 2 ? 'main-text-color' : 'c333' }} f24">1524154</view>
+      <view class="{{ index <= 2 ? 'main-text-color' : 'c333' }} f24">{{ item.yugu_total }}</view>
     </view>
   </view>
 </view>

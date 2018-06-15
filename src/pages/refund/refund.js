@@ -17,7 +17,7 @@ Page({
     })
   },
   confirm (e) {
-    if (!!e.detail.value.money || e.detail.value.money < 0 || e.detail.value.money > this.data.options.money) return app.setToast(this, {content: '请输入合理的退款金额'})
+    if (e.detail.value.money < 0 || e.detail.value.money > this.data.options.money) return app.setToast(this, {content: '请输入合理的退款金额'})
     if (!e.detail.value.desc.trim().length) return app.setToast(this, {content: '请输入退货理由'})
     let that = this
     app.wxrequest({
@@ -25,6 +25,7 @@ Page({
       data: {
         refund_type: that.data.typeChoose,
         describe: e.detail.value.desc,
+        refund_money: e.detail.value.money || 0,
         order_id: that.data.options.id
       },
       success (res) {

@@ -29,16 +29,17 @@
   </view>
 </view>
 <view class="o-btn f28 c999">
-  <view data-id="{{ item.order_id }}">查看订单</view>
+  <navigator url="../finish/finish?id={{ item.order_id }}"><view>查看订单</view></navigator>
   <!--<navigator url="../submitOrder/submitOrder?id={{ item.id }}&type=second&time=2018-04-09 14:06:10" >-->
-  <view wx:if="{{ chooseTab == 0 && item.order_status_code == 1 }}" class="cfff share-btn" data-id="{{ item.order_id }}">
-    <button open-type="share">邀请好友</button>
+  <view wx:if="{{ currentIndex == 0 }}" class="cfff share-btn">
+  <!--<view class="cfff share-btn">-->
+    <button data-src="{{ item.goods_list[0].image }}" data-id="{{ item.goods_list[0].goods_id }}" open-type="share">邀请好友</button>
   </view>
   <!--</navigator>-->
   <view wx:if="{{ chooseTab == 1 }}" catchtap="orderMsg" class="cfff" data-pid="{{ item.pickup_id }}" data-id="{{ item.order_id }}">提醒发货</view>
-  <view wx:if="{{ chooseTab == 2 }}" data-id="{{ item.id }}">删除订单</view>
+  <view wx:if="{{ chooseTab == 2 }}" catchtap="del" data-id="{{ item.order_id }}">删除订单</view>
   <!--<view class="cfff" data-id="{{ item.id }}">确认收货</view>-->
-  <view wx:if="{{ chooseTab == 1 }}" data-id="{{ item.goods_list[0].goods_id }}">再次购买</view>
+  <navigator wx:if="{{ chooseTab == 1 }}" url="../goodsDetail/goodsDetail?type=bulkP&id={{ item.goods_list[0].goods_id }}"><view>再次购买</view></navigator>
   <!--<view class="cfff" data-id="{{ item.id }}">评价晒图</view>-->
 </view>
 </view>
@@ -51,3 +52,4 @@
         <!--错误弹窗-->
 <import src="../template/template"></import>
 <template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>
+<template wx:if="{{ FuckU.show == 1 }}" is="showGZH" data="{{ ...FuckU, notDel }}"></template>

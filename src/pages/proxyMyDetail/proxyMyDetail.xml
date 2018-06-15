@@ -1,16 +1,16 @@
-<view wx:for="1234"
+<view wx:for="{{ tgList }}"
       class="detail-wrap"
       wx:if="{{ !show }}"
       wx:key="*222">
-  <view class="f32 c999">2018年4月</view>
-  <view wx:for="12341234" wx:key="*111" class="d-content bd1 p020">
+  <view class="f32 c999">{{ item.year_month }}</view>
+  <view wx:for="{{ item.list }}" wx:for-item="iItem" wx:key="*111" class="d-content bd1 p020">
     <view class="p20">
-      <text class="f28 c333">推广佣金</text>
-      <text class="f22 c999">2018-08-24 15:33:21</text>
+      <text class="f28 c333">{{ iItem.desc }}</text>
+      <text class="f22 c999">{{ iItem.add_time }}</text>
     </view>
-    <view class="f28 main-text-color">+5.00元</view>
+    <view class="f28 main-text-color">{{ iItem.money }}元</view>
   </view>
-  <view class="tac f24 c666">暂无您的业绩信息</view>
+  <view wx:if="{{ !item.list.length }}" class="tac f24 c666">暂无您此月业绩信息</view>
 </view>
 
 <view class="money-detail" wx:if="{{ show }}">
@@ -19,7 +19,7 @@
     <view class="user-info-in">
       <view class="user-info-in-bottom">
         <!--<view>-->
-        <text class="f30 fw7 cfff">1234</text>
+        <text class="f30 fw7 cfff">{{ TiBaiWan }}</text>
         <text class="f22" style="color: #EBCDC5;">已提现历史佣金</text>
         <!--</view>-->
       </view>

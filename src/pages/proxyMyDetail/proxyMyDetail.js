@@ -21,10 +21,37 @@ Page({
       },
       success (res) {
         wx.hideLoading()
+        for (let v of res.data.data.list) {
+          v.create_time = new Date(v.create_time * 1000).toLocaleString()
+        }
         that.setData({
+          TiBaiWan: res.data.data.total_money || 0,
           list: that.data.list.concat(res.data.data.list),
           more: res.data.data.list.length < 10 ? 0 : 1
         })
+      }
+    })
+  },
+  // 推广
+  tgList () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().tgList,
+      data: {},
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          for (let v of res.data.data.list) {
+            for (let s of v.list) {
+              s.add_time = new Date(s.add_time * 1000).toLocaleString()
+            }
+          }
+          that.setData({
+            tgList: res.data.data.list
+          })
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
       }
     })
   },
@@ -38,6 +65,8 @@ Page({
         show: true
       })
       this.withdrawalsList()
+    } else {
+      this.tgList()
     }
     // TODO: onLoad
   },

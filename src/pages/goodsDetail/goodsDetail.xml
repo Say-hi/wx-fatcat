@@ -60,7 +60,7 @@
 </view>
 
 <view wx:if="{{ type == 'bulkP' }}" class="bulk-purchase p020">
-  <navigator url="../rulers/rulers"
+  <navigator url="../rulers/rulers?type=bulkP&id={{ options.id }}"
              hover-class="none"
              class="b-p-title arrow bd1">
     <view class="f24 tt cfff">拼团</view>
@@ -69,7 +69,7 @@
   <image mode="widthFix" src="../../images/bulk-purchase.png"></image>
 </view>
 
-<view wx:if="{{ type == 'bulkP' }}" class="now-bp p20">
+<view wx:if="{{ type == 'bulkP' && nowStartArr.length > 0 }}" class="now-bp p20">
   <view class="f30 c000 bd1 fw7 lh60">进行中的拼团:</view>
   <view wx:for="{{ nowStartArr }}"
         wx:key="*687"
@@ -154,11 +154,11 @@
     <navigator url="../index/index"
                open-type="reLaunch"
                wx:if="{{ type != 'bulkP' }}"
-               class='iconfont tac icon-shouye2'>首页</navigator>
+               class='iconfont tac f24 icon-shouye2'>首页</navigator>
     <navigator url='../car/car'
                open-type="switchTab"
                wx:if="{{ type != 'bulkP' }}"
-               class='iconfont tac icon-gouwucheman'>购物车</navigator>
+               class='iconfont tac f24 icon-gouwucheman'>购物车</navigator>
     <view catchtap="closeBuy" data-type="car" wx:if="{{ type != 'bulkP' }}" class='f32 tac cfff'>加入购物车</view>
     <view catchtap="closeBuy" data-type="buy" data-now="now" wx:if="{{ type != 'bulkP' }}" class='f32 tac cfff'>立即购买</view>
     <view catchtap="closeBuy" data-type="buy" data-self="self" wx:if="{{ type == 'bulkP' }}" class="f32 tac cfff">单独购买￥{{ goodsInfo.market_price }}</view>

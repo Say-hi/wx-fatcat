@@ -15,7 +15,9 @@ Page({
     app.wxrequest({
       url: app.getUrl().index,
       data: {
-        act: 'fs'
+        act: 'fs',
+        latitude: app.gs('userLocation').latitude || '',
+        longitude: app.gs('userLocation').longitude || ''
       },
       success (res) {
         wx.hideLoading()
@@ -33,6 +35,7 @@ Page({
 // 秒杀逻辑
   setKill () {
     let that = this
+    if (timer) clearInterval(timer)
     function kill () {
       let shutDown = 0
       for (let [i] of that.data.killArr.entries()) {
@@ -89,7 +92,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow () {
-    // this.setKill()
+    this.setKill()
     // TODO: onShow
   },
 

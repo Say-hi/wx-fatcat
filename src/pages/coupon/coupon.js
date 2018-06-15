@@ -72,6 +72,7 @@ Page({
     } else {
       this.getCoupon()
     }
+    app.setFuck(this)
     // TODO: onLoad
   },
 

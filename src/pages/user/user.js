@@ -57,14 +57,17 @@ Page({
       {
         ico: 'icon-huoliutongzhi',
         t: '送货员',
-        url: '../sendWorker/sendWorker'
+        url: ''
       },
       {
         ico: 'icon-3',
         t: '代理端',
-        url: '../proxy/proxy'
+        url: ''
       }
     ]
+  },
+  setFuck () {
+    app.setFuck(this)
   },
   // 选择地址
   chooseAddress () {
@@ -108,6 +111,9 @@ Page({
       }
     })
   },
+  noOperation () {
+    app.setToast(this, {content: '您无相关权限,请联系管理员开通'})
+  },
   // 获取用户信息
   getUserInfo () {
     let that = this
@@ -121,9 +127,12 @@ Page({
           that.data.orderArr[1].num = res.data.data.user.waitSend
           that.data.orderArr[2].num = res.data.data.user.waitReceive
           that.data.orderArr[3].num = res.data.data.user.uncomment_count
+          that.data.operationArr[4].url = res.data.data.user.is_deliver * 1 !== 0 ? '../sendWorker/sendWorker' : ''
+          that.data.operationArr[5].url = res.data.data.user.is_proxy * 1 !== 0 ? '../proxy/proxy' : ''
           that.setData({
             userInfo: res.data.data.user,
-            orderArr: that.data.orderArr
+            orderArr: that.data.orderArr,
+            operationArr: that.data.operationArr
           })
         } else {
           app.setToast(that, {content: res.data.msg})
@@ -135,9 +144,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad () {
-    // this.setData({
-    //   userInfo: app.gs('userInfo')
-    // })
+    this.setFuck()
     // TODO: onLoad
   },
 

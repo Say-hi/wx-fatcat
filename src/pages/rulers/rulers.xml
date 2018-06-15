@@ -1,5 +1,5 @@
 <import src="../../wxParse/wxParse"></import>
-<template is="wxParse" data="{{ wxParseData: rulers.nodes }}"></template>
+<template is="wxParse" data="{{ wxParseData: ruler.nodes }}"></template>
 <!--错误弹窗-->
 <import src="../template/template"></import>
 <template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>

@@ -27,23 +27,28 @@ Page({
   getData (p) {
     let that = this
     app.wxrequest({
-      url: app.getUrl().recharge,
+      url: app.getUrl().accountList,
       data: {
-        type: 1,
-        p
+        // type: 1,
+        // p
       },
       success (res) {
         wx.hideLoading()
         if (res.data.status === 200) {
-          if (res.data.data.lists.length) {
-            for (let v of res.data.data.lists) {
-              v.add_time = new Date(v.add_time * 1000).toLocaleString()
-            }
-          }
+          // if (res.data.data.lists.length) {
+          //   for (let v of res.data.data.lists) {
+          //     v.add_time = new Date(v.add_time * 1000).toLocaleString()
+          //   }
+          // }
+          // that.setData({
+          //   lists: that.data.lists.concat(res.data.data.lists),
+          //   userMoney: res.data.data.user_money,
+          //   more: res.data.data.lists.length < 10 ? 0 : 1
+          // })
           that.setData({
-            lists: that.data.lists.concat(res.data.data.lists),
-            userMoney: res.data.data.user_money,
-            more: res.data.data.lists.length < 10 ? 0 : 1
+            lists: res.data.data.list,
+            userMoney: res.data.data.user_money
+            // more: res.data.data.lists.length < 10 ? 0 : 1
           })
         } else {
           app.setToast(that, {content: res.data.msg})
@@ -78,10 +83,10 @@ Page({
     this.getData(++this.data.page)
     // TODO: onShow
   },
-  onReachBottom () {
-    if (!this.data.more) return app.setToast(this, {content: '没有更多数据啦~'})
-    this.getData(++this.data.page)
-  },
+  // onReachBottom () {
+  //   if (!this.data.more) return app.setToast(this, {content: '没有更多数据啦~'})
+  //   this.getData(++this.data.page)
+  // },
   /**
    * 生命周期函数--监听页面隐藏
    */

@@ -19,6 +19,7 @@ Page({
     })
   },
   confirm () {
+    if (!this.data.imgArr.length) return app.setToast(this, {content: '至少需要上传一张照片凭证'})
     this.maskChange()
     wx.showToast({
       title: '上传成功'

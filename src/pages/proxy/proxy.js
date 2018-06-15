@@ -12,20 +12,22 @@ Page({
       {
         ico: 'icon-qianbao',
         t: '待付款',
-        num: 1
+        num: 0
       },
       {
         ico: 'icon-daifahuo1',
         t: '已付款',
-        num: 123
+        num: 0
       },
       {
         ico: 'icon-mendianzitidaihexiaosvg',
-        t: '待核销'
+        t: '待核销',
+        num: 0
       },
       {
         ico: 'icon-icon-receive',
-        t: '已核销'
+        t: '已核销',
+        num: 0
       }
     ],
     operation: [
@@ -59,8 +61,13 @@ Page({
       success (res) {
         wx.hideLoading()
         if (res.data.status === 200) {
+          that.data.orderArr[0].num = res.data.data.proxy.waitPay || 0
+          that.data.orderArr[1].num = res.data.data.proxy.PAYED2 || 0
+          that.data.orderArr[2].num = res.data.data.proxy.WAICONFIRM || 0
+          that.data.orderArr[3].num = res.data.data.proxy.FINISH || 0
           that.setData({
-            proxyInfo: res.data.data.info
+            proxyInfo: res.data.data.info,
+            orderArr: that.data.orderArr
           })
         } else {
           app.setToast(that, {content: res.data.msg})

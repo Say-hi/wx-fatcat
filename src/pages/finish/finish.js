@@ -6,25 +6,9 @@ Page({
   /**
    * 页面的初始数据
    */
-  data: {
-    bulkPArr: [
-      {
-        img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        url: '../asdf/adsf'
-      },
-      {
-        img: 'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg',
-        url: '../asdf/adsf'
-      },
-      {
-        img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        url: '../asdf/adsf'
-      }
-    ],
-    img: 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg'
-  },
+  data: {},
   call () {
-    app.call()
+    app.call(this.data.info.pickup_phone)
   },
   // 复制订单编号
   copyNumber (e) {
@@ -50,7 +34,9 @@ Page({
           res.data.data.order_info.add_time = new Date(res.data.data.order_info.add_time * 1000).toLocaleString()
           res.data.data.order_info.pay_time = new Date(res.data.data.order_info.pay_time * 1000).toLocaleString()
           that.setData({
-            info: res.data.data.order_info
+            info: res.data.data.order_info,
+            teamInfo: res.data.data.team_info,
+            teamUserList: res.data.data.team_user_list
           })
         } else {
           app.setToast(that, {content: res.data.msg})
@@ -63,6 +49,7 @@ Page({
    */
   onLoad (options) {
     this.getData(options.id)
+    app.setFuck(this)
     // TODO: onLoad
   },
 

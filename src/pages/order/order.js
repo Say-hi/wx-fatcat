@@ -91,7 +91,7 @@ Page({
   cancel (e) {
     let that = this
     app.wxrequest({
-      url: app.getUrl().cancel,
+      url: app.getUrl().cancelOrder,
       data: {
         order_id: e.currentTarget.dataset.id
       },

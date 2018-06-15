@@ -9,8 +9,8 @@
         data-index="{{ index }}"
         wx:key="*164"
         class="p20 money-charge-choose">
-    <text class="f26 br5 c333 tr7 {{ chooseIndex == index ? 'active' : '' }}">￥50</text>
-    <text class="f24 c333">54猫豆</text>
+    <text class="f26 br5 c333 tr7 {{ chooseIndex == index ? 'active' : '' }}">￥{{ item[1] }}</text>
+    <text class="f24 c333">{{ item[0] }}猫豆</text>
   </view>
 </view>
 <form bindsubmit="charge">
@@ -32,3 +32,4 @@
         <!--错误弹窗-->
 <import src="../template/template"></import>
 <template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>
+<template wx:if="{{ FuckU.show == 1 }}" is="showGZH" data="{{ ...FuckU, notDel }}"></template>

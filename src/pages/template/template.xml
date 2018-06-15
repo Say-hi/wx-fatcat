@@ -31,3 +31,13 @@
         </view>
     </view>
 </template>
+
+<template name="showGZH">
+    <view class="mask">
+        <view class="mask-in">
+            <view class="tac">{{ title }}</view>
+            <import src="../../wxParse/wxParse"></import>
+            <template is="wxParse" data="{{ wxParseData: notDel.nodes }}"></template>
+        </view>
+    </view>
+</template>

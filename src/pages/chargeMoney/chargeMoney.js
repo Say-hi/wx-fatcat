@@ -27,7 +27,7 @@ Page({
   chooseFastMoney (e) {
     this.setData({
       chooseIndex: e.currentTarget.dataset.index,
-      inputMoney: this.data.chargeArr[e.currentTarget.dataset.index].m
+      inputMoney: this.data.chargeArr[e.currentTarget.dataset.index][1]
     })
     // todo chargeMoney
   },
@@ -75,13 +75,33 @@ Page({
     if (e.detail.value.inputmoney <= 0) return app.setToast(this, {content: '请输入购买金额'})
     this.chargeMoney(e.detail.value.inputmoney)
   },
+  getData () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().accountList,
+      data: {},
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          that.setData({
+            userMoney: res.data.data.user_money,
+            chargeArr: res.data.data.cat_bean
+          })
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad (options) {
+    app.setFuck(this)
     this.setData({
       userMoney: options.money || 0
     })
+    this.getData()
     // TODO: onLoad
   },
 

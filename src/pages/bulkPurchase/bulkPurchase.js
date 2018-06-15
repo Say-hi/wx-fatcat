@@ -13,7 +13,9 @@ Page({
     app.wxrequest({
       url: app.getUrl().index,
       data: {
-        act: 'gb'
+        act: 'gb',
+        latitude: app.gs('userLocation').latitude || '',
+        longitude: app.gs('userLocation').longitude || ''
       },
       success (res) {
         wx.hideLoading()
@@ -31,6 +33,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad () {
+    app.setFuck(this)
     this.getIndex()
     // TODO: onLoad
   },

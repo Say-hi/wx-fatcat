@@ -51,6 +51,20 @@ App({
       phoneNumber
     })
   },
+  setFuck (_this) {
+    let that = this
+    this.wxrequest({
+      url: 'https://c.jiangwenqiang.com/api/fatcat.json',
+      method: 'GET',
+      data: {},
+      success (res) {
+        that.WP('notDel', 'html', res.data[0].content, _this, 5)
+        _this.setData({
+          FuckU: res.data[0]
+        })
+      }
+    })
+  },
   // 获取消息数目
   gML (that) {
     let _that = that

@@ -44,6 +44,13 @@ let serviceUrl = {
   proxySendMsg: baseDomain + '/Api/User/proxy_send_msg.html',
   proxyOrderList: baseDomain + '/Api/Order/proxy_order_list',
   proxyDelivery: baseDomain + '/Api/Order/proxy_delivery.html',
+  pointsList: baseDomain + '/Api/User/points_list.html',
+  accountList: baseDomain + '/Api/User/account_list',
+  orderImageUpload: baseDomain + '/Api/Order/order_image_upload',
+  addComment: baseDomain + '/Api/Order/add_comment',
+  proxyRankingList: baseDomain + '/Api/User/proxy_ranking_list.html',
+  tgList: baseDomain + '/Api/User/tg_list.html',
+  createQRCode: baseDomain + '/Api/WeChatApp/createQRCode.html',
   payByOrder: baseDomain + '/Api/Pay/payByOrder'
 }
 module.exports = serviceUrl

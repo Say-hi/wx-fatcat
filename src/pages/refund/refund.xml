@@ -6,7 +6,7 @@
   </view>
   <view class="lh80 refund-money p020">
     <text class="f28 c54">退款金额</text>
-    <view class="main-text-color f26"><text>￥</text><input name="moneymoney" /></view>
+    <view class="main-text-color f26"><text>￥</text><input name="money" placeholder="0.00" /></view>
     <text class="f24 c999">最多￥{{ options.money || 0 }}</text>
   </view>
   <view class="p20 bd1 input-area">

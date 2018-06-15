@@ -2,6 +2,7 @@
 //  群信息小程序页面分布
   "pages": [
     "pages/index/index", // 首页
+    "pages/evaluation/evaluation", // 评价
     "pages/otherPay/otherPay", // 他人代付
     "pages/coupon/coupon", // 我的红包
     "pages/question/question", // 问卷调查
@@ -23,7 +24,6 @@
     "pages/sendWorkerDetail/sendWorkerDetail", // 送货详情
     "pages/sendWorker/sendWorker", // 送货员
     "pages/qrCode/qrCode", // 取货码
-    "pages/evaluation/evaluation", // 评价
     "pages/refund/refund", // 退款/退货
     "pages/finish/finish", // 查看完结类订单
     "pages/submitOrder/submitOrder", // 提交订单

@@ -11,7 +11,7 @@ Page({
     sendMoney: 0,
     timeIndex: 0,
     shopIndex: 0,
-    timeArr: ['12:00-14:00', '14:00-16:00', '12:00-14:00', '14:00-16:00'],
+    timeArr: [],
     shopArr: [{pickup_name: '选择您附近的门店地址'}]
   },
   fuckScore (e) {
@@ -182,6 +182,8 @@ Page({
       pay_points: that.data.fuck_score ? that.data.userInfo.pay_points : 0,
       act: 'submit_order',
       user_note: that.data.userNote || '',
+      deliver_type: that.data.active,
+      coupon_id: app.gs('useCoupon').cid || '',
       pickup_id: that.data.shopArr[that.data.shopIndex].pickup_id
     }
     if (that.data.options.type === 'buyNow') { // 立即购买
@@ -195,7 +197,7 @@ Page({
         action: 'buy_now',
         goods_id: that.data.options.id,
         goods_num: that.data.options.num,
-        group_by: that.data.options.group_by * 1 === 1 ? '0' : '1',
+        group_buy: that.data.options.group_by * 1 === 1 ? '0' : '1',
         team_id: that.data.options.prom_id
       }, data)
     }

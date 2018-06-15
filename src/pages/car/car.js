@@ -10,6 +10,9 @@ Page({
     allMoney: 0,
     menuArr: []
   },
+  setFuck () {
+    app.setFuck(this)
+  },
   // 修改购物车商品数量
   changeGoodsNum (e) {
     let that = this
@@ -223,6 +226,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad () {
+    this.setFuck()
     // TODO: onLoad
   },
 

@@ -11,6 +11,9 @@ Page({
     page: 0,
     list: []
   },
+  setFuck () {
+    app.setFuck(this)
+  },
   chooseTab (e) {
     this.setData({
       currentIndex: e.currentTarget.dataset.index,
@@ -68,6 +71,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad () {
+    this.setFuck()
     this.getData()
     // TODO: onLoad
   },
@@ -81,7 +85,13 @@ Page({
   onReady () {
     // TODO: onReady
   },
-
+  onShareAppMessage (e) {
+    return {
+      title: `这里有好货，快来参团吧`,
+      imageUrl: `${e.target.dataset.src}`,
+      path: `/pages/goodsDetail/goodsDetail?type=bulkP&id=${e.target.dataset.id}`
+    }
+  },
   /**
    * 生命周期函数--监听页面显示
    */

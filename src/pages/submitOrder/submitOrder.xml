@@ -1,7 +1,7 @@
 <view class="send-type lh80">
   <text class="iconfont icon-navicon-chps f30 c333 fw7">配送方式:</text>
-  <text catchtap="chooseSendType" data-index="1" class="iconfont f26 c333 icon-xuanze-danxuan {{ active == 1 ? 'active' : '' }}">门店自取</text>
-  <text catchtap="chooseSendType" data-index="2" class="iconfont f26 c333 icon-xuanze-danxuan {{ active == 2 ? 'active' : '' }}">送货上门</text>
+  <text catchtap="chooseSendType" data-index="2" class="iconfont f26 c333 icon-xuanze-danxuan {{ active == 2 ? 'active' : '' }}">门店自取</text>
+  <text catchtap="chooseSendType" data-index="1" class="iconfont f26 c333 icon-xuanze-danxuan {{ active == 1 ? 'active' : '' }}">送货上门</text>
 </view>
 <view wx:if="{{ lostTime }}" class="time iconfont icon-dengdaifukuan">
   <view class="f32 cfff">等待买家付款</view>

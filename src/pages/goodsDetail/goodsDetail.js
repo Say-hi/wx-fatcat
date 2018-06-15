@@ -16,6 +16,28 @@ Page({
     nowStartArr: [],
     videoSrc: 'http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400'
   },
+  // 获取商品分享的二维码
+  getQrCode () {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().createQRCode,
+      data: {
+        scene: `${that.data.options.type}&${that.data.options.id}`,
+        // page: 'pages/goodsDetail/goodsDetail'
+        page: 'pages/index/index'
+      },
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          that.setData({
+            qrCodeUrl: res.data.data.image_url
+          })
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
+    })
+  },
   onlyPic () {
     this.setData({
       onlyPic: !this.data.onlyPic
@@ -49,6 +71,7 @@ Page({
   // 秒杀逻辑
   setKill () {
     let that = this
+    if (timer) clearInterval(timer)
     function kill () {
       let nowData = new Date().getTime() // 毫秒数
       let startTime = that.data.goodsInfo.start_time * 1000
@@ -82,6 +105,7 @@ Page({
   // 倒计时
   lostTime () {
     let that = this
+    if (timer2) clearInterval(timer2)
     function kill () {
       let shutDown = 0
       for (let [i] of that.data.nowStartArr.entries()) {
@@ -177,7 +201,7 @@ Page({
     app.downLoad(that.data.bannerArr[0].image_url)
       .then((res) => {
         bannerImg = res
-        return app.downLoad(that.data.bannerArr[0].image_url)
+        return app.downLoad(that.data.qrCodeUrl)
       })
       .then((res2) => {
         qrCode = res2
@@ -205,12 +229,12 @@ Page({
     ctx.fillText('￥' + that.data.goodsInfo.shop_price, ctxW / 2 - 90 * XS, 170 * XS + 60)
     ctx.setFillStyle('#f9f9f9')
     ctx.fillRect(ctxW / 2 - 90 * XS, 170 * XS + 80, ctxW - 30 * XS, 2)
-    ctx.setFontSize(14 * XS)
+    ctx.setFontSize(12 * XS)
     ctx.setFillStyle('#999999')
     ctx.setTextAlign('left')
     ctx.setTextBaseline('middle')
     ctx.fillText('长按识别小程序码访问', ctxW / 2 - 90 * XS, 170 * XS + 100)
-    ctx.drawImage(qrCode, ctxW - 60 * XS, 170 * XS + 110, 50 * XS, 50 * XS)
+    ctx.drawImage(qrCode, ctxW - 60 * XS, 170 * XS + 100, 50 * XS, 50 * XS)
     ctx.draw()
   },
   // 保存图片到用户相册
@@ -359,8 +383,8 @@ Page({
             url: app.getUrl().goodsInfo,
             data: {
               id,
-              lat: res2.latitude,
-              log: res2.longitude
+              latitude: res2.latitude,
+              longitude: res2.longitude
             },
             success (res) {
               wx.hideLoading()
@@ -380,6 +404,11 @@ Page({
                 }
               } else {
                 app.setToast(that, {content: res.data.msg})
+                setTimeout(() => {
+                  wx.reLaunch({
+                    url: '../index/index'
+                  })
+                }, 1400)
               }
             }
           })
@@ -415,6 +444,11 @@ Page({
             }
           } else {
             app.setToast(that, {content: res.data.msg})
+            setTimeout(() => {
+              wx.reLaunch({
+                url: '../index/index'
+              })
+            }, 1400)
           }
         }
       })
@@ -432,6 +466,7 @@ Page({
       success (res) {
         wx.hideLoading()
         if (res.data.status === 200) {
+          that.getQrCode()
           for (let v of res.data.data.commentlist) {
             v.add_time = new Date(v.add_time * 1000).toLocaleDateString()
           }
@@ -473,6 +508,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad (options) {
+    console.log('options1', options)
+    if (options.scene) {
+      let scene = decodeURIComponent(options.scene).split('&')
+      options.type = scene[0]
+      options.id = scene[1]
+    }
+    console.log('options2', options)
     this.setData({
       type: options.type || 'bulkP',
       options
@@ -518,6 +560,11 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow () {
+    if (that.data.type === 'kill') {
+      that.setKill()
+    } else if (that.data.type === 'bulkP') {
+      that.lostTime()
+    }
     // TODO: onShow
   },
 

@@ -16,7 +16,7 @@ Page({
     app.wxrequest({
       url: app.getUrl().fansList,
       data: {
-        keyword
+        keyword: keyword || ''
       },
       success (res) {
         wx.hideLoading()
@@ -32,11 +32,13 @@ Page({
   },
   search (e) {
     if (!e.detail.value.searchtext) return app.setToast(this, {content: '请输入搜索内容'})
+    this.getFans(e.detail.value.searchtext)
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad () {
+    this.getFans()
     // TODO: onLoad
   },
 
@@ -72,6 +74,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh () {
+    this.getFans()
     // TODO: onPullDownRefresh
   }
 })

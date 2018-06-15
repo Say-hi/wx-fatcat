@@ -52,6 +52,7 @@ Page({
   // 秒杀逻辑
   setKill () {
     let that = this
+    if (timer) clearInterval(timer)
     function kill () {
       let shutDown = 0
       for (let [i] of that.data.killArr.entries()) {
@@ -92,12 +93,29 @@ Page({
     }, 1000)
   },
 
+  getLocation () {
+    let that = this
+    wx.getLocation({
+      type: 'gcj02',
+      success (res) {
+        that.setData({
+          latitude: res.latitude,
+          longitude: res.longitude
+        })
+        app.su('userLocation', res)
+        that.getIndex()
+      }
+    })
+  },
+
   getIndex () {
     let that = this
     app.wxrequest({
       url: app.getUrl().index,
       data: {
-        act: 'index'
+        act: 'index',
+        latitude: that.data.latitude || '',
+        longitude: that.data.longitude || ''
       },
       success (res) {
         wx.hideLoading()
@@ -130,25 +148,29 @@ Page({
             count++
           }, 5000)
         } else {
-          app.setToast(that, {content: res.data.mdg})
+          app.setToast(that, {content: res.data.msg})
         }
       }
     })
   },
 
   MaskGetUserInfo (e) {
-    console.log(e)
     if (e.detail.iv) {
       this.setData({
         needUserInfo: false
       })
-      app.wxlogin(this.getIndex)
+      app.wxlogin(this.getLocation)
     }
+  },
+
+  setFuck () {
+    app.setFuck(this)
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad () {
+    this.setFuck()
     /*eslint-disable*/
     this.setData({
       show: app.gs('userInfo') ? false : true
@@ -157,13 +179,10 @@ Page({
       this.setData({
         needUserInfo: true
       })
-      app.wxlogin(this.getIndex)
+      app.wxlogin(this.getLocation)
     } else {
-      this.getIndex()
+      this.getLocation()
     }
-    // app.wxlogin(this.getIndex)
-    //
-    // console.dir(app.data)
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -175,6 +194,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow () {
+    this.setKill()
     // console.log(' ---------- onShow ----------')
   },
   /**

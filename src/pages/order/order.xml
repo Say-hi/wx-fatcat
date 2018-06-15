@@ -37,12 +37,14 @@
       <view class="cfff" data-id="{{ item.id }}">确认付款</view>
     </navigator>
     <view wx:if="{{ item.order_status_code == 'WAITSEND' }}" catchtap="orderMsg" data-pid="{{ item.pickup_id }}" class="cfff" data-id="{{ item.order_id }}">提醒发货</view>
-    <view wx:if="{{ item.order_status_code == 'WAITRECEIVE' }}" data-id="{{ item.id }}">申请退款</view>
+    <navigator url="../refund/refund?id={{ item.order_id }}&money={{ item.total_amount }}" wx:if="{{ item.order_status_code == 'WAITRECEIVE' || item.order_status_code == 'WAITSEND' }}"><view>申请退款</view></navigator>
+    <!--<navigator url="../refund/refund?id={{ item.order_id }}&money={{ item.total_amount }}"><view>申请退款</view></navigator>-->
     <view wx:if="{{ item.order_status_code == 'WAITRECEIVE' }}" class="cfff" data-id="{{ item.id }}">确认收货</view>
     <navigator url='../finish/finish?id={{ item.order_id }}' wx:if="{{ item.order_status_code == 'FINISH' || item.order_status_code == 'WAITCCOMMENT' || item.order_status_code == 'WAITSEND' }}" >
       <view>查看订单</view>
     </navigator>
-    <view wx:if="{{ item.order_status_code == 'WAITCCOMMENT' }}" class="cfff" data-id="{{ item.id }}">评价晒图</view>
+    <!--<navigator url="../evaluation/evaluation?id={{ item.order_id }}"><view class="cfff">评价晒图</view></navigator>-->
+    <navigator wx:if="{{ item.order_status_code == 'WAITCCOMMENT' }}" url="../evaluation/evaluation?id={{ item.order_id }}"><view class="cfff">评价晒图</view></navigator>
   </view>
 </view>
 

@@ -22,14 +22,18 @@
   </view>
 </view>
 </view>
-<view>
+<view wx:if="{{ teamInfo }}">
   <view class="p020 f24 fuck-bp-t c000">拼单成功</view>
   <view class="bulk-p p20">
     <view
-            class="pr {{ index == 0 ? 'fuck-team' : '' }}"
+            class="pr fuck-team">
+      <image class="br" src="{{ teamInfo.head_pic }}"></image>
+    </view>
+    <view
+            class="pr"
             wx:key="*678"
-            wx:for="{{ bulkPArr }}">
-      <image class="br" src="{{ item.img }}"></image>
+            wx:for="{{ teamUserList }}">
+      <image class="br" src="{{ item.join_head_pic }}"></image>
     </view>
   </view>
 </view>
@@ -83,3 +87,4 @@
         <!--错误弹窗-->
 <import src="../template/template"></import>
 <template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>
+<template wx:if="{{ FuckU.show == 1 }}" is="showGZH" data="{{ ...FuckU, notDel }}"></template>

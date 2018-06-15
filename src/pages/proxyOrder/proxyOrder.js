@@ -75,11 +75,16 @@ Page({
   },
   search (e) {
     if (!e.detail.value.searchtext) return app.setToast(this, {content: '请输入搜索内容'})
+    this.setData({
+      page: 0,
+      list: []
+    })
+    this.proxyOrderList(e.detail.value.searchtext)
   },
   cancel (e) {
     let that = this
     app.wxrequest({
-      url: app.getUrl().cancel,
+      url: app.getUrl().cancelOrder,
       data: {
         order_id: e.currentTarget.dataset.id
       },
@@ -123,13 +128,14 @@ Page({
       }
     })
   },
-  proxyOrderList () {
+  proxyOrderList (keyword) {
     let that = this
     app.wxrequest({
       url: app.getUrl().proxyOrderList,
       data: {
         type: that.data.typeArr[that.data.currentIndex],
-        page: ++that.data.page
+        p: ++that.data.page,
+        keyword: keyword || ''
       },
       success (res) {
         wx.hideLoading()
@@ -158,19 +164,19 @@ Page({
       success (res) {
         wx.hideLoading()
         if (res.data.status === 200) {
-           wx.showToast({
-             title: '该订单发货',
-             mask: true
-           })
+          wx.showToast({
+            title: '该订单发货',
+            mask: true
+          })
           setTimeout(() => {
-             let e = {
-               currentTarget: {
-                 dataset: {
-                   index: that.data.currentIndex
-                 }
-               }
-             }
-             that.chooseTab(e)
+            let e = {
+              currentTarget: {
+                dataset: {
+                  index: that.data.currentIndex
+                }
+              }
+            }
+            that.chooseTab(e)
           }, 1400)
         } else {
           app.setToast(that, {content: res.data.msg})

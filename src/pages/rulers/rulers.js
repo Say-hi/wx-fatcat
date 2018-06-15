@@ -1,19 +1,34 @@
 // 获取全局应用程序实例对象
-// const app = getApp()
+const app = getApp()
 
 // 创建页面实例对象
 Page({
   /**
    * 页面的初始数据
    */
-  data: {
-
+  data: {},
+  getGoodsInfo (id) {
+    let that = this
+    app.wxrequest({
+      url: app.getUrl().goodsInfo,
+      data: {
+        id
+      },
+      success (res) {
+        wx.hideLoading()
+        if (res.data.status === 200) {
+          app.WP('ruler', 'html', res.data.data.group_buy.intro, that, 5)
+        } else {
+          app.setToast(that, {content: res.data.msg})
+        }
+      }
+    })
   },
-
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad () {
+  onLoad (options) {
+    this.getGoodsInfo(options.id)
     // TODO: onLoad
   },
 

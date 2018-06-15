@@ -300,8 +300,10 @@ button {
   align-items: center;
   background-color: #fff;
   navigator {
+    padding: 10rpx 0 !important;
     flex: 1;
     height: 98rpx;
+    box-sizing: border-box;
   }
   view {
     flex: 1;
@@ -319,6 +321,9 @@ button {
     padding-top: 10rpx;
     display: flex;
     flex-direction: column;
+    &:before {
+      font-size: 40rpx;
+    }
   }
 }
 

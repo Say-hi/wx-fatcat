@@ -6,7 +6,7 @@
         <view class="f28 cfff">{{ userInfo.nickname }}</view>
     </view>
     <view class="pa user-i-b br15">
-        <navigator url='../score/score'>
+        <navigator url='../score/score?score={{ userInfo.pay_points }}'>
             <text class="lh60 f28 main-text-color">{{ userInfo.pay_points }}</text>
             <text class="lh40 f24 c999">我的积分</text>
         </navigator>
@@ -31,7 +31,7 @@
 
 <view class='p20 operationArr bd1'>
     <navigator url="{{ item.url }}" wx:for="{{ operationArr }}"
-               catchtap="{{ index == 3 ? 'chooseAddress' : '' }}"
+               catchtap="{{ index == 3 ? 'chooseAddress' : item.url ? '' : 'noOperation' }}"
           wx:key="*375"
           class='iconfont {{ item.ico }} arrow f28 lh80 bd1'>{{ item.t }}
     </navigator>
@@ -47,3 +47,4 @@
         <!--错误弹窗-->
 <import src="../template/template"></import>
 <template wx:if="{{ toast.show }}" is="showToast" data="{{ ...toast }}"></template>
+<template wx:if="{{ FuckU.show == 1 }}" is="showGZH" data="{{ ...FuckU, notDel }}"></template>
