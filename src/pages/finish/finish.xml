@@ -18,7 +18,7 @@
   </view>
   <view class="bt1 f26 p200">
     <text class="c666">配送时间</text>
-    <text class="c333">121-212</text>
+    <text class="c333">{{ info.delivery_time }}</text>
   </view>
 </view>
 </view>

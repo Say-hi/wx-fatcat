@@ -55,6 +55,8 @@ Page({
     if (timer) clearInterval(timer)
     function kill () {
       let shutDown = 0
+      // console.log(that.data.killArr)
+      if (!that.data.killArr) return
       for (let [i] of that.data.killArr.entries()) {
         let nowData = new Date().getTime() // 毫秒数
         // console.log('startTime', new Date(that.data.killArr[i].startTime))

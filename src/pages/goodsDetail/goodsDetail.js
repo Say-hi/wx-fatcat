@@ -73,6 +73,7 @@ Page({
     let that = this
     if (timer) clearInterval(timer)
     function kill () {
+      if (!that.data.goodsInfo) return
       let nowData = new Date().getTime() // 毫秒数
       let startTime = that.data.goodsInfo.start_time * 1000
       let endTime = that.data.goodsInfo.end_time * 1000
@@ -108,6 +109,7 @@ Page({
     if (timer2) clearInterval(timer2)
     function kill () {
       let shutDown = 0
+      if (!that.data.nowStartArr) return
       for (let [i] of that.data.nowStartArr.entries()) {
         let nowData = new Date().getTime() // 毫秒数
         let endTime = that.data.nowStartArr[i].end_time * 1000
@@ -560,10 +562,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow () {
-    if (that.data.type === 'kill') {
-      that.setKill()
-    } else if (that.data.type === 'bulkP') {
-      that.lostTime()
+    if (this.data.type === 'kill') {
+      this.setKill()
+    } else if (this.data.type === 'bulkP') {
+      this.lostTime()
     }
     // TODO: onShow
   },

@@ -50,8 +50,7 @@ Page({
                 })
               }
             }, res2.data.data))
-          }
-          else if (res.tapIndex === 1) {
+          } else if (res.tapIndex === 1) {
             wx.showToast({
               title: '代付成功',
               mask: true

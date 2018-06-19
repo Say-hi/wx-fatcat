@@ -11,7 +11,33 @@ Page({
     sendMoney: 0,
     timeIndex: 0,
     shopIndex: 0,
-    timeArr: [],
+    timeArr: [
+      '站点常规配送时间',
+      '00:00-01:00',
+      '01:00-02:00',
+      '02:00-03:00',
+      '03:00-04:00',
+      '04:00-05:00',
+      '05:00-06:00',
+      '06:00-07:00',
+      '07:00-08:00',
+      '08:00-09:00',
+      '09:00-10:00',
+      '10:00-11:00',
+      '11:00-12:00',
+      '12:00-13:00',
+      '13:00-14:00',
+      '14:00-15:00',
+      '15:00-16:00',
+      '16:00-17:00',
+      '17:00-18:00',
+      '18:00-19:00',
+      '19:00-20:00',
+      '20:00-21:00',
+      '21:00-22:00',
+      '22:00-23:00',
+      '23:00-00:00'
+    ],
     shopArr: [{pickup_name: '选择您附近的门店地址'}]
   },
   fuckScore (e) {
@@ -146,6 +172,7 @@ Page({
             sendMoney: res.data.data.cartPriceInfo.shipping_price || 0, // 送货费
             allMoney: res.data.data.cartPriceInfo.total_fee * 1 || 0, // 商品当前总价
             userInfo: res.data.data.user,
+            delivery_time: that.data.timeArr[that.data.timeIndex],
             allCount: res.data.data.cartPriceInfo.goods_num,
             shopArr: that.data.shopArr.concat(res.data.data.pickupList),
             coupon: res.data.data.userCartCouponList
